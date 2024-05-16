@@ -20,11 +20,12 @@ public class GameManager2 : MonoBehaviour
     public static bool on_off_button;
     public static bool ActionUIFlag;
     public static GameManager2 instance;
+    public bool firstLoadFlag;
     private string beforeScene;
     private string nowSceneName = "title";
     private Image blackScreen;
     private bool SettingFlag;
-    private bool firstLoadFlag;
+
 
     private void Awake()
     {
