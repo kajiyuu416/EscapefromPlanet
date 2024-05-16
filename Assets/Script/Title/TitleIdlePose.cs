@@ -1,6 +1,7 @@
 using UnityEngine;
 public class TitleIdlePose : MonoBehaviour
 {
+    //インスペクターでセレクトしたポーズへ変更
     [SerializeField] Animator animator;
     [SerializeField] int SelectNum;
     private bool CrouchPose;

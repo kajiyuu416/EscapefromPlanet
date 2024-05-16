@@ -8,19 +8,11 @@ using UnityEngine.EventSystems;
 
 public class GameManager2 : MonoBehaviour
 {
-    string nowSceneName = "title";
-    private string beforeScene;
-    Image blackScreen;
     [SerializeField] GameObject SettingBG;
     [SerializeField] GameObject BGMSlinder;
     [SerializeField] GameObject SESlinder;
     [SerializeField] GameObject UIButton;
     [SerializeField] Text on_off_text;
-
-    private bool SettingFlag;
-    public bool firstLoadFlag;
-
-
     public static bool AGF;
     public static bool FGF;
     public static bool ALF;
@@ -28,6 +20,11 @@ public class GameManager2 : MonoBehaviour
     public static bool on_off_button;
     public static bool ActionUIFlag;
     public static GameManager2 instance;
+    private string beforeScene;
+    private string nowSceneName = "title";
+    private Image blackScreen;
+    private bool SettingFlag;
+    private bool firstLoadFlag;
 
     private void Awake()
     {
@@ -42,6 +39,8 @@ public class GameManager2 : MonoBehaviour
         }
     }
 
+    //ゲームスタート時のオブジェクト非表示
+    //徐々に画面が明るくなる処理
     private void Start()
     {
         SettingBG.SetActive(false);
@@ -56,6 +55,9 @@ public class GameManager2 : MonoBehaviour
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
 
+    //コントローラーの接続確認
+    //マウスの非表示、現在シーンの保存
+  　//設定画面の表示非表示
     private void Update()
 
     {
@@ -72,7 +74,6 @@ public class GameManager2 : MonoBehaviour
             }
         }
 
-
         if (SceneManager.GetActiveScene().name != nowSceneName)
         {
             nowSceneName = SceneManager.GetActiveScene().name;
@@ -82,10 +83,10 @@ public class GameManager2 : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-
     
     }
 
+    //ゲームスタート時の設定確認、初回のロードのみOPシーンへ以降
     public static void GameStart()
     {
         if (GameManager2.on_off_button)
@@ -124,6 +125,7 @@ public class GameManager2 : MonoBehaviour
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE();
     }
+    //設定を開いたとき
     public void SettingOp()
     {
         Debug.Log("Settingop");
@@ -134,6 +136,7 @@ public class GameManager2 : MonoBehaviour
         SettingFlag = true;
         EventSystem.current.SetSelectedGameObject(UIButton);
     }
+    //設定を閉じたとき
     public void SettingCl()
     {
         Debug.Log("Settingcl");
@@ -143,6 +146,7 @@ public class GameManager2 : MonoBehaviour
         UIButton.gameObject.SetActive(false);
         SettingFlag = false;
     }
+    //設定画面のON・OFF切り替え
     public void Push_Button_Change()
     {
         on_off_button = !on_off_button;
@@ -158,6 +162,7 @@ public class GameManager2 : MonoBehaviour
             ActionUIFlag = false;
         }
     }
+    //徐々にフェードアウトしていき完全に暗くなるとシーンをロードする
     public IEnumerator LoadScene(string sceneName)
     {
         var color = blackScreen.color;
@@ -170,6 +175,7 @@ public class GameManager2 : MonoBehaviour
         }
         SceneManager.LoadScene(sceneName);
     }
+    //徐々に明るくなる処理
     public IEnumerator FadeIn()
     {
         blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
@@ -184,6 +190,7 @@ public class GameManager2 : MonoBehaviour
             yield return null;
         }
     }
+    //コントローラーの接続チェック
     private void GamePad_connection_Check()
     {
         var controllerNames = Input.GetJoystickNames();
@@ -198,6 +205,7 @@ public class GameManager2 : MonoBehaviour
         }
 
     }
+    //シーンに応じて音楽の再生、停止を行う
     public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
     {
         // Scene1からScene2へ

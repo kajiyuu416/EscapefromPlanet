@@ -29,9 +29,9 @@ public class SunMove : MonoBehaviour
     private float tposy = 150;
     private float tposz = 50;
 
-    bool a;
-    bool b;
-    bool c;
+    private bool a;
+    private bool b;
+    private bool c;
 
     void Update()
     {
