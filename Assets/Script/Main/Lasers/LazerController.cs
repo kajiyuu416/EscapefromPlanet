@@ -33,7 +33,7 @@ public class LazerController : MonoBehaviour
     public Selectnumber sn;
     private void Start()
     {
-
+        //‰ŠúÀ•WA‰ŠúŠp“x‚Ìæ“¾
         _initialPosition = gameObject.transform.position;
         _initialRotation = gameObject.transform.rotation;
 
@@ -64,6 +64,10 @@ public class LazerController : MonoBehaviour
 
     }
     private void Update()
+    {
+  
+    }
+    private void FixedUpdate()
     {
         RazerMoves();
     }
