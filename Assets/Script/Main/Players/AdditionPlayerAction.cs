@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+//アクション追加①大ジャンプとスライディングの追加
 public class AdditionPlayerAction : MonoBehaviour
 {
     [SerializeField] PlayerController PC;

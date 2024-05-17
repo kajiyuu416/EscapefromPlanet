@@ -6,9 +6,6 @@ using UnityEngine;
 //最後のフラグが返った時に太陽が近づいていてくる処理
 public class SunMove : MonoBehaviour
 {
-    [SerializeField] Vector3 center = Vector3.zero;
-    [SerializeField] Vector3 axis = Vector3.up;
-    [SerializeField] float period = 2;
     [SerializeField] Transform target;
     public float movespeed;
     public float rotx = 0;
@@ -26,8 +23,6 @@ public class SunMove : MonoBehaviour
     private void Update()
     {
         transform.Rotate(new Vector3(rotx, roty, rotz));
-        // 中心点centerの周りを、軸axisで、period周期で円運動
-        transform.RotateAround(center,axis,360 / period * Time.deltaTime);
 
         if (GameManager2.AGF && !GameManager2.FGF)
         {

@@ -1,4 +1,5 @@
 using UnityEngine;
+//ÉvÉåÉCÉÑÅ[Ç…í«è]Ç∑ÇÈâe
 public class MovetoShadow : MonoBehaviour
 {
     [SerializeField] Transform target;
@@ -8,7 +9,6 @@ public class MovetoShadow : MonoBehaviour
     private void Start()
     {
         _initialPosition = transform.position;
-        
     }
     private void Update()
     {

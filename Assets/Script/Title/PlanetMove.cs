@@ -6,7 +6,7 @@ public class PlanetMove : MonoBehaviour
 {
     [SerializeField] Vector3 center = Vector3.zero;
     [SerializeField] Vector3 axis = Vector3.up;
-    [SerializeField] float period = 2;
+    [SerializeField] float period;
     public float movespeed;
     public float rotx = 0;
     public float roty = 0;
@@ -15,8 +15,7 @@ public class PlanetMove : MonoBehaviour
     private void Update()
     {
         transform.Rotate(new Vector3(rotx, roty, rotz));
-        transform.RotateAround(center,axis, 360 / period * Time.deltaTime
-        );
+        transform.RotateAround(center,axis, 360 / period * Time.deltaTime);
 
     }
 }

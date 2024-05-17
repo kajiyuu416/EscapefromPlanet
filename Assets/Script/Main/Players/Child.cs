@@ -1,5 +1,8 @@
 using UnityEngine;
 
+//プレイヤーの子オブジェクト（各パーツ）に使用
+//ゲームオーバー時にプレイヤー本体は非表示にし
+//子オブジェクト（各パーツ）を表示、レーザーに降れば部分はランダムな方向に力を加え飛ばされるような表現を実装
 public class Child : MonoBehaviour
 {
     private float Speed = 20.0f;

@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3084230158441183286}
   - component: {fileID: 3084230158441183294}
   - component: {fileID: 3084230158441183287}
-  - component: {fileID: 5543803818553330042}
   - component: {fileID: 6202520759997763895}
   - component: {fileID: 9109554603437739289}
   m_Layer: 6
@@ -160,28 +159,10 @@ MonoBehaviour:
   rotatey: 0
   rotatez: 0
   OT: 0
+  IO: 0
   IT: 0
+  LSchild: {fileID: 0}
   sn: 0
---- !u!114 &5543803818553330042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3084230158441183295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5213eebf31f1f6845881a09848bef14c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  list:
-  - "\u9759\u6B62\u72B6\u614B"
-  - "\u6307\u5B9A\u3057\u305F\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3078\u3080\u304B\u3063\u3066\u79FB\u52D5"
-  - "\u6307\u5B9A\u3057\u305F\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3068\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u306E\u9593\u3092x\u8EF8\u65B9\u5411\u306B\u79FB\u52D5"
-  - "\u6307\u5B9A\u3057\u305F\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3068\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u306E\u9593\u3092y\u8EF8\u65B9\u5411\u306B\u79FB\u52D5"
-  - "\u6307\u5B9A\u3057\u305F\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3068\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u306E\u9593\u3092z\u8EF8\u65B9\u5411\u306B\u79FB\u52D5"
-  - "\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u306E\u56DE\u8EE2"
-  index: 5
 --- !u!114 &6202520759997763895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +193,7 @@ MonoBehaviour:
   _changeColorThreshold: 5
   _startColor: {r: 1, g: 1, b: 1, a: 1}
   _endColor: {r: 1, g: 0, b: 0, a: 1}
+  WI: {fileID: 0}
 --- !u!1 &9109554603729397856
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +328,7 @@ MonoBehaviour:
   _changeColorThreshold: 10
   _startColor: {r: 1, g: 1, b: 1, a: 1}
   _endColor: {r: 1, g: 0, b: 0, a: 1}
+  WI: {fileID: 0}
 --- !u!1 &9109554604469028985
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +463,7 @@ MonoBehaviour:
   _changeColorThreshold: 10
   _startColor: {r: 1, g: 1, b: 1, a: 1}
   _endColor: {r: 1, g: 0, b: 0, a: 1}
+  WI: {fileID: 0}
 --- !u!1001 &4713339251061140282
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.SceneManagement;
 
+//プレイヤーの動作を管理
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         Parts = GetComponentsInChildren<Child>();
     }
+
     private void Start()
     {
         if(CP != Vector3.zero)
@@ -47,9 +49,10 @@ public class PlayerController : MonoBehaviour
             transform.position = CP;
         }
     }
+
     private void Update()
     {
-
+        //コントローラーが接続状態であれば、処理が回る
         if(GameManager2.connect)
         {
             PlayerMove();
@@ -71,6 +74,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
     }
+    //プレイヤーが地面に面しているかの確認、スポーン位置の更新、壁をすり抜けたときに強制的にリセットをかける（直近のリスポーン位置へ）
     private void OnTriggerEnter(Collider collision)
     {
         if (isDead)
@@ -89,7 +93,6 @@ public class PlayerController : MonoBehaviour
         if(collision.CompareTag("spawnpoint"))
         {
             CP = transform.position; // 現在位置を記憶
-            Debug.Log("CheckPoint更新");
         }
     }
     private void OnTriggerStay(Collider collision)
@@ -135,7 +138,7 @@ public class PlayerController : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, QL, 15.0f * Time.deltaTime);
             }
         }
-
+        //特定のフラグが返っていればプレイヤーの動作を制御する
         if(GameManager.pauseflag)
         {
             velocity = Vector3.zero;
@@ -145,6 +148,7 @@ public class PlayerController : MonoBehaviour
 
         if(!GameManager.pauseflag)
         {
+            // Walk状態であればスピードの変更、UI表示の変更
             if(PlayerMove_input != Vector3.zero && isgroundFlag &&!isJump)
             {
                 isWalk = true;
@@ -156,7 +160,7 @@ public class PlayerController : MonoBehaviour
                 {
                     gameManager.ActionUI1.SetActive(true);
                 }
-
+                //Run状態であればスピードの変更、UI表示の変更
                 if(Run.isPressed)
                 {
                     isRun = true;
@@ -179,6 +183,7 @@ public class PlayerController : MonoBehaviour
                     gameManager.ActionUI1.SetActive(true);
                 }
             }
+            //ジャンプ処理
             if(Interval_InputButtondown(jump, 0.5f) && !isRun &&isgroundFlag)
             {
                 isJump = true;
@@ -195,6 +200,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("floating", floatPowerSC.isFloat);
         animator.SetBool("Jumpover", AP.isjumpOver);
     }
+    //ボタンの入力に応じてプレイヤーのポーズを変更
     private void ChangeIdlePose()
     {
         var current_GP = Gamepad.current;
@@ -236,6 +242,7 @@ public class PlayerController : MonoBehaviour
         LayingPose = false;
         DancePose = false;
     }
+    //プレイヤーがレーザー接触時、自身を非表示にし子オブジェクトの表示を行う
     public void PlayerDeath()
     {
         IdleBody.SetActive(false);
@@ -253,7 +260,6 @@ public class PlayerController : MonoBehaviour
         AP.isjumpOver = false;
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE3();
-        Debug.Log("着地したよ");
     }
     public void Jumpmiss()
     {

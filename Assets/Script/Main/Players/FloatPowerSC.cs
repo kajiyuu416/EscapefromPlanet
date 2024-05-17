@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//アクション追加②ジャンプボタンを押している長さでプレイヤーが上昇する処理
+//対象のボタンを押している秒数を取得しフラグを返す
 public class FloatPowerSC : MonoBehaviour
 {
     [SerializeField] PlayerController PC;

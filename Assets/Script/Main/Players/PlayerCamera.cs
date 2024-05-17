@@ -1,7 +1,7 @@
 using UnityEngine;
 using Cinemachine;
-
 [RequireComponent(typeof(Camera))]
+//カメラ操作、Cinemachineによるカメラ切り替え
 public class PlayerCamera : MonoBehaviour
 {
     public Transform Target;
@@ -14,24 +14,17 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] actionEvent1 aE1;
     [SerializeField] actionEvent1 aE3;
     [SerializeField] PlayerController PC;
-    GameObject targetObj;
-    Vector3 targetPos;
-    void Start()
+    [SerializeField] GameObject targetObj;
+    private void Awake()
     {
         if (Target == null)
         {
             Debug.LogError("ターゲットが設定されていない");
             Application.Quit();
         }
-        targetObj = GameObject.Find("Idle"); 
-        targetPos = targetObj.transform.position;
+        transform.position = Target.position;
     }
-    void Update()
-    {
-        transform.position += targetObj.transform.position - targetPos;
-        targetPos = targetObj.transform.position;
-    }
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if(aE1.actionFlag)
         {

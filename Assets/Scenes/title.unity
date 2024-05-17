@@ -3437,19 +3437,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 454596, guid: 5e146687c6a67f2418267f6d12ad2e83, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9961947
+      value: 0.9848078
       objectReference: {fileID: 0}
     - target: {fileID: 454596, guid: 5e146687c6a67f2418267f6d12ad2e83, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 454596, guid: 5e146687c6a67f2418267f6d12ad2e83, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 454596, guid: 5e146687c6a67f2418267f6d12ad2e83, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.08715578
+      value: 0.17364816
       objectReference: {fileID: 0}
     - target: {fileID: 454596, guid: 5e146687c6a67f2418267f6d12ad2e83, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3461,7 +3461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 454596, guid: 5e146687c6a67f2418267f6d12ad2e83, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e146687c6a67f2418267f6d12ad2e83, type: 3}
@@ -10930,31 +10930,6 @@ Transform:
   m_Father: {fileID: 1977320302}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1429565323 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 160724, guid: 5e146687c6a67f2418267f6d12ad2e83,
-    type: 3}
-  m_PrefabInstance: {fileID: 384428931}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1429565325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1429565323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  center: {x: 0, y: 0, z: 0}
-  axis: {x: 0, y: 1, z: 0}
-  period: 0
-  movespeed: 0
-  rotx: 0
-  roty: 0
-  rotz: 0
 --- !u!1 &1438570998
 GameObject:
   m_ObjectHideFlags: 0
@@ -12588,7 +12563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0, z: 0}
   axis: {x: 0, y: 1, z: 0}
-  period: 50
+  period: 500
   movespeed: 0
   rotx: 0.5
   roty: 0.5
@@ -15848,31 +15823,6 @@ Transform:
   m_Father: {fileID: 1001308908}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2023943840 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 188694, guid: f2f3120c1bdbe1048b22872d840de803,
-    type: 3}
-  m_PrefabInstance: {fileID: 744424463}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2023943845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023943840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  center: {x: 0, y: 0, z: 0}
-  axis: {x: 0, y: 1, z: 0}
-  period: 0
-  movespeed: 0
-  rotx: 0
-  roty: 0
-  rotz: 0
 --- !u!1 &2030118253
 GameObject:
   m_ObjectHideFlags: 0
@@ -16110,31 +16060,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.055, y: 0.3, z: 0.055}
   m_Center: {x: 0, y: 0.2, z: 0.04}
---- !u!1 &2099723271 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 162504, guid: ce505e15eef1d1e46bc38cc7d5c8a84d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1963770843}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2099723273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099723271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  center: {x: 0, y: 0, z: 0}
-  axis: {x: 0, y: 1, z: 0}
-  period: 0
-  movespeed: 0
-  rotx: 0
-  roty: 0
-  rotz: 0
 --- !u!1 &2102827553 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 112350, guid: c38c830f1a01cc2419486a2e550473ee,
