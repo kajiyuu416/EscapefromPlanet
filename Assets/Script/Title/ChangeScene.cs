@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.Video;
 
+//OPシーン（映像シーン）にて使用、映像を任意でスキップする処理
+//映像終了後MainSceneに移行する処理
 public class ChangeScene : MonoBehaviour
 {
     [SerializeField] VideoPlayer videoPlayer;

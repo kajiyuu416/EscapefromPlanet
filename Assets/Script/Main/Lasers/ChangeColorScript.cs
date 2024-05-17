@@ -1,18 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+//Playerとレーザーの距離に応じて危険を知らせるマークの表示及びレーザーとの距離に応じてマークの色を変更する処理。
 public class ChangeColorScript : MonoBehaviour
 {
     [SerializeField] float _changeColorThreshold = 10f;
     [SerializeField] Color _startColor = Color.white;
     [SerializeField] Color _endColor = Color.red;
-
     [SerializeField] Image WI;
-    Transform _target;
-    string tagname;
-    bool restriction;
+    private Transform _target;
+    private string tagname;
+    private bool restriction;
 
-    void Start()
+    private void Start()
     {
         var go = GameObject.FindGameObjectWithTag("Player");
 
@@ -23,9 +22,7 @@ public class ChangeColorScript : MonoBehaviour
         WI.enabled = false;
         tagname = "warningarea";
     }
-
-    //Playerとレーザーの距離に応じて危険を知らせるマークの表示及びマークの色を変更する処理。
-     void OnTriggerStay(Collider collision)
+    private  void OnTriggerStay(Collider collision)
     {
         if(collision.gameObject.tag == tagname)
         {

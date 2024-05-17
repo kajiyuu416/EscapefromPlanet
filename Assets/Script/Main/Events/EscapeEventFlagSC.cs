@@ -3,10 +3,10 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 
+//脱出装置のロック解除イベント
 public class EscapeEventFlagSC : MonoBehaviour
 {
     [SerializeField] FadeInOut FO;
-    [SerializeField] GameObject Idle;
     [SerializeField] TextMeshProUGUI ActionPop;
     [SerializeField] TextMeshProUGUI Actiontmessage;
     [SerializeField] MeshRenderer meshRenderer;
@@ -23,7 +23,6 @@ public class EscapeEventFlagSC : MonoBehaviour
             meshRenderer.enabled = false;
         }
     }
-
     private void OnTriggerStay(Collider collision)
     {
         var current_GP = Gamepad.current;
@@ -65,7 +64,7 @@ public class EscapeEventFlagSC : MonoBehaviour
         SoundManager.Instance.Startbgm2();
         MessageIndication();
     }
-    void MessageIndication()
+    private void MessageIndication()
     {
         Actiontmessage.text = "緊急脱出装置のロックが解除された";
         StartCoroutine("SetText");

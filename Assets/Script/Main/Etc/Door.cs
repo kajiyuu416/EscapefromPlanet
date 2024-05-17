@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     private bool OpendoorFlag = false;
     public Animator animator;
 
+    //プレイヤーがコライダーの範囲内に扉が開き、範囲外に出ると扉が閉まる
     private void Start()
     {
         animator = GetComponent<Animator>();

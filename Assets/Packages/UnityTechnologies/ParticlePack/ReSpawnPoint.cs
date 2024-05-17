@@ -4,8 +4,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 
+//リスポーン位置更新オブジェクトのエフェクト再生、表示非表示
 public class ReSpawnPoint : MonoBehaviour
 {
+    [SerializeField] PlayerController PC;
+    [SerializeField] BoxCollider Boxcol;
     public float spawnEffectTime = 2;
     public float pause = 1;
     private float timer = 0;
@@ -15,10 +18,6 @@ public class ReSpawnPoint : MonoBehaviour
     ParticleSystem ps;
     new Renderer renderer;
 
-    private void Awake()
-    {
-
-    }
     private void Start()
     {
         shaderProperty = Shader.PropertyToID("_cutoff");
@@ -31,6 +30,10 @@ public class ReSpawnPoint : MonoBehaviour
 
     private void Update()
     {
+        if(PC.isDead)
+        {
+            Boxcol.enabled = false;
+        }
         if (timer < spawnEffectTime + pause)
         {
             timer += Time.deltaTime;

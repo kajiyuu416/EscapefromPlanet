@@ -3,19 +3,22 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+//StartButtonが押されたらゲームを開始する処理
+//選択するターゲットが外れないようにボタンの入力、マウスのクリック入力がある場合
+//ターゲットをStartButtonに合わせる
 public class StartButtonSC : MonoBehaviour
 {
     public Button startButton;
     [SerializeField] GameObject StartButton;
 
-    void Start()
+    private void Start()
     {
         startButton = GetComponent<Button>();
         startButton.onClick.AddListener(() => {
             GameManager2.GameStart();
         });
     }
-     void Update()
+    private void Update()
     {
         if(GameManager2.connect)
         {

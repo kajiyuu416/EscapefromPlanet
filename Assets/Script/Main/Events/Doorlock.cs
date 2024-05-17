@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 public class Doorlock : MonoBehaviour
 {
+    //コライダーと接触時テキスト表示
     [SerializeField] TextMeshProUGUI DoorlockText;
 
     private void OnTriggerEnter(Collider collision)

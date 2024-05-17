@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class LazerContllore : MonoBehaviour
+//レーザーの移動処理
+//インスペクターで指定したselectnumberの行動を行う
+public class LazerController : MonoBehaviour
 {
-
     private bool isResetFlag = false;
+    private string secondtagname;
     public float movespeed;
     public float time = 0.0f;
-
-    string secondtagname;
     public Transform target1;
     public Transform target2;
     public float rotatex = 0;
@@ -24,17 +23,15 @@ public class LazerContllore : MonoBehaviour
     private Vector3 _initialPosition;
     private Quaternion _initialRotation; 
     public MeshRenderer LSchild;
-    MeshRenderer meshRenderer;
-    BoxCollider boxCollider;
+    private MeshRenderer meshRenderer;
+    private BoxCollider boxCollider;
 
     public enum Selectnumber
     {
         Zero, One, Two, Three, Four, Five, Six, Seven
     }
-
     public Selectnumber sn;
-
-    void Start()
+    private void Start()
     {
 
         _initialPosition = gameObject.transform.position;
@@ -69,7 +66,6 @@ public class LazerContllore : MonoBehaviour
     private void Update()
     {
         RazerMoves();
-
     }
     public void Reset()
     {
@@ -77,36 +73,36 @@ public class LazerContllore : MonoBehaviour
         gameObject.transform.rotation = _initialRotation;
     }
 
-
     //レーザーオブジェクトの移動、回転処理
-    void RazerMoves()
+    //sn.Zero:動作なし sn.One:ターゲットオブジェクトに向かって移動　sn.Two:ターゲットオブジェクトのｘ軸に向かって反復移動　sn.Three:ターゲットオブジェクトのy軸に向かって反復移動
+    //sn.Four:ターゲットオブジェクトのz軸に向かって反復移動 sn.Five:インスペクターで指定した量の回転をレーザーオブジェクトにかける sn.Six:一定時間後に表示、一定時間後に非表示、表示される前の予兆風表示
+    //sn.Seven:ターゲットに向かって回転しながら移動
+    private void RazerMoves()
     {
         if (sn == Selectnumber.Zero)
         {
-         
             transform.position += Vector3.zero;
         }
-        if (sn == Selectnumber.One)
+        else if (sn == Selectnumber.One)
         {
           
             transform.position = Vector3.MoveTowards(transform.position, target1.position, movespeed * Time.deltaTime);
         }
-        if (sn == Selectnumber.Two)
+        else if (sn == Selectnumber.Two)
         {
      
             transform.position = new Vector3(transform.position.x + movespeed * Time.fixedDeltaTime * Direction, _initialPosition.y, _initialPosition.z);
             if (transform.position.x >= target2.position.x) Direction = -1;
             if (transform.position.x <= target1.position.x) Direction = 1;
         }
-
-        if (sn == Selectnumber.Three)
+        else if (sn == Selectnumber.Three)
         {
             transform.position = new Vector3(_initialPosition.x, transform.position.y + movespeed * Time.fixedDeltaTime * Direction, _initialPosition.z);
             if (transform.position.y >= target2.position.y) Direction = -1;
             if (transform.position.y <= target1.position.y) Direction = 1;
 
         }
-        if (sn == Selectnumber.Four)
+        else if (sn == Selectnumber.Four)
         {
    
             transform.position = new Vector3(_initialPosition.x, _initialPosition.y, transform.position.z + movespeed * Time.fixedDeltaTime * Direction);
@@ -114,12 +110,12 @@ public class LazerContllore : MonoBehaviour
             if (transform.position.z <= target1.position.z) Direction = 1;
 
         }
-        if (sn == Selectnumber.Five)
+        else if (sn == Selectnumber.Five)
         {
           
             gameObject.transform.Rotate(new Vector3(rotatex, rotatey, rotatez) * Time.deltaTime);
         }
-        if (sn == Selectnumber.Six)
+        else if (sn == Selectnumber.Six)
         {
             time += Time.deltaTime;
             if (time > OT)
@@ -140,7 +136,7 @@ public class LazerContllore : MonoBehaviour
                 time = 0;
             }
         }
-        if (sn == Selectnumber.Seven)
+        else if (sn == Selectnumber.Seven)
         {
             transform.position = new Vector3(transform.position.x + movespeed * Time.fixedDeltaTime * Direction, _initialPosition.y, _initialPosition.z);
             if (transform.position.x >= target2.position.x) Direction = -1;

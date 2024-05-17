@@ -2,70 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//能力開放イベント終了時に太陽の位置を更新し徐々に近寄ってきている風に見せる
+//最後のフラグが返った時に太陽が近づいていてくる処理
 public class SunMove : MonoBehaviour
 {
-    // 中心点
-    [SerializeField] private Vector3 _center = Vector3.zero;
-    // 回転軸
-    [SerializeField] private Vector3 _axis = Vector3.up;
-    // 円運動周期
-    public bool MPF = false;
-    [SerializeField] private float _period = 2;
+    [SerializeField] Vector3 center = Vector3.zero;
+    [SerializeField] Vector3 axis = Vector3.up;
+    [SerializeField] float period = 2;
     [SerializeField] Transform target;
     public float movespeed;
     public float rotx = 0;
     public float roty = 0;
     public float rotz = 0;
+    private Vector3 FirstPos = new Vector3(1000, 500, 50);
+    private Vector3 SecondPos = new Vector3(700, 300, 50);
+    private Vector3 ThirdPos = new Vector3(350, 150, 50);
+    public bool MPF = false;
 
-    private float fposx = 1000;
-    private float fposy = 500;
-    private float fposz = 50;
+    private bool firstPos;
+    private bool secondPos;
+    private bool thirdPos;
 
-    private float sposx = 700;
-    private float sposy = 300;
-    private float sposz = 50;
-
-    private float tposx = 350;
-    private float tposy = 150;
-    private float tposz = 50;
-
-    private bool a;
-    private bool b;
-    private bool c;
-
-    void Update()
+    private void Update()
     {
         transform.Rotate(new Vector3(rotx, roty, rotz));
         // 中心点centerの周りを、軸axisで、period周期で円運動
-        transform.RotateAround(
-            _center,
-            _axis,
-            360 / _period * Time.deltaTime
-        );
+        transform.RotateAround(center,axis,360 / period * Time.deltaTime);
+
         if (GameManager2.AGF && !GameManager2.FGF)
         {
-            if (!a)
+            if (!firstPos)
             {
-                a = true;
-                transform.position = new Vector3(fposx, fposy, fposz);
+                firstPos = true;
+                transform.position = FirstPos;
             }
 
         }
         if (GameManager2.AGF && GameManager2.FGF && !GameManager2.ALF)
         {
-            if (!b)
+            if (!secondPos)
             {
-                b = true;
-                transform.position = new Vector3(sposx, sposy, sposz);
+                secondPos = true;
+                transform.position = SecondPos;
             }
 
         }
         if (GameManager2.AGF && GameManager2.FGF && GameManager2.ALF)
         {
-            if (!c)
+            if (!thirdPos)
             {
-                c = true;
-                transform.position = new Vector3(tposx, tposy, tposz);
+                thirdPos = true;
+                transform.position = ThirdPos;
             }
         }
         if (MPF)

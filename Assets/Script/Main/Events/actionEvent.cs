@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Video;
 using TMPro;
 using UnityEngine.InputSystem;
+
+//コライダーに接触している状態で特定のボタン入力があった際に
+//イベントを発生させ、映像を流す処理。
 public class actionEvent : MonoBehaviour
 {
     [SerializeField] GameObject DoorFlag;

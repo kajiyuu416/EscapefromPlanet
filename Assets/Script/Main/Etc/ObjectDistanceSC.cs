@@ -6,7 +6,7 @@ public class ObjectDistanceSC : MonoBehaviour
 {
     [SerializeField] List<GameObject> ObjectList;
     public float DestroyDistance;
-
+    //Razerオブジェクトをリストに登録し
     //距離に応じてオブジェクトを非表示にする。処理負荷軽減の為。
     private void Update()
     {
@@ -16,6 +16,7 @@ public class ObjectDistanceSC : MonoBehaviour
         float Razerdis4 = Vector3.Distance(this.transform.position, ObjectList[3].transform.position);
         float Razerdis5 = Vector3.Distance(this.transform.position, ObjectList[4].transform.position);
         float Razerdis6 = Vector3.Distance(this.transform.position, ObjectList[5].transform.position);
+
         if(Razerdis1 > DestroyDistance)
         {
             ObjectList[0].SetActive(false);

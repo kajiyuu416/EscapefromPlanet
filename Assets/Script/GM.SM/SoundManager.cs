@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
+//BGM、SE管理
+//オーディオミキサーを使用してボリューム管理
 public class SoundManager : MonoBehaviour
 { 
     [SerializeField] AudioClip SelectSe;
@@ -40,8 +42,7 @@ public class SoundManager : MonoBehaviour
     {
         get; private set;
     }
-
-    void Awake()
+    private void Awake()
     {
         if (Instance != null)
         {

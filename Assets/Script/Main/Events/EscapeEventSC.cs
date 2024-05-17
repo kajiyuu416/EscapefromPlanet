@@ -4,6 +4,8 @@ using Cinemachine;
 using TMPro;
 using UnityEngine.InputSystem;
 
+//条件を満たし、コライダーに接触した場合、カメラの位置切り替えとテキスト表示、BGM変更、タイマー表示を行う
+//イベントシーンのスキップ実装
 public class EscapeEventSC : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera subcamera3;

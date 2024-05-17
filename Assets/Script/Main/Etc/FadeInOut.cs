@@ -3,12 +3,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class FadeInOut : MonoBehaviour
 {
-    Image blackScreen;
     public bool FadeInFlag;
     public bool FadeOutFlag;
     public bool RSF;
+    private Image blackScreen;
     private bool fadeIn = false;
     private bool fadeOut = false;
+    //フラグが返るとフェードイン、フェードアウトの処理
     private void Start()
     {
         StartCoroutine(FadeIn());
@@ -34,7 +35,6 @@ public class FadeInOut : MonoBehaviour
 
         }
     }
-    //フェードイン、フェードアウトの処理
     public IEnumerator FadeIn()
     {
         blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Cinemachine;
 using UnityEngine.SceneManagement;
 
+//イベントに合わせてタイマーを表示
 public class TimeCounter : MonoBehaviour
 {
     [SerializeField] GameManager GM;

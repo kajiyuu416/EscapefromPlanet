@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 444136, guid: ece113bb09a725547ad15c6e1794fbe0, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 444136, guid: ece113bb09a725547ad15c6e1794fbe0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -632,9 +632,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 10, y: 10, z: 1}
-  _period: 20
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0
   roty: 0
@@ -1866,7 +1866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f589db6b81cbaa45ac0577f26809b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 212731334}
   SelectNum: 1
 --- !u!65 &212731333
 BoxCollider:
@@ -2791,9 +2791,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 1, y: 0, z: 0}
-  _period: 20
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0
   roty: 0
@@ -3127,7 +3127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f589db6b81cbaa45ac0577f26809b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 349032956}
   SelectNum: 2
 --- !u!65 &349032955
 BoxCollider:
@@ -5236,9 +5236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 1, y: 10, z: 1}
-  _period: 20
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0
   roty: 0
@@ -5261,9 +5261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 1, y: 1, z: 1}
-  _period: 15
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0
   roty: 0
@@ -6726,7 +6726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f589db6b81cbaa45ac0577f26809b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 861056582}
   SelectNum: 0
 --- !u!65 &861056581
 BoxCollider:
@@ -8999,9 +8999,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 1, y: 10, z: 1}
-  _period: 20
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0
   roty: 0
@@ -10948,9 +10948,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 0, y: 0, z: 0}
-  _period: 2
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 0
   movespeed: 0
   rotx: 0
   roty: 0
@@ -11525,7 +11525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 460240, guid: e47bb2f50258ed841b48fa1eef455833, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 460240, guid: e47bb2f50258ed841b48fa1eef455833, type: 3}
       propertyPath: m_LocalScale.x
@@ -11947,9 +11947,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 1, y: 1, z: 1}
-  _period: 20
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0
   roty: 0
@@ -12586,9 +12586,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 0, y: 0, z: 0}
-  _period: 2
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0.5
   roty: 0.5
@@ -14205,9 +14205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 0, y: 1, z: 0}
-  _period: 15
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0
   roty: 0
@@ -14628,7 +14628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 484066, guid: eeb1c2ea47bc7f04cb234f63e9bbf4dc, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 484066, guid: eeb1c2ea47bc7f04cb234f63e9bbf4dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15866,9 +15866,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 0, y: 0, z: 0}
-  _period: 2
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 0
   movespeed: 0
   rotx: 0
   roty: 0
@@ -16128,9 +16128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 0, y: 0, z: 0}
-  _period: 2
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 0
   movespeed: 0
   rotx: 0
   roty: 0
@@ -16159,9 +16159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5b623c4c3027645868b291042a4f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 0, y: 1, z: 0}
-  _period: 15
+  center: {x: 0, y: 0, z: 0}
+  axis: {x: 0, y: 1, z: 0}
+  period: 50
   movespeed: 0
   rotx: 0
   roty: 0

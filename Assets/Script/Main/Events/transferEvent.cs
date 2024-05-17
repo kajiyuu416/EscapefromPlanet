@@ -5,6 +5,8 @@ using TMPro;
 using Cinemachine;
 using UnityEngine.InputSystem;
 
+//コライダーにプレイヤーが接触している状態で、特定のボタン入力を検知すると
+//プレイヤー、UIを非表示、カメラの位置を変更、転送エフェクトの表示
 public class transferEvent : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI ActionPop;

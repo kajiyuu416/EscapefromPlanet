@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class UnlockDoorSC : MonoBehaviour
 {
+    //フラグが返ると、開錠済みのドアを生成
     [SerializeField] GameObject lockDoor;
     [SerializeField] GameObject UnlockDoor;
     private bool GenerateFlag = false;

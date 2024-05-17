@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class SettingButoonSC : MonoBehaviour
 {
+    //SettingButoon‚ª‰Ÿ‚³‚ê‚½‚Æ‚«İ’è‚ğŠJ‚­ˆ—
     public Button settingButton;
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         settingButton = GetComponent<Button>();
         settingButton.onClick.AddListener(() => {

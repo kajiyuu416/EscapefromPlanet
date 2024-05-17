@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 
+//コライダーに接触している状態で特定のボタン入力があった際に
+//イベントを発生させ、プレイヤーへ能力付与のフラグを返す
 public class actionEvent1 : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI ActionPop;
@@ -9,14 +11,13 @@ public class actionEvent1 : MonoBehaviour
     [SerializeField] TextMeshProUGUI SkipText;
     [SerializeField] SpawnEffect SE;
     [SerializeField] GameObject AE;
-    MeshRenderer meshRenderer;
+    private MeshRenderer meshRenderer;
     public bool actionFlag;
 
     private void Update()
     {
         OnClose();
     }
-
     private void OnTriggerStay(Collider collision)
     {
         var current_GP = Gamepad.current;
