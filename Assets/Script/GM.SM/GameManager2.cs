@@ -12,12 +12,19 @@ public class GameManager2 : MonoBehaviour
     [SerializeField] GameObject BGMSlinder;
     [SerializeField] GameObject SESlinder;
     [SerializeField] GameObject UIButton;
-    [SerializeField] Text on_off_text;
+    [SerializeField] GameObject Camera_Up_Down_FlipButton;
+    [SerializeField] GameObject Camera_left_and_right_FlipButton;
+    [SerializeField] Text UI_on_off_text;
+    [SerializeField] Text Camera_Up_down_text;
+    [SerializeField] Text Camera_Flip_left_and_right_text;
+
     public static bool AGF;
     public static bool FGF;
     public static bool ALF;
     public static bool connect;
-    public static bool on_off_button;
+    public static bool UIon_off_button;
+    public static bool Camera_Upside_down;
+    public static bool Camera_Flip_left_and_right;
     public static bool ActionUIFlag;
     public static GameManager2 instance;
     public bool firstLoadFlag;
@@ -47,8 +54,12 @@ public class GameManager2 : MonoBehaviour
         SettingBG.SetActive(false);
         BGMSlinder.SetActive(false);
         SESlinder.SetActive(false);
-        UIButton.gameObject.SetActive(false);
-        on_off_button = true;
+        UIButton.SetActive(false);
+        Camera_Up_Down_FlipButton.SetActive(false);
+        Camera_left_and_right_FlipButton.SetActive(false);
+        UIon_off_button = true;
+        Camera_Upside_down = false;
+        Camera_Flip_left_and_right = false;
         StartCoroutine(FadeIn());
         beforeScene = "title";
         Cursor.visible = false;
@@ -90,15 +101,6 @@ public class GameManager2 : MonoBehaviour
     //ゲームスタート時の設定確認、初回のロードのみOPシーンへ以降
     public static void GameStart()
     {
-        if (GameManager2.on_off_button)
-        {
-            GameManager2.ActionUIFlag = true;
-        }
-        else
-        { 
-            GameManager2.ActionUIFlag = false;
-        }
-
         if (instance.firstLoadFlag == false)
         {
             instance.StartCoroutine(instance.LoadScene("OpScene"));
@@ -133,7 +135,9 @@ public class GameManager2 : MonoBehaviour
         SettingBG.SetActive(true);
         BGMSlinder.SetActive(true);
         SESlinder.SetActive(true);
-        UIButton.gameObject.SetActive(true);
+        UIButton.SetActive(true);
+        Camera_Up_Down_FlipButton.SetActive(true);
+        Camera_left_and_right_FlipButton.SetActive(true);
         SettingFlag = true;
         EventSystem.current.SetSelectedGameObject(UIButton);
     }
@@ -144,23 +148,56 @@ public class GameManager2 : MonoBehaviour
         SettingBG.SetActive(false);
         BGMSlinder.SetActive(false);
         SESlinder.SetActive(false);
-        UIButton.gameObject.SetActive(false);
+        UIButton.SetActive(false);
+        Camera_Up_Down_FlipButton.SetActive(false);
+        Camera_left_and_right_FlipButton.SetActive(false);
         SettingFlag = false;
     }
     //設定画面のON・OFF切り替え
-    public void Push_Button_Change()
+    public void Push_Button_UIChange()
     {
-        on_off_button = !on_off_button;
+        UIon_off_button = !UIon_off_button;
 
-        if (on_off_button == true)
+        if (UIon_off_button == true)
         {
-            on_off_text.text = "ON";
+            UI_on_off_text.text = "ON";
             ActionUIFlag = true;
         }
-        else if((on_off_button == false))
+        else if((UIon_off_button == false))
         {
-            on_off_text.text = "OFF";
+            UI_on_off_text.text = "OFF";
             ActionUIFlag = false;
+        }
+    }
+    public void Push_Button_Camera_Up_Down_Change()
+    {
+        Camera_Upside_down = !Camera_Upside_down;
+
+        if(Camera_Upside_down == true)
+        {
+            Camera_Up_down_text.text = "ON";
+            Debug.Log("Camera上下反転ON");
+    
+        }
+        else if((Camera_Upside_down == false))
+        {
+            Camera_Up_down_text.text = "OFF";
+            Debug.Log("Camera上下反転");
+        }
+    }
+    public void Push_Button_Camera_Left_Right_Change()
+    {
+        Camera_Flip_left_and_right = !Camera_Flip_left_and_right;
+
+        if(Camera_Flip_left_and_right == true)
+        {
+            Camera_Flip_left_and_right_text.text = "ON";
+            Debug.Log("Camera左右反転ON");
+        }
+        else if((Camera_Flip_left_and_right == false))
+        {
+            Camera_Flip_left_and_right_text.text = "OFF";
+            Debug.Log("Camera左右反転OFF");
         }
     }
     //徐々にフェードアウトしていき完全に暗くなるとシーンをロードする

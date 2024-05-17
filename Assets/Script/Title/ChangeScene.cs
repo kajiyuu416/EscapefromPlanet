@@ -13,11 +13,11 @@ public class ChangeScene : MonoBehaviour
     private void Start()
     {
         videoPlayer.loopPointReached += LoopPointReached;
-        if (GameManager2.on_off_button)
+        if (GameManager2.UIon_off_button)
         {
             GameManager2.ActionUIFlag = true;
         }
-        if (GameManager2.on_off_button == false)
+        if (!GameManager2.UIon_off_button)
         {
             GameManager2.ActionUIFlag = false;
         }

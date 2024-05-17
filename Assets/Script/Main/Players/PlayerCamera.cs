@@ -26,38 +26,21 @@ public class PlayerCamera : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(aE1.actionFlag)
-        {
-            subcamera1.Priority = 11;
-        }
-        if(aE3.actionFlag)
-        {
-            subcamera2.Priority = 11;
-        }
-        if (PC.isDead || GameManager.pauseflag)
-        {
-            RotationSensitivity = 0f;
-        }
-        else
-        {
-            RotationSensitivity = 100.0f;
-        }
-
-        if (!aE1.actionFlag)
-        {
-            
-            subcamera1.Priority = 9;
-        }
-        if(!aE3.actionFlag)
-        {
-            subcamera2.Priority = 9;
-        }
+        ChangeCamera();
         var rotX = PC.CameraInputVal.x * Time.deltaTime * RotationSensitivity;
         var rotY = PC.CameraInputVal.y * Time.deltaTime * RotationSensitivity;
         var lookAt = Target.position + Vector3.up * HeightM;
 
         // 回転
-        transform.RotateAround(lookAt, Vector3.up, rotX);
+        if(GameManager2.Camera_Upside_down)
+        {
+            transform.RotateAround(lookAt, Vector3.down, rotX);
+        }
+        else
+        {
+            transform.RotateAround(lookAt, Vector3.up, rotX);
+        }
+
         // カメラがプレイヤーの真上や真下にあるときにそれ以上回転させないようにする
         if (transform.forward.y > 0.3f && rotY < 0)
         {
@@ -67,7 +50,16 @@ public class PlayerCamera : MonoBehaviour
         {
             rotY = 0;
         }
-        transform.RotateAround(lookAt, transform.right, rotY);
+
+        if(GameManager2.Camera_Flip_left_and_right)
+        {
+            transform.RotateAround(lookAt, -transform.right, rotY);
+        }
+        else
+        {
+            transform.RotateAround(lookAt, transform.right, rotY);
+        }
+ 
 
         // カメラとプレイヤーとの間の距離を調整
         transform.position = lookAt - transform.forward * DistanceToPlayerM;
@@ -79,5 +71,34 @@ public class PlayerCamera : MonoBehaviour
         transform.position = transform.position + transform.right * SlideDistanceM;
     }
 
-   
+    private void ChangeCamera()
+    {
+        if(aE1.actionFlag)
+        {
+            subcamera1.Priority = 11;
+        }
+        if(aE3.actionFlag)
+        {
+            subcamera2.Priority = 11;
+        }
+        if(PC.isDead || GameManager.pauseflag)
+        {
+            RotationSensitivity = 0f;
+        }
+        else
+        {
+            RotationSensitivity = 100.0f;
+        }
+
+        if(!aE1.actionFlag)
+        {
+
+            subcamera1.Priority = 9;
+        }
+        if(!aE3.actionFlag)
+        {
+            subcamera2.Priority = 9;
+        }
+    }
+
 }
