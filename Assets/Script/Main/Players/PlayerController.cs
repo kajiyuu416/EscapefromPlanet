@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
                 moveSpeed = WalkSpeed;
                 gameManager.ActionUI2.SetActive(false);
                 Posefalse();
-                if(GameManager2.ActionUIFlag)
+                if(GameManager2.UIon_off_button)
                 {
                     gameManager.ActionUI1.SetActive(true);
                 }
@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
                     isRun = true;
                     moveSpeed = RunSpeed;
 
-                    if(GameManager2.ActionUIFlag)
+                    if(GameManager2.UIon_off_button)
                     {
                         gameManager.ActionUI1.SetActive(false);
                         gameManager.ActionUI2.SetActive(true);
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
                 isWalk = false;
                 isRun = false;
                 gameManager.ActionUI2.SetActive(false);
-                if(GameManager2.ActionUIFlag)
+                if(GameManager2.UIon_off_button)
                 {
                     gameManager.ActionUI1.SetActive(true);
                 }

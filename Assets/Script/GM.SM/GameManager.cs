@@ -56,11 +56,11 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if(GameManager2.ActionUIFlag)
+        if(GameManager2.UIon_off_button)
         {
            ActionUI.SetActive(true);
         }
-        else if(!GameManager2.ActionUIFlag)
+        else if(!GameManager2.UIon_off_button)
         {
            ActionUI.SetActive(false);
         }

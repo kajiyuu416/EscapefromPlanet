@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.UI;
 [RequireComponent(typeof(Camera))]
 //カメラ操作、Cinemachineによるカメラ切り替え
 public class PlayerCamera : MonoBehaviour
@@ -8,9 +9,9 @@ public class PlayerCamera : MonoBehaviour
     public float DistanceToPlayerM = 2.0f;    // カメラとプレイヤーとの距離[m]
     public float SlideDistanceM = 0.0f;       // カメラを横にスライドさせる；プラスの時右へ，マイナスの時左へ[m]
     public float HeightM = 1.2f;            // 注視点の高さ[m]
-    public float RotationSensitivity = 100.0f;// 感度
     public CinemachineVirtualCamera subcamera1;
     public CinemachineVirtualCamera subcamera2;
+    public static float RotationSensitivity = 75.0f;// 感度
     [SerializeField] actionEvent1 aE1;
     [SerializeField] actionEvent1 aE3;
     [SerializeField] PlayerController PC;
@@ -26,13 +27,22 @@ public class PlayerCamera : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        
         ChangeCamera();
         var rotX = PC.CameraInputVal.x * Time.deltaTime * RotationSensitivity;
         var rotY = PC.CameraInputVal.y * Time.deltaTime * RotationSensitivity;
         var lookAt = Target.position + Vector3.up * HeightM;
-
-        // 回転
-        if(GameManager2.Camera_Upside_down)
+        float off_upper_limit = 0.5f;
+        float off_lower_limit = -0.7f;
+        float on_upper_limit = -0.7f;
+        float on_lower_limit = 0.5f;
+        if(PC.isDead || GameManager.pauseflag)
+        {
+            rotX = 0;
+            rotY = 0;
+        }
+        // 左右回転
+        if(GameManager2.Camera_Flip_left_and_right)
         {
             transform.RotateAround(lookAt, Vector3.down, rotX);
         }
@@ -40,18 +50,35 @@ public class PlayerCamera : MonoBehaviour
         {
             transform.RotateAround(lookAt, Vector3.up, rotX);
         }
-
+        //上昇下降の制限
         // カメラがプレイヤーの真上や真下にあるときにそれ以上回転させないようにする
-        if (transform.forward.y > 0.3f && rotY < 0)
+        if(!GameManager2.Camera_Upside_down)
         {
-            rotY = 0;
+            if(transform.forward.y > off_upper_limit && rotY < 0)
+            {
+                rotY = 0;
+            }
+
+            if(transform.forward.y < off_lower_limit && rotY > 0)
+            {
+                rotY = 0;
+            }
         }
-        if (transform.forward.y < -0.8f && rotY > 0)
+        else
         {
-            rotY = 0;
+            if(transform.forward.y < on_upper_limit && rotY < 0)
+            {
+                rotY = 0;
+            }
+
+            if(transform.forward.y > on_lower_limit && rotY > 0)
+            {
+                rotY = 0;
+            }
         }
 
-        if(GameManager2.Camera_Flip_left_and_right)
+        // 上下回転
+        if(GameManager2.Camera_Upside_down)
         {
             transform.RotateAround(lookAt, -transform.right, rotY);
         }
@@ -59,7 +86,8 @@ public class PlayerCamera : MonoBehaviour
         {
             transform.RotateAround(lookAt, transform.right, rotY);
         }
- 
+
+
 
         // カメラとプレイヤーとの間の距離を調整
         transform.position = lookAt - transform.forward * DistanceToPlayerM;
@@ -80,14 +108,6 @@ public class PlayerCamera : MonoBehaviour
         if(aE3.actionFlag)
         {
             subcamera2.Priority = 11;
-        }
-        if(PC.isDead || GameManager.pauseflag)
-        {
-            RotationSensitivity = 0f;
-        }
-        else
-        {
-            RotationSensitivity = 100.0f;
         }
 
         if(!aE1.actionFlag)

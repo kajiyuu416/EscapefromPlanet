@@ -11,12 +11,14 @@ public class GameManager2 : MonoBehaviour
     [SerializeField] GameObject SettingBG;
     [SerializeField] GameObject BGMSlinder;
     [SerializeField] GameObject SESlinder;
+    [SerializeField] GameObject RotationSensitivitySlinder;
     [SerializeField] GameObject UIButton;
     [SerializeField] GameObject Camera_Up_Down_FlipButton;
     [SerializeField] GameObject Camera_left_and_right_FlipButton;
     [SerializeField] Text UI_on_off_text;
     [SerializeField] Text Camera_Up_down_text;
     [SerializeField] Text Camera_Flip_left_and_right_text;
+    [SerializeField] Slider SensitivitySlinder;
 
     public static bool AGF;
     public static bool FGF;
@@ -25,15 +27,12 @@ public class GameManager2 : MonoBehaviour
     public static bool UIon_off_button;
     public static bool Camera_Upside_down;
     public static bool Camera_Flip_left_and_right;
-    public static bool ActionUIFlag;
     public static GameManager2 instance;
     public bool firstLoadFlag;
     private string beforeScene;
     private string nowSceneName = "title";
     private Image blackScreen;
     private bool SettingFlag;
-
-
     private void Awake()
     {
         if (instance == null)
@@ -54,6 +53,7 @@ public class GameManager2 : MonoBehaviour
         SettingBG.SetActive(false);
         BGMSlinder.SetActive(false);
         SESlinder.SetActive(false);
+        RotationSensitivitySlinder.SetActive(false);
         UIButton.SetActive(false);
         Camera_Up_Down_FlipButton.SetActive(false);
         Camera_left_and_right_FlipButton.SetActive(false);
@@ -65,11 +65,16 @@ public class GameManager2 : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
+        SetRotationSensitivity(SensitivitySlinder.value);
+        SensitivitySlinder.onValueChanged.AddListener(SetRotationSensitivity);
     }
-
+    public void SetRotationSensitivity(float volume)
+    {
+        PlayerCamera.RotationSensitivity = SensitivitySlinder.value * 150.0f;
+    }
     //コントローラーの接続確認
     //マウスの非表示、現在シーンの保存
-  　//設定画面の表示非表示
+    //設定画面の表示非表示
     private void Update()
 
     {
@@ -95,7 +100,6 @@ public class GameManager2 : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-    
     }
 
     //ゲームスタート時の設定確認、初回のロードのみOPシーンへ以降
@@ -135,6 +139,7 @@ public class GameManager2 : MonoBehaviour
         SettingBG.SetActive(true);
         BGMSlinder.SetActive(true);
         SESlinder.SetActive(true);
+        RotationSensitivitySlinder.SetActive(true);
         UIButton.SetActive(true);
         Camera_Up_Down_FlipButton.SetActive(true);
         Camera_left_and_right_FlipButton.SetActive(true);
@@ -148,6 +153,7 @@ public class GameManager2 : MonoBehaviour
         SettingBG.SetActive(false);
         BGMSlinder.SetActive(false);
         SESlinder.SetActive(false);
+        RotationSensitivitySlinder.SetActive(false);
         UIButton.SetActive(false);
         Camera_Up_Down_FlipButton.SetActive(false);
         Camera_left_and_right_FlipButton.SetActive(false);
@@ -161,12 +167,12 @@ public class GameManager2 : MonoBehaviour
         if (UIon_off_button == true)
         {
             UI_on_off_text.text = "ON";
-            ActionUIFlag = true;
+            UI_on_off_text.color = Color.red;
         }
         else if((UIon_off_button == false))
         {
             UI_on_off_text.text = "OFF";
-            ActionUIFlag = false;
+            UI_on_off_text.color = Color.blue;
         }
     }
     public void Push_Button_Camera_Up_Down_Change()
@@ -176,13 +182,12 @@ public class GameManager2 : MonoBehaviour
         if(Camera_Upside_down == true)
         {
             Camera_Up_down_text.text = "ON";
-            Debug.Log("Camera上下反転ON");
-    
+            Camera_Up_down_text.color = Color.red;
         }
         else if((Camera_Upside_down == false))
         {
             Camera_Up_down_text.text = "OFF";
-            Debug.Log("Camera上下反転");
+            Camera_Up_down_text.color = Color.blue;
         }
     }
     public void Push_Button_Camera_Left_Right_Change()
@@ -192,12 +197,12 @@ public class GameManager2 : MonoBehaviour
         if(Camera_Flip_left_and_right == true)
         {
             Camera_Flip_left_and_right_text.text = "ON";
-            Debug.Log("Camera左右反転ON");
+            Camera_Flip_left_and_right_text.color = Color.red;
         }
         else if((Camera_Flip_left_and_right == false))
         {
             Camera_Flip_left_and_right_text.text = "OFF";
-            Debug.Log("Camera左右反転OFF");
+            Camera_Flip_left_and_right_text.color = Color.blue;
         }
     }
     //徐々にフェードアウトしていき完全に暗くなるとシーンをロードする
