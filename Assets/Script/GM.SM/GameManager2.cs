@@ -135,7 +135,6 @@ public class GameManager2 : MonoBehaviour
     //İ’è‚ğŠJ‚¢‚½‚Æ‚«
     public void SettingOp()
     {
-        Debug.Log("Settingop");
         SettingBG.SetActive(true);
         BGMSlinder.SetActive(true);
         SESlinder.SetActive(true);
@@ -149,7 +148,6 @@ public class GameManager2 : MonoBehaviour
     //İ’è‚ğ•Â‚¶‚½‚Æ‚«
     public void SettingCl()
     {
-        Debug.Log("Settingcl");
         SettingBG.SetActive(false);
         BGMSlinder.SetActive(false);
         SESlinder.SetActive(false);

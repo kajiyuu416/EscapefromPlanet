@@ -9,8 +9,9 @@ using UnityEngine.InputSystem;
 //イベントを発生させ、映像を流す処理。
 public class actionEvent : MonoBehaviour
 {
-    [SerializeField] GameObject DoorFlag;
     [SerializeField] GameObject ActionPoint;
+    [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] BoxCollider boxCollider;
     [SerializeField] TextMeshProUGUI ActionPop;
     [SerializeField] GameObject moveiSC;
     [SerializeField] VideoPlayer videoPlayer;
@@ -23,7 +24,9 @@ public class actionEvent : MonoBehaviour
     {
         if(actionFlag)
         {
-            gameObject.GetComponent<BoxCollider>().enabled = false;
+            ActionPoint.SetActive(false);
+            boxCollider.enabled = false;
+            meshRenderer.enabled = false;
         }
     }
     private void OnTriggerStay(Collider collision)
@@ -33,7 +36,6 @@ public class actionEvent : MonoBehaviour
         if (collision.CompareTag("Player") && Check.wasPressedThisFrame &&!actionFlag)
         {
             actionFlag = true;
-            gameObject.GetComponent<BoxCollider>().enabled = false;
             GameManager.pauseflag = true;
             GameManager.instance.ActionUI1.SetActive(false);
             GameManager.instance.ActionUI2.SetActive(false);
@@ -47,7 +49,6 @@ public class actionEvent : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("アクションポップ表示");
             ActionPop.text = "LBボタン入力でアクション行う";
         }
     }
@@ -56,7 +57,6 @@ public class actionEvent : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("アクションポップ非表示");
             ActionPop.text = "";
         }
     }

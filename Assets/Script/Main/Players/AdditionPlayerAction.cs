@@ -34,7 +34,6 @@ public class AdditionPlayerAction : MonoBehaviour
                 {
                     isjumpOver = true;
                     rigidbody.AddForce(transform.up * JumpOverPower, ForceMode.Impulse);
-                    Debug.Log("OverJump");
                 }
 
                 if(PlayerController.Interval_InputButtondown(RunningSlide, 1.0f))

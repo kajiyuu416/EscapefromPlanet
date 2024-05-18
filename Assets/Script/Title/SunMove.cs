@@ -24,31 +24,24 @@ public class SunMove : MonoBehaviour
     {
         transform.Rotate(new Vector3(rotx, roty, rotz));
 
-        if (GameManager2.AGF && !GameManager2.FGF)
+        if (GameManager2.AGF && !GameManager2.FGF && !firstPos)
         {
-            if (!firstPos)
-            {
-                firstPos = true;
-                transform.position = FirstPos;
-            }
+            firstPos = true;
+            transform.position = FirstPos;
+            
 
         }
-        if (GameManager2.AGF && GameManager2.FGF && !GameManager2.ALF)
+        if (GameManager2.AGF && GameManager2.FGF && !GameManager2.ALF && !secondPos)
         {
-            if (!secondPos)
-            {
-                secondPos = true;
-                transform.position = SecondPos;
-            }
+            secondPos = true;
+            transform.position = SecondPos;
+            
 
         }
-        if (GameManager2.AGF && GameManager2.FGF && GameManager2.ALF)
+        if (GameManager2.AGF && GameManager2.FGF && GameManager2.ALF&& !thirdPos)
         {
-            if (!thirdPos)
-            {
-                thirdPos = true;
-                transform.position = ThirdPos;
-            }
+           thirdPos = true;
+           transform.position = ThirdPos;
         }
         if (MPF)
         {
