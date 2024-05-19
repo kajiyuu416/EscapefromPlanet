@@ -15,7 +15,9 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] actionEvent1 aE1;
     [SerializeField] actionEvent1 aE3;
     [SerializeField] PlayerController PC;
-    [SerializeField] GameObject targetObj;
+    [SerializeField] SkinnedMeshRenderer normalBody;
+    [SerializeField] Material DefaultBodyMaterial;
+    [SerializeField] Material TransmissionBodyMaterial;
     private void Awake()
     {
         if (Target == null)
@@ -27,8 +29,11 @@ public class PlayerCamera : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        
         ChangeCamera();
+        CameraMove();
+    }
+    private void CameraMove()
+    {
         var rotX = PC.CameraInputVal.x * Time.deltaTime * RotationSensitivity;
         var rotY = PC.CameraInputVal.y * Time.deltaTime * RotationSensitivity;
         var lookAt = Target.position + Vector3.up * HeightM;
@@ -57,11 +62,13 @@ public class PlayerCamera : MonoBehaviour
             if(transform.forward.y > off_upper_limit && rotY < 0)
             {
                 rotY = 0;
+                normalBody.material = TransmissionBodyMaterial;
             }
 
             if(transform.forward.y < off_lower_limit && rotY > 0)
             {
                 rotY = 0;
+                normalBody.material = TransmissionBodyMaterial;
             }
         }
         else
@@ -69,11 +76,13 @@ public class PlayerCamera : MonoBehaviour
             if(transform.forward.y < on_upper_limit && rotY < 0)
             {
                 rotY = 0;
+                normalBody.material = TransmissionBodyMaterial;
             }
 
             if(transform.forward.y > on_lower_limit && rotY > 0)
             {
                 rotY = 0;
+                normalBody.material = TransmissionBodyMaterial;
             }
         }
 
@@ -87,6 +96,10 @@ public class PlayerCamera : MonoBehaviour
             transform.RotateAround(lookAt, transform.right, rotY);
         }
 
+        if(rotY != 0)
+        {
+            normalBody.material = DefaultBodyMaterial;
+        }
 
 
         // カメラとプレイヤーとの間の距離を調整
