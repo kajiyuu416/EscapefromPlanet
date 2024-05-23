@@ -23,7 +23,7 @@ public class transferEvent : MonoBehaviour
 
         if (collision.CompareTag("Player") && Check.wasPressedThisFrame && GameManager2.FGF)
         {
-            subcamera5.Priority = 11;
+            subcamera5.Priority = Const.CO.Const_Int_List[0];
             IdleMeshs.SetActive(false);
             transEfe.SetActive(true);
             Timer.SetActive(false);
@@ -58,21 +58,21 @@ public class transferEvent : MonoBehaviour
     }
     IEnumerator FOtrue()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(Const.CO.Const_Int_List[2]);
         FO.FadeOutFlag = true;
-        subcamera5.Priority = 9;
+        subcamera5.Priority = 0;
         StartCoroutine("CameraSwitch");
     }
     IEnumerator FItrue()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(Const.CO.Const_Int_List[2]);
         FO.FadeInFlag = true;
         GameManager.instance.GameClear();
     }
     IEnumerator CameraSwitch()
     {
-        yield return new WaitForSeconds(4.0f);
-        subcamera6.Priority = 12;
+        yield return new WaitForSeconds(Const.CO.Const_Int_List[3]);
+        subcamera6.Priority = Const.CO.Const_Int_List[0];
         StartCoroutine("FItrue");
     }
 

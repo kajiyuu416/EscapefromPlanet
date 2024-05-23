@@ -5,19 +5,19 @@ using UnityEngine.UI;
 //カメラ操作、Cinemachineによるカメラ切り替え
 public class PlayerCamera : MonoBehaviour
 {
-    public Transform Target;
-    public float DistanceToPlayerM = 2.0f;    // カメラとプレイヤーとの距離[m]
-    public float SlideDistanceM = 0.0f;       // カメラを横にスライドさせる；プラスの時右へ，マイナスの時左へ[m]
-    public float HeightM = 1.2f;            // 注視点の高さ[m]
-    public CinemachineVirtualCamera subcamera1;
-    public CinemachineVirtualCamera subcamera2;
-    public static float RotationSensitivity = 75.0f;// 感度
-    [SerializeField] actionEvent1 aE1;
-    [SerializeField] actionEvent1 aE3;
+    [SerializeField] Transform Target;
+    [SerializeField] float DistanceToPlayerM;    // カメラとプレイヤーとの距離[m]
+    [SerializeField] float SlideDistanceM;       // カメラを横にスライドさせる；プラスの時右へ，マイナスの時左へ[m]
+    [SerializeField] float HeightM;            // 注視点の高さ[m]
+    [SerializeField] CinemachineVirtualCamera subcamera1;
+    [SerializeField] CinemachineVirtualCamera subcamera2;
+    [SerializeField] liberate_potential First_Event;
+    [SerializeField] liberate_potential Second_Event;
     [SerializeField] PlayerController PC;
     [SerializeField] SkinnedMeshRenderer normalBody;
     [SerializeField] Material DefaultBodyMaterial;
     [SerializeField] Material TransmissionBodyMaterial;
+    public static float RotationSensitivity = 75.0f;// 感度
     private void Awake()
     {
         if (Target == null)
@@ -41,6 +41,7 @@ public class PlayerCamera : MonoBehaviour
         float off_lower_limit = -0.7f;
         float on_upper_limit = -0.7f;
         float on_lower_limit = 0.5f;
+
         if(PC.isDead || GameManager.pauseflag)
         {
             rotX = 0;
@@ -114,23 +115,23 @@ public class PlayerCamera : MonoBehaviour
 
     private void ChangeCamera()
     {
-        if(aE1.actionFlag)
+        if(First_Event.actionFlag)
         {
-            subcamera1.Priority = 11;
+            subcamera1.Priority = Const.CO.Const_Int_List[0];
         }
-        if(aE3.actionFlag)
+        if(Second_Event.actionFlag)
         {
-            subcamera2.Priority = 11;
+            subcamera2.Priority = Const.CO.Const_Int_List[0];
         }
 
-        if(!aE1.actionFlag)
+        if(!First_Event.actionFlag)
         {
 
-            subcamera1.Priority = 9;
+            subcamera1.Priority = 0;
         }
-        if(!aE3.actionFlag)
+        if(!Second_Event.actionFlag)
         {
-            subcamera2.Priority = 9;
+            subcamera2.Priority = 0;
         }
     }
 

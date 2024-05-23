@@ -72,11 +72,11 @@ public class SoundManager : MonoBehaviour
     }
     public void SetBGMVolume(float volume)
     {
-        audioMixer.SetFloat("BGM", Mathf.Clamp(Mathf.Log10(volume) * 20f, -80f, 0f));
+        audioMixer.SetFloat("BGM", Mathf.Clamp(Mathf.Log10(volume) * 60f, -80f, 0f));
     }
     public void SetSEVolume(float volume)
     {
-        audioMixer.SetFloat("SE", Mathf.Clamp(Mathf.Log10(volume) * 20f, -80f, 0f));
+        audioMixer.SetFloat("SE", Mathf.Clamp(Mathf.Log10(volume) * 60f, -80f, 0f));
     }
     public void StopAudio()
     {

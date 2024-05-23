@@ -8,30 +8,33 @@ using UnityEngine.InputSystem;
 //対象のボタンを押している秒数を取得しフラグを返す
 public class FloatPowerSC : MonoBehaviour
 {
-    [SerializeField] PlayerController PC;
     [SerializeField] GameObject EventObj1;
     [SerializeField] GameObject EventObj2;
-    public float PushTime;
-    public float floatPower = 4.0f;
-    public bool isFloat;
-    public bool isFloatFlag;
-    public static bool AdditionPlayerActionFlag = false;
+    private PlayerController playerController;
+    private float PushTime;
+    private float floatPower = 4.0f;
+    private bool isFloat;
+    private bool isFloatFlag;
     private bool SmallInputFloat;
     private bool isDownFlag;
+    public static bool AdditionPlayerActionFlag_Float = false;
     private float time;
     private float Purposetime = 1.0f;
     private float limittime = 3.5f;
     private  new Rigidbody rigidbody;
-    public Animator animator;
+    private Animator animator;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
+        playerController = FindObjectOfType<PlayerController>();
     }
     private void OnTriggerEnter(Collider collision)
     {
-        if(!PC.isgroundFlag)
+        bool isground = playerController.Duplicate_isgroundFlag;
+
+        if(!isground)
         {
             if(collision.CompareTag("ground"))
             {
@@ -41,11 +44,10 @@ public class FloatPowerSC : MonoBehaviour
     }
     private void Update()
     {
-        if(AdditionPlayerActionFlag)
+        if(AdditionPlayerActionFlag_Float)
         {
             OnPushKey();
-            Timelength();
-            if(PC.isDead)
+            if(playerController.isDead)
             {
                 isFloat = false;
                 isFloatFlag = false;
@@ -58,11 +60,14 @@ public class FloatPowerSC : MonoBehaviour
             EventObj2.SetActive(false);
         }
     }
+    //特定のボタンを押した長さの取得
+    //押した長さに応じてプレイヤーが上昇
     public void OnPushKey()
     {
         var current_GP = Gamepad.current;
         var Float = current_GP.buttonSouth;
-        if(Float.wasPressedThisFrame &&PC.isJump)
+        bool isjump = playerController.Duplicate_isJump;
+        if(Float.wasPressedThisFrame &&isjump)
         {
             isFloatFlag = true;
             isDownFlag = true;
@@ -78,38 +83,33 @@ public class FloatPowerSC : MonoBehaviour
             time = 0f;
             PushTime = 0f;
         }
-        animator.SetBool("floating", isFloat);
-    }
-    public void Timelength()//キーが押された時間を取得し、フラグを返す
-    {
-        var current_GP = Gamepad.current;
-        var Float = current_GP.buttonSouth;
-        if (isFloatFlag)
+
+        if(isFloatFlag)
         {
-          time += Time.deltaTime;
-          PushTime = time / Purposetime;
-           if (time >= Purposetime)
-           {
-             isFloat = true;
-             PC.isJump = false;
-           }
+            time += Time.deltaTime;
+            PushTime = time / Purposetime;
+            if(time >= Purposetime)
+            {
+                isFloat = true;
+                playerController.Duplicate_isJump = false;
+            }
         }
 
-        if (isDownFlag)
+        if(isDownFlag)
         {
             time += Time.deltaTime;
             PushTime = time / limittime;
-            if (time >= limittime)
+            if(time >= limittime)
             {
                 isFloatFlag = false;
                 isDownFlag = false;
                 isFloat = false;
             }
         }
-        if (isFloat)
+        if(isFloat)
         {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x,floatPower, rigidbody.velocity.z );
-            if (Float.wasReleasedThisFrame)
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, floatPower, rigidbody.velocity.z);
+            if(Float.wasReleasedThisFrame)
             {
                 SmallInputFloat = true;
                 isFloatFlag = false;
@@ -121,10 +121,22 @@ public class FloatPowerSC : MonoBehaviour
             animator.SetBool("smallfloat", SmallInputFloat);
         }
         SmallInputFloat = false;
+        animator.SetBool("floating", isFloat);
     }
     public void Spin()
     {
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE10();
+    }
+    public bool Duplicate_isFloat
+    {
+        get
+        {
+            return isFloat;
+        }
+        set
+        {
+            isFloat = value;
+        }
     }
 }

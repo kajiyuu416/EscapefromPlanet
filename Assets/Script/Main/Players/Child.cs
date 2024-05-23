@@ -38,7 +38,6 @@ public class Child : MonoBehaviour
     {
         meshRenderer.enabled = true;
     }
-
     private void OnTriggerEnter(Collider triger)
     {
         if(triger.CompareTag("laser"))
@@ -56,7 +55,7 @@ public class Child : MonoBehaviour
                 transform.position = new Vector3(vecX, vecY, vecZ);
                 transform.position = initialPosition;
                 rigidbody.velocity = transform.forward.normalized * Speed;
-                time = 4.0f;
+                time = Const.CO.Const_Float_List[3];
             }
         }
      

@@ -11,22 +11,25 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
-    [SerializeField] AdditionPlayerAction AP;
-    [SerializeField] FloatPowerSC floatPowerSC;
     [SerializeField] GameObject IdleBody;
     [SerializeField] Animator animator;
-    public float WalkSpeed = 3f;
-    public float RunSpeed = 5f;
-    public float JumpPower;
+    private FloatPowerSC floatPowerSC;
+    private AdditionPlayerAction additionPlayerAction;
+    private const float WalkSpeed = 3.0f;
+    private const float RunSpeed = 7.0f;
+    private const float JumpPower = 140.0f;
     private float moveSpeed;
     private bool isWalk;
-    public bool isRun;
-    public bool isJump;
-    public bool isDead;
-    public bool isgroundFlag;
+    private bool isRun;
+    private bool isJump;
+    private bool isgroundFlag;
     private bool CrouchPose;
     private bool LayingPose;
     private bool DancePose;
+    public bool isDead;
+    private static bool preventContinuityInput;
+    private static float buttonDownTime;
+    private static float timer;
     public static PlayerController instance;
     private Child[] Parts;
     private new Rigidbody rigidbody;
@@ -40,6 +43,8 @@ public class PlayerController : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         Parts = GetComponentsInChildren<Child>();
+        floatPowerSC = FindObjectOfType<FloatPowerSC>();
+        additionPlayerAction = FindObjectOfType<AdditionPlayerAction>();
     }
 
     private void Start()
@@ -49,7 +54,6 @@ public class PlayerController : MonoBehaviour
             transform.position = CP;
         }
     }
-
     private void Update()
     {
         //コントローラーが接続状態であれば、処理が回る
@@ -60,10 +64,10 @@ public class PlayerController : MonoBehaviour
         }
 
         if (isDead)
-        {
+        {  
             isJump = false;
-            floatPowerSC.isFloat = false;
-            AP.isjumpOver = false;
+            floatPowerSC.Duplicate_isFloat = false;
+            additionPlayerAction.Duplicate_isjumpOver = false;
             return;
         }
     }
@@ -81,12 +85,13 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
         if(!isgroundFlag)
         {
             if(collision.CompareTag("ground"))
             {
                 isJump = false;
-                AP.isjumpOver = false;
+                additionPlayerAction.Duplicate_isjumpOver = false;
             }
         }
 
@@ -121,12 +126,13 @@ public class PlayerController : MonoBehaviour
         PlayerMove_input.z = moveInputVal.y;
         var current_GP = Gamepad.current;
         var Run = current_GP.rightShoulder;
-        var speed = Run.isPressed ? 2 : 1;
+        var speed = Run.isPressed ? Const.CO.Const_Float_List[1] : Const.CO.Const_Float_List[0];
         var jump = current_GP.buttonSouth;
         var velocity = new Vector3(PlayerMove_input.x, 0, PlayerMove_input.z).normalized;
-        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        bool isfloat = floatPowerSC.Duplicate_isFloat;
+        bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
+        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(Const.CO.Const_Float_List[0], 0, Const.CO.Const_Float_List[0])).normalized;
         Vector3 moveForward = cameraForward * PlayerMove_input.z + Camera.main.transform.right * PlayerMove_input.x;
-        Posefalse();
         rigidbody.velocity = moveForward * moveSpeed + new Vector3(0, rigidbody.velocity.y, 0);
 
 
@@ -154,35 +160,30 @@ public class PlayerController : MonoBehaviour
                 isWalk = true;
                 isRun = false;
                 moveSpeed = WalkSpeed;
-                gameManager.ActionUI2.SetActive(false);
-                Posefalse();
-                if(GameManager2.UIon_off_button)
-                {
-                    gameManager.ActionUI1.SetActive(true);
-                }
                 //Run状態であればスピードの変更、UI表示の変更
                 if(Run.isPressed)
                 {
                     isRun = true;
-                    moveSpeed = RunSpeed;
-
-                    if(GameManager2.UIon_off_button)
-                    {
-                        gameManager.ActionUI1.SetActive(false);
-                        gameManager.ActionUI2.SetActive(true);
-                    }
                 }
             }
             else if(PlayerMove_input == Vector3.zero && isgroundFlag)
             {
                 isWalk = false;
                 isRun = false;
-                gameManager.ActionUI2.SetActive(false);
-                if(GameManager2.UIon_off_button)
-                {
-                    gameManager.ActionUI1.SetActive(true);
-                }
             }
+
+            if(isRun)
+            {
+                moveSpeed = RunSpeed;
+                gameManager.ActionUI1.SetActive(false);
+                gameManager.ActionUI2.SetActive(true);
+            }
+            else if(!isRun)
+            {
+                gameManager.ActionUI1.SetActive(true);
+                gameManager.ActionUI2.SetActive(false);
+            }
+
             //ジャンプ処理
             if(Interval_InputButtondown(jump, 0.5f) && !isRun &&isgroundFlag)
             {
@@ -197,8 +198,8 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("jump", isJump);
         animator.SetBool("walk", isWalk);
         animator.SetFloat("Speed", velocity.magnitude * speed, 0.1f, Time.deltaTime);
-        animator.SetBool("floating", floatPowerSC.isFloat);
-        animator.SetBool("Jumpover", AP.isjumpOver);
+        animator.SetBool("floating", isfloat);
+        animator.SetBool("Jumpover", isoverJump);
     }
     //ボタンの入力に応じてプレイヤーのポーズを変更
     private void ChangeIdlePose()
@@ -207,30 +208,32 @@ public class PlayerController : MonoBehaviour
         var Crouch = current_GP.buttonEast;
         var Laying = current_GP.buttonWest;
         var Dance = current_GP.buttonNorth;
-        if (!GameManager.pauseflag)
+        if (!GameManager.pauseflag && !isRun)
         {
-            if (!isRun)
+            if(Crouch.isPressed)
             {
-                if (Crouch.wasPressedThisFrame)
-                {
-                    CrouchPose = true;
-                    LayingPose = false;
-                    DancePose = false;
-                }
-                else if (Laying.wasPressedThisFrame)
-                {
-
-                    CrouchPose = false;
-                    LayingPose = true;
-                    DancePose = false;
-                }
-                else if (Dance.wasPressedThisFrame)
-                {
-                    CrouchPose = false;
-                    LayingPose = false;
-                    DancePose = true;
-                }
+                CrouchPose = true;
+                LayingPose = false;
+                DancePose = false;
             }
+            else if(Laying.isPressed)
+            {
+                CrouchPose = false;
+                LayingPose = true;
+                DancePose = false;
+            }
+            else if(Dance.isPressed)
+            {
+                CrouchPose = false;
+                LayingPose = false;
+                DancePose = true;
+            }
+
+            if(Crouch.wasReleasedThisFrame || Laying.wasReleasedThisFrame || Dance.wasReleasedThisFrame)
+            {
+                Posefalse();
+            }
+
         }
         animator.SetBool("Crouch", CrouchPose);
         animator.SetBool("Laying", LayingPose);
@@ -257,7 +260,7 @@ public class PlayerController : MonoBehaviour
 
     public void landing()
     {
-        AP.isjumpOver = false;
+        additionPlayerAction.Duplicate_isjumpOver = false;
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE3();
     }
@@ -270,14 +273,10 @@ public class PlayerController : MonoBehaviour
     }
 
     //ボタン入力のクールタイムを設定し、一定時間入力を制御する処理
-    private static bool preventContinuityInput;
-    private static float buttonDownTime;
-    private static float timer;
-    public static bool Interval_InputButtondown(ButtonControl input, float intervalSeconds)
+    public static bool Interval_InputButtondown(ButtonControl input, float IntervalSeconds)
     {
         timer = Time.time;
-
-        if(input.wasPressedThisFrame && timer - buttonDownTime >= intervalSeconds)
+        if(input.wasPressedThisFrame && timer - buttonDownTime >= IntervalSeconds)
         {
             if(preventContinuityInput == false)
             {
@@ -302,4 +301,34 @@ public class PlayerController : MonoBehaviour
     {
        CameraInputVal = var.Get<Vector2>();
     }
+    public bool Duplicate_isRun
+    {
+        get
+        {
+            return isRun;
+        }
+    }
+    public bool Duplicate_isJump
+    {
+        get
+        {
+            return isJump;
+        }
+        set
+        {
+            isJump = value;
+        }
+    }
+    public bool Duplicate_isgroundFlag
+    {
+        get
+        {
+            return isgroundFlag;
+        }
+        set
+        {
+            isgroundFlag = value;
+        }
+    }
+
 }

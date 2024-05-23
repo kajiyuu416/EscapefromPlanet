@@ -367,7 +367,7 @@ AnimatorStateMachine:
     m_Position: {x: -70, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8491155096500735950}
-    m_Position: {x: -300, y: 200, z: 0}
+    m_Position: {x: -300, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2602136884137405254}
     m_Position: {x: -300, y: 10, z: 0}
@@ -1162,8 +1162,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: walk
+  - m_ConditionMode: 2
+    m_ConditionEvent: Laying
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5109782645122013691}
@@ -1333,8 +1333,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: walk
+  - m_ConditionMode: 2
+    m_ConditionEvent: dance
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5109782645122013691}
@@ -1358,8 +1358,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: walk
+  - m_ConditionMode: 2
+    m_ConditionEvent: Crouch
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5109782645122013691}

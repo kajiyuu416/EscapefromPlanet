@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public static int count = 0;
     private bool RestartFlag;
     private bool GameOverFlag;
-    private bool GCF;
+    private bool GameClearFlag;
     private bool SettingOPflag;
     private bool stbflag;
 
@@ -39,12 +39,12 @@ public class GameManager : MonoBehaviour
             Pause();
             var current_GP = Gamepad.current;
             var Cansel = current_GP.buttonEast;
-            if(GCF)
+            if(GameClearFlag)
             {
                 if(Cansel.wasPressedThisFrame)
                 {
                     SceneManager.LoadScene("title");
-                    GCF = false;
+                    GameClearFlag = false;
                 }
             }
         }
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         pauseflag = true;
         GameOverFlag = false;
         GOCount.text = count.ToString();
-        Invoke("Standbytime", 3.8f);
+        Invoke("Standbytime",Const.CO.Const_Float_List[3]);
 
         if (instance == null)
         {
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
             SettingOPflag = false;
             PauseTextobj.SetActive(false);
             PauseBackground.SetActive(false);
-            Idle.GetComponent<Animator>().speed = 1;
+            Idle.GetComponent<Animator>().speed = Const.CO.Const_Float_List[0];
         }
 
     }
@@ -120,19 +120,19 @@ public class GameManager : MonoBehaviour
     {
         if (GameManager2.AGF)
         {
-            AdditionPlayerAction.AdditionPlayerActionFlag = true;
+            AdditionPlayerAction.AdditionPlayerActionFlag_OverJump = true;
             Destroy(restrictionImage);
         }
         if (GameManager2.FGF)
         {
-            FloatPowerSC.AdditionPlayerActionFlag = true;
+            FloatPowerSC.AdditionPlayerActionFlag_Float = true;
         }
     }
     //ゲームクリア時に呼ばれる関数
     public  void GameClear()
     {
+        GameClearFlag = true;
         GameClearTextobj.SetActive(true);
-        GCF = true;
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE15();
     }
@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
         SoundManager.Instance.SettingPlaySE2();
         SoundManager.Instance.SettingPlaySE9();
         count++;
-        Invoke("ReStartThiScene", 3.0f);
+        Invoke("ReStartThiScene", Const.CO.Const_Float_List[3]);
     }
     public void RestartFlagOn()
     {
