@@ -191,7 +191,7 @@ public class GameManager2 : MonoBehaviour
         var color = blackScreen.color;
         while (color.a <= Const.CO.Const_Float_List[0])
         {
-            color += new Color(0, 0, 0,0.05f);
+            color.a += 0.1f; 
             blackScreen.color = color;
 
             yield return null;
@@ -203,11 +203,11 @@ public class GameManager2 : MonoBehaviour
     {
         blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
         var color = blackScreen.color;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[0]);
 
         while (color.a >= 0)
         {
-            color -= new Color(0, 0, 0, 0.05f);
+            color.a -= 0.1f;
             blackScreen.color = color;
 
             yield return null;
