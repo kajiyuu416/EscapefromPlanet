@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 [RequireComponent(typeof(Camera))]
 //カメラ操作、Cinemachineによるカメラ切り替え
 public class PlayerCamera : MonoBehaviour
@@ -31,6 +32,17 @@ public class PlayerCamera : MonoBehaviour
     {
         ChangeCamera();
         CameraMove();
+    }
+    private void Update()
+    {
+        var current_GP = Gamepad.current;
+        var camera_Reset = current_GP.rightStickButton;
+     
+        if(camera_Reset.wasPressedThisFrame)
+        {
+            transform.position = Vector3.zero;
+            Debug.Log("aaa");
+        }
     }
     private void CameraMove()
     {
@@ -101,13 +113,8 @@ public class PlayerCamera : MonoBehaviour
         {
             normalBody.material = DefaultBodyMaterial;
         }
-
-
         // カメラとプレイヤーとの間の距離を調整
         transform.position = lookAt - transform.forward * DistanceToPlayerM;
-
-        // 注視点の設定
-        transform.LookAt(lookAt);
 
         // カメラを横にずらして中央を開ける
         transform.position = transform.position + transform.right * SlideDistanceM;

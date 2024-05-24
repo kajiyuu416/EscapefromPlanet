@@ -6,23 +6,22 @@ using UnityEngine;
 //インスペクターで指定したselectnumberの行動を行う
 public class LazerController : MonoBehaviour
 {
+    [SerializeField] float movespeed;
+    [SerializeField] float time = 0.0f;
+    [SerializeField] Transform target1;
+    [SerializeField] Transform target2;
+    [SerializeField] float rotatex = 0;
+    [SerializeField] float rotatey = 0;
+    [SerializeField] float rotatez = 0;
+    [SerializeField] float OT;
+    [SerializeField] float IO;
+    [SerializeField] float IT;
+    [SerializeField] MeshRenderer LSchild;
+    private int Direction = 1;
     private bool isResetFlag = false;
     private string secondtagname;
-    public float movespeed;
-    public float time = 0.0f;
-    public Transform target1;
-    public Transform target2;
-    public float rotatex = 0;
-    public float rotatey = 0;
-    public float rotatez = 0;
-    public float OT;
-    public float IO;
-    public float IT;
-
-    private int Direction = 1;
     private Vector3 _initialPosition;
     private Quaternion _initialRotation; 
-    public MeshRenderer LSchild;
     private MeshRenderer meshRenderer;
     private BoxCollider boxCollider;
 
@@ -62,10 +61,6 @@ public class LazerController : MonoBehaviour
             }
         }
 
-    }
-    private void Update()
-    {
-  
     }
     private void FixedUpdate()
     {

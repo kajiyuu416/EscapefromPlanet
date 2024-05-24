@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool isRun;
     private bool isJump;
     private bool isgroundFlag;
+    public  bool ChangePose;
     private bool CrouchPose;
     private bool LayingPose;
     private bool DancePose;
@@ -117,6 +118,8 @@ public class PlayerController : MonoBehaviour
         if(collision.CompareTag("ground"))
         {
             isgroundFlag = false;
+            Posefalse();
+            ChangePose = false;
         }
     }
     private void PlayerMove()//プレイヤーの移動及び歩きアニメーション処理
@@ -144,7 +147,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         //特定のフラグが返っていればプレイヤーの動作を制御する
-        if(GameManager.pauseflag)
+        if(GameManager.pauseflag || ChangePose)
         {
             velocity = Vector3.zero;
             rigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezeRotation;
@@ -160,7 +163,7 @@ public class PlayerController : MonoBehaviour
                 isRun = false;
                 moveSpeed = WalkSpeed;
                 //Run状態であればスピードの変更、UI表示の変更
-                if(Run.isPressed)
+                if(Run.isPressed && !ChangePose)
                 {
                     isRun = true;
                 }
@@ -189,6 +192,7 @@ public class PlayerController : MonoBehaviour
                 isJump = true;
                 isWalk = false;
                 Posefalse();
+                ChangePose = false;
                 rigidbody.AddForce(transform.up * JumpPower, ForceMode.Impulse);
             }
             rigidbody.constraints = RigidbodyConstraints.None;
@@ -207,33 +211,33 @@ public class PlayerController : MonoBehaviour
         var Crouch = current_GP.buttonEast;
         var Laying = current_GP.buttonWest;
         var Dance = current_GP.buttonNorth;
-        if (!GameManager.pauseflag && !isRun)
+        if (!isRun && !ChangePose && isgroundFlag &&!GameManager.pauseflag)
         {
             if(Crouch.isPressed)
             {
                 CrouchPose = true;
-                LayingPose = false;
-                DancePose = false;
             }
             else if(Laying.isPressed)
             {
-                CrouchPose = false;
                 LayingPose = true;
-                DancePose = false;
             }
             else if(Dance.isPressed)
             {
-                CrouchPose = false;
-                LayingPose = false;
                 DancePose = true;
             }
 
-            if(Crouch.wasReleasedThisFrame || Laying.wasReleasedThisFrame || Dance.wasReleasedThisFrame)
+            if(CrouchPose || LayingPose || DancePose)
             {
-                Posefalse();
+                ChangePose = true;
             }
-
         }
+
+        if(Crouch.wasReleasedThisFrame || Laying.wasReleasedThisFrame || Dance.wasReleasedThisFrame)
+        {
+            Posefalse();
+            ChangePose = false;
+        }
+
         animator.SetBool("Crouch", CrouchPose);
         animator.SetBool("Laying", LayingPose);
         animator.SetBool("dance", DancePose);

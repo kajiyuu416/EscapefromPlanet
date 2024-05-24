@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System;
 
+//定数クラス、他クラスからの参照
 namespace Const
 {
     public static class CO
