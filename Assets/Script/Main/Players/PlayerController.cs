@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //ƒWƒƒƒ“ƒvˆ—
-            if(Interval_InputButtondown(jump, 0.5f) && !isRun &&isgroundFlag)
+            if(Interval_InputButtondown(jump, 0.5f) &&isgroundFlag &&!isoverJump)
             {
                 isJump = true;
                 isWalk = false;

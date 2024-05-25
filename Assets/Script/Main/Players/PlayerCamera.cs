@@ -115,7 +115,7 @@ public class PlayerCamera : MonoBehaviour
         var current_GP = Gamepad.current;
         var camera_Reset = current_GP.rightStickButton;
 
-        if(camera_Reset.wasPressedThisFrame)
+        if(PlayerController.Interval_InputButtondown(camera_Reset, Const.CO.Const_Float_List[0]))
         {
             normalBody.material = DefaultBodyMaterial;
             transform.rotation = Quaternion.Lerp(Target.rotation, transform.rotation, 1.0f * Time.deltaTime);

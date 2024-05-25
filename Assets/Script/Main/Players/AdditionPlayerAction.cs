@@ -28,14 +28,15 @@ public class AdditionPlayerAction : MonoBehaviour
         if(AdditionPlayerActionFlag_OverJump && !playerController.isDead)
         {
             var current_GP = Gamepad.current;
-            var JumpOver = current_GP.buttonSouth;
+            var JumpOver = current_GP.buttonNorth;
             var RunningSlide = current_GP.buttonEast;
             bool isrun = playerController.Duplicate_isRun;
             bool isground = playerController.Duplicate_isgroundFlag;
+            bool isjump = playerController.Duplicate_isJump;
 
             if(isrun && isground)
             {
-                if(JumpOver.wasPressedThisFrame)
+                if(JumpOver.wasPressedThisFrame &&!isjump)
                 {
                     isjumpOver = true;
                     rigidbody.AddForce(transform.up * JumpOverPower, ForceMode.Impulse);
