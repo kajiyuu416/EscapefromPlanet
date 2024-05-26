@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject SettingButton;
     [SerializeField] GameObject warningimage;
     [SerializeField] GameObject GameClearTextobj;
-    [SerializeField] GameObject restrictionImage;
+    [SerializeField] GameObject restrictionImage1;
+    [SerializeField] GameObject restrictionImage2;
     [SerializeField] public GameObject ActionUI;
     [SerializeField] public GameObject ActionUI1;
     [SerializeField] public GameObject ActionUI2;
@@ -121,11 +122,12 @@ public class GameManager : MonoBehaviour
         if (GameManager2.AGF)
         {
             AdditionPlayerAction.AdditionPlayerActionFlag_OverJump = true;
-            Destroy(restrictionImage);
+            Destroy(restrictionImage1);
         }
         if (GameManager2.FGF)
         {
             FloatPowerSC.AdditionPlayerActionFlag_Float = true;
+            Destroy(restrictionImage2);
         }
     }
     //ゲームクリア時に呼ばれる関数

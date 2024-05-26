@@ -11,16 +11,13 @@ public class FloatPowerSC : MonoBehaviour
     [SerializeField] GameObject EventObj1;
     [SerializeField] GameObject EventObj2;
     private PlayerController playerController;
-    private float PushTime;
-    private float floatPower = 4.0f;
+    private AdditionPlayerAction additionPlayerAction;
     private bool isFloat;
     private bool isFloatFlag;
     private bool SmallInputFloat;
     private bool isDownFlag;
     public static bool AdditionPlayerActionFlag_Float = false;
     private float time;
-    private float Purposetime = 1.0f;
-    private float limittime = 3.5f;
     private  new Rigidbody rigidbody;
     private Animator animator;
 
@@ -29,6 +26,7 @@ public class FloatPowerSC : MonoBehaviour
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         playerController = FindObjectOfType<PlayerController>();
+        additionPlayerAction = FindObjectOfType<AdditionPlayerAction>();
     }
     private void OnTriggerEnter(Collider collision)
     {
@@ -42,7 +40,7 @@ public class FloatPowerSC : MonoBehaviour
             }
         }
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if(AdditionPlayerActionFlag_Float)
         {
@@ -54,6 +52,9 @@ public class FloatPowerSC : MonoBehaviour
                 return;
             }
         }
+    }
+    private void Update()
+    {
         if(GameManager2.FGF)
         {
             EventObj1.SetActive(false);
@@ -65,26 +66,33 @@ public class FloatPowerSC : MonoBehaviour
     public void OnPushKey()
     {
         var current_GP = Gamepad.current;
-        var Float = current_GP.buttonSouth;
+        var Float = current_GP.buttonWest;
+        bool isground = playerController.Duplicate_isgroundFlag;
+        bool isrun = playerController.Duplicate_isRun;
+        bool ispose = playerController.Duplicate_ChangePose;
         bool isjump = playerController.Duplicate_isJump;
-        if(Float.wasPressedThisFrame &&isjump)
+        bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
+        float PushTime = 0.0f;
+        const float Purposetime = 1.0f;
+        const float limittime = 5.0f;
+        const float floatPower = 3.0f;
+
+
+        //Playerが地面と接触且つ、走っている状態で特定のボタンを押した時
+        if(isground  && isrun && !isjump && !isoverJump)
         {
-            isFloatFlag = true;
-            isDownFlag = true;
-            time = 0f;
-            PushTime = 0f;
-        }
-        
-        if (Float.wasReleasedThisFrame)
-        {
-            isFloatFlag = false;
-            isDownFlag = false;
-            SmallInputFloat = false;
-            time = 0f;
-            PushTime = 0f;
+            if(Float.wasPressedThisFrame)
+            {
+                isFloatFlag = true;
+                isDownFlag = true;
+                time = 0f;
+                PushTime = 0f;
+            }
         }
 
-        if(isFloatFlag)
+        //特定のボタンを押している間タイムカウントを行い
+        //カウントを超えるまでフラグを返す
+        if(isFloatFlag && !ispose)
         {
             time += Time.deltaTime;
             PushTime = time / Purposetime;
@@ -95,20 +103,29 @@ public class FloatPowerSC : MonoBehaviour
             }
         }
 
+        //特定のボタンを押している間タイムカウントを行い
+        //カウントを超えるまでフラグを返す
+        //タイムカウントが上限値を超えたとき
         if(isDownFlag)
         {
             time += Time.deltaTime;
             PushTime = time / limittime;
             if(time >= limittime)
             {
+                SmallInputFloat = true;
                 isFloatFlag = false;
                 isDownFlag = false;
                 isFloat = false;
+                Debug.Log("bbb");
             }
         }
+
+        //Player上昇
         if(isFloat)
         {
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, floatPower, rigidbody.velocity.z);
+            additionPlayerAction.Duplicate_isjumpOver = false;
+            //上昇中ボタンを離した時のコールバック
             if(Float.wasReleasedThisFrame)
             {
                 SmallInputFloat = true;
@@ -117,10 +134,12 @@ public class FloatPowerSC : MonoBehaviour
                 isFloat = false;
                 time = 0f;
                 PushTime = 0f;
+                Debug.Log("ccc");
             }
-            animator.SetBool("smallfloat", SmallInputFloat);
         }
-        SmallInputFloat = false;
+
+
+        animator.SetBool("smallfloat", SmallInputFloat);
         animator.SetBool("floating", isFloat);
     }
     public void Spin()
@@ -137,6 +156,17 @@ public class FloatPowerSC : MonoBehaviour
         set
         {
             isFloat = value;
+        }
+    }
+    public bool Duplicate_isFloatFlag
+    {
+        get
+        {
+            return isFloatFlag;
+        }
+        set
+        {
+            isFloatFlag = value;
         }
     }
 }

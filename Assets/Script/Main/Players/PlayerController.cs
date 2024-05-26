@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
         var speed = Run.isPressed ? Const.CO.Const_Float_List[1] : Const.CO.Const_Float_List[0];
         var jump = current_GP.buttonSouth;
         var velocity = new Vector3(PlayerMove_input.x, 0, PlayerMove_input.z).normalized;
-        bool isfloat = floatPowerSC.Duplicate_isFloat;
+        bool isfloat = floatPowerSC.Duplicate_isFloatFlag;
         bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(Const.CO.Const_Float_List[0], 0, Const.CO.Const_Float_List[0])).normalized;
         Vector3 moveForward = cameraForward * PlayerMove_input.z + Camera.main.transform.right * PlayerMove_input.x;
@@ -177,17 +177,19 @@ public class PlayerController : MonoBehaviour
             if(isRun)
             {
                 moveSpeed = RunSpeed;
+                ChangePose = false;
                 gameManager.ActionUI1.SetActive(false);
                 gameManager.ActionUI2.SetActive(true);
             }
             else if(!isRun)
             {
+                moveSpeed = WalkSpeed;
                 gameManager.ActionUI1.SetActive(true);
                 gameManager.ActionUI2.SetActive(false);
             }
 
             //ジャンプ処理
-            if(Interval_InputButtondown(jump, 0.5f) &&isgroundFlag &&!isoverJump)
+            if(Interval_InputButtondown(jump, 0.5f) &&isgroundFlag &&!isoverJump &&!isfloat)
             {
                 isJump = true;
                 isWalk = false;
@@ -201,7 +203,6 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("jump", isJump);
         animator.SetBool("walk", isWalk);
         animator.SetFloat("Speed", velocity.magnitude * speed, 0.1f, Time.deltaTime);
-        animator.SetBool("floating", isfloat);
         animator.SetBool("Jumpover", isoverJump);
     }
     //ボタンの入力に応じてプレイヤーのポーズを変更
@@ -331,6 +332,13 @@ public class PlayerController : MonoBehaviour
         set
         {
             isgroundFlag = value;
+        }
+    }
+    public bool Duplicate_ChangePose
+    {
+        get
+        {
+            return ChangePose;
         }
     }
 

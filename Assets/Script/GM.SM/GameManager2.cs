@@ -217,14 +217,15 @@ public class GameManager2 : MonoBehaviour
     private void GamePad_connection_Check()
     {
         var controllerNames = Input.GetJoystickNames();
-        Debug.Log("コントローラー接続状態" + connect);
         if(controllerNames[0] == "")
         {
             connect = false;
+            Debug.Log("コントローラーは接続されていません");
         }
-        else
+        else 
         {
             connect = true;
+            Debug.Log("コントローラーは接続されています");
         }
 
         if(connect)
