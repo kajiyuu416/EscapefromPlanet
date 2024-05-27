@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,11 +12,12 @@ public class FloatPowerSC : MonoBehaviour
 {
     [SerializeField] GameObject EventObj1;
     [SerializeField] GameObject EventObj2;
+    [SerializeField] TextMeshProUGUI text;
     private PlayerController playerController;
     private AdditionPlayerAction additionPlayerAction;
     private bool isFloat;
     private bool isFloatFlag;
-    private bool SmallInputFloat;
+    private bool Aerial_Rotation;
     private bool isDownFlag;
     public static bool AdditionPlayerActionFlag_Float = false;
     private float time;
@@ -36,12 +39,29 @@ public class FloatPowerSC : MonoBehaviour
         {
             if(collision.CompareTag("ground"))
             {
-                SmallInputFloat = false;
+                Aerial_Rotation = false;
             }
         }
     }
-    private void FixedUpdate()
+
+    private void Update()
     {
+        if(GameManager2.FGF)
+        {
+            EventObj1.SetActive(false);
+            EventObj2.SetActive(false);
+            if(isFloat)
+            {
+                text.text = "下降・・・Xボタンを離す";
+            }
+            else if(!isFloat)
+            {
+                text.text = "上昇・・・ダッシュ中 Xボタン長押し";
+            }
+
+
+
+        }
         if(AdditionPlayerActionFlag_Float)
         {
             OnPushKey();
@@ -51,14 +71,6 @@ public class FloatPowerSC : MonoBehaviour
                 isFloatFlag = false;
                 return;
             }
-        }
-    }
-    private void Update()
-    {
-        if(GameManager2.FGF)
-        {
-            EventObj1.SetActive(false);
-            EventObj2.SetActive(false);
         }
     }
     //特定のボタンを押した長さの取得
@@ -73,51 +85,57 @@ public class FloatPowerSC : MonoBehaviour
         bool isjump = playerController.Duplicate_isJump;
         bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
         float PushTime = 0.0f;
-        const float Purposetime = 1.0f;
-        const float limittime = 5.0f;
+        const float Holdtime = 0.5f;
+        const float limittime = 3.0f;
         const float floatPower = 3.0f;
-
-
-        //Playerが地面と接触且つ、走っている状態で特定のボタンを押した時
-        if(isground  && isrun && !isjump && !isoverJump)
+        //ボタンの入力チェック
+        //対応したボタンが押されたときと離されたとき
+        if(isground  && isrun && !isjump && !isoverJump && !ispose)
         {
             if(Float.wasPressedThisFrame)
             {
                 isFloatFlag = true;
                 isDownFlag = true;
-                time = 0f;
-                PushTime = 0f;
+                timeReset();
+            }
+
+            if(Float.wasReleasedThisFrame)
+            {
+                isFloatFlag = false;
+                isDownFlag = false;
+                timeReset(); 
             }
         }
-
         //特定のボタンを押している間タイムカウントを行い
         //カウントを超えるまでフラグを返す
-        if(isFloatFlag && !ispose)
+        if(isFloatFlag)
         {
             time += Time.deltaTime;
-            PushTime = time / Purposetime;
-            if(time >= Purposetime)
+            PushTime = time / Holdtime;
+            if(time >= Holdtime)
             {
                 isFloat = true;
                 playerController.Duplicate_isJump = false;
             }
-        }
 
-        //特定のボタンを押している間タイムカウントを行い
-        //カウントを超えるまでフラグを返す
-        //タイムカウントが上限値を超えたとき
-        if(isDownFlag)
-        {
-            time += Time.deltaTime;
+            //タイムカウントが上限値を超えたとき
             PushTime = time / limittime;
-            if(time >= limittime)
+            if(isDownFlag && time >= limittime)
             {
-                SmallInputFloat = true;
+                Aerial_Rotation = true;
                 isFloatFlag = false;
                 isDownFlag = false;
                 isFloat = false;
-                Debug.Log("bbb");
             }
+        }
+        //上昇中ボタンを離した時のコールバック
+        if(Float.wasReleasedThisFrame　&&isFloat)
+        {
+            Aerial_Rotation = true;
+            isFloatFlag = false;
+            isDownFlag = false;
+            isFloat = false;
+            timeReset();
         }
 
         //Player上昇
@@ -125,22 +143,25 @@ public class FloatPowerSC : MonoBehaviour
         {
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, floatPower, rigidbody.velocity.z);
             additionPlayerAction.Duplicate_isjumpOver = false;
-            //上昇中ボタンを離した時のコールバック
-            if(Float.wasReleasedThisFrame)
-            {
-                SmallInputFloat = true;
-                isFloatFlag = false;
-                isDownFlag = false;
-                isFloat = false;
-                time = 0f;
-                PushTime = 0f;
-                Debug.Log("ccc");
-            }
+        }
+        //Playerがポーズ中はカウントを行わないよう制御
+        if(ispose)
+        {
+            isFloatFlag = false;
+            isDownFlag = false;
+            isFloat = false;
+            timeReset();
         }
 
-
-        animator.SetBool("smallfloat", SmallInputFloat);
+        animator.SetBool("Aerial_Rotation", Aerial_Rotation);
         animator.SetBool("floating", isFloat);
+
+        void timeReset()
+        {
+            time = 0f;
+            PushTime = 0f;
+        }
+
     }
     public void Spin()
     {
