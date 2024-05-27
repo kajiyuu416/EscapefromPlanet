@@ -19,7 +19,6 @@ public class FloatPowerSC : MonoBehaviour
     private bool isFloatFlag;
     private bool Aerial_Rotation;
     private bool isDownFlag;
-    public static bool AdditionPlayerActionFlag_Float = false;
     private float time;
     private  new Rigidbody rigidbody;
     private Animator animator;
@@ -48,8 +47,13 @@ public class FloatPowerSC : MonoBehaviour
     {
         if(GameManager2.FGF)
         {
-            EventObj1.SetActive(false);
-            EventObj2.SetActive(false);
+            OnPushKey();
+            if(EventObj1.activeSelf || EventObj2.activeSelf)
+            {
+                EventObj1.SetActive(false);
+                EventObj2.SetActive(false);
+            }
+
             if(isFloat)
             {
                 text.text = "下降・・・Xボタンを離す";
@@ -59,18 +63,14 @@ public class FloatPowerSC : MonoBehaviour
                 text.text = "上昇・・・ダッシュ中 Xボタン長押し";
             }
 
-
-
-        }
-        if(AdditionPlayerActionFlag_Float)
-        {
-            OnPushKey();
             if(playerController.isDead)
             {
                 isFloat = false;
                 isFloatFlag = false;
                 return;
             }
+
+
         }
     }
     //特定のボタンを押した長さの取得

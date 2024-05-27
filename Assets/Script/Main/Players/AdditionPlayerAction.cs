@@ -10,7 +10,6 @@ public class AdditionPlayerAction : MonoBehaviour
     private const float JumpOverPower = 200.0f;
     private const float slidingPower = 1000.0f;
     private bool isjumpOver;
-    public static bool AdditionPlayerActionFlag_OverJump = false;
     private Animator animator;
     private new Rigidbody rigidbody;
 
@@ -28,7 +27,7 @@ public class AdditionPlayerAction : MonoBehaviour
     private void Additional_Actions()
     {
         //ì¡íËÇÃÉtÉâÉOÇ™ãAÇ¡ÇƒÇ¢ÇΩèÍçáÇÃÇ›èàóù
-        if(AdditionPlayerActionFlag_OverJump && !playerController.isDead)
+        if(GameManager2.AGF && !playerController.isDead)
         {
             var current_GP = Gamepad.current;
             var JumpOver = current_GP.buttonNorth;
@@ -57,11 +56,13 @@ public class AdditionPlayerAction : MonoBehaviour
                     SM.SettingPlaySE8();
                 }
             }
-            if(GameManager2.AGF)
+
+            if(EventObj1.activeSelf || EventObj2.activeSelf)
             {
                 EventObj1.SetActive(false);
                 EventObj2.SetActive(false);
             }
+
             if(playerController.isDead)
             {
                 isjumpOver = false;

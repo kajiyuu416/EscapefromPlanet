@@ -57,11 +57,11 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if(GameManager2.UIon_off_button)
+        if(GameManager2.UIon_off_button &&!ActionUI.activeSelf)
         {
            ActionUI.SetActive(true);
         }
-        else if(!GameManager2.UIon_off_button)
+        else if(!GameManager2.UIon_off_button &&ActionUI.activeSelf)
         {
            ActionUI.SetActive(false);
         }
@@ -121,12 +121,10 @@ public class GameManager : MonoBehaviour
     {
         if (GameManager2.AGF)
         {
-            AdditionPlayerAction.AdditionPlayerActionFlag_OverJump = true;
             Destroy(restrictionImage1);
         }
         if (GameManager2.FGF)
         {
-            FloatPowerSC.AdditionPlayerActionFlag_Float = true;
             Destroy(restrictionImage2);
         }
     }

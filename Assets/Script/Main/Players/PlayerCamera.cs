@@ -33,10 +33,6 @@ public class PlayerCamera : MonoBehaviour
         ChangeCamera();
         CameraMove();
     }
-    private void Update()
-    {
-
-    }
     private void CameraMove()
     {
         var rotX = PC.CameraInputVal.x * Time.deltaTime * RotationSensitivity;
