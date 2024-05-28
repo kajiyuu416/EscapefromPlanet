@@ -25,7 +25,7 @@ public class EscapeEventSC : MonoBehaviour
         if (collision.CompareTag("Player") && GameManager2.ALF && GameManager2.AGF && GameManager2.FGF)
         {
             gameObject.GetComponent<BoxCollider>().enabled = false;
-            subcamera3.Priority = 11;
+            subcamera3.Priority = Const.CO.Const_Int_List[0];
             GameManager.instance.ActionUI1.SetActive(false);
             GameManager.instance.ActionUI2.SetActive(false);
             GameManager.pauseflag = true;
@@ -45,7 +45,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetText1()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[4]);
         if(!Eventskip)
         {
             Actiontmessage.text = "¦‘¾—z‚ª‰F’ˆ‘D‚ÉÚ‹ß’†¦";
@@ -54,7 +54,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetText2()
     {
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[4]);
         if(!Eventskip)
         {
             Actiontmessage.text = "‹Ù‹}’Eo‘•’u‚ğ–Úw‚µ‚Ä‚­‚¾‚³‚¢";
@@ -63,7 +63,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetAction()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[4]);
         if(!Eventskip)
         {
             EventEnd();
@@ -73,7 +73,7 @@ public class EscapeEventSC : MonoBehaviour
     {
         Actiontmessage.text = "";
         SkipText.text = "";
-        subcamera3.Priority = 9;
+        subcamera3.Priority = 0;
         SoundManager.Instance.StopAudio();
         SoundManager.Instance.Startbgm3();
         GameManager.pauseflag = false;

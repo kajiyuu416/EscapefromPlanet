@@ -3,19 +3,22 @@ using UnityEngine.InputSystem;
 //アクション追加①大ジャンプとスライディングの追加
 public class AdditionPlayerAction : MonoBehaviour
 {
-    [SerializeField] PlayerController PC;
     [SerializeField] GameObject EventObj1;
     [SerializeField] GameObject EventObj2;
-    public float JumpOverPower;
-    public float slidingPower;
-    public bool isjumpOver;
-    public static bool AdditionPlayerActionFlag = false;
-    public Animator animator;
+    private PlayerController playerController;
+    private FloatPowerSC floatPowerSC;
+    private const float JumpOverPower = 200.0f;
+    private const float slidingPower = 1000.0f;
+    private bool isjumpOver;
+    private Animator animator;
     private new Rigidbody rigidbody;
-    private void Start()
+
+    private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        playerController = FindObjectOfType<PlayerController>();
+        floatPowerSC = FindObjectOfType<FloatPowerSC>();
     }
     private void Update()
     {
@@ -23,33 +26,44 @@ public class AdditionPlayerAction : MonoBehaviour
     }
     private void Additional_Actions()
     {
-        if(AdditionPlayerActionFlag &&!PC.isDead)
+        //特定のフラグが帰っていた場合のみ処理
+        if(GameManager2.AGF && !playerController.isDead)
         {
             var current_GP = Gamepad.current;
-            var JumpOver = current_GP.buttonSouth;
+            var JumpOver = current_GP.buttonNorth;
             var RunningSlide = current_GP.buttonEast;
-            if(PC.isRun && PC.isgroundFlag)
+            bool isrun = playerController.Duplicate_isRun;
+            bool isground = playerController.Duplicate_isgroundFlag;
+            bool isjump = playerController.Duplicate_isJump;
+            bool isfloat = floatPowerSC.Duplicate_isFloatFlag;
+
+            //Playerが地面と接触且つ、走っている状態で特定のボタンを押した時
+            if(isrun && isground)
             {
-                if(JumpOver.wasPressedThisFrame)
+                if(JumpOver.wasPressedThisFrame &&!isjump &&!isfloat)
                 {
                     isjumpOver = true;
+                    floatPowerSC.Duplicate_isFloat = false;
                     rigidbody.AddForce(transform.up * JumpOverPower, ForceMode.Impulse);
                 }
 
-                if(PlayerController.Interval_InputButtondown(RunningSlide, 1.0f))
+                if(PlayerController.Interval_InputButtondown(RunningSlide, Const.CO.Const_Float_List[0]))
                 {
                     rigidbody.AddForce(transform.forward * slidingPower, ForceMode.Impulse);
+                    floatPowerSC.Duplicate_isFloat = false;
                     SoundManager SM = SoundManager.Instance;
                     animator.SetTrigger("RunningSlide");
                     SM.SettingPlaySE8();
                 }
             }
-            if(GameManager2.AGF)
+
+            if(EventObj1.activeSelf || EventObj2.activeSelf)
             {
                 EventObj1.SetActive(false);
                 EventObj2.SetActive(false);
             }
-            if(PC.isDead)
+
+            if(playerController.isDead)
             {
                 isjumpOver = false;
             }
@@ -58,9 +72,21 @@ public class AdditionPlayerAction : MonoBehaviour
     }
     public void OverJumpmiss()
     {
+        bool isground = playerController.Duplicate_isgroundFlag;
         isjumpOver = false;
-        PC.isgroundFlag = false;
+        isground = false;
         animator.SetBool("Jumpover",false);
         Debug.Log("Jumpmiss");
+    }
+    public bool Duplicate_isjumpOver
+    {
+        get
+        {
+            return isjumpOver;
+        }
+        set
+        {
+            isjumpOver = value;
+        }
     }
 }

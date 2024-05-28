@@ -12,7 +12,7 @@ public class TimeCounter : MonoBehaviour
     [SerializeField] FadeInOut FO;
     [SerializeField] GameObject Idle;
     [SerializeField] GameObject explosionEfe;
-    public CinemachineVirtualCamera subcamera3;
+    [SerializeField] CinemachineVirtualCamera subcamera3;
     public int countdownMinutes = 5;
     private float countdownSeconds;
     private Text timeText;
@@ -33,7 +33,7 @@ public class TimeCounter : MonoBehaviour
         if (countdownSeconds <= 0 &&!TimeUp)
         {  // 0•b‚É‚È‚Á‚½‚Æ‚«‚Ìˆ—
             TimeUp= true;
-            subcamera3.Priority = 11;
+            subcamera3.Priority = Const.CO.Const_Int_List[0];
             timeText.enabled = false;
             explosionEfe.SetActive(true);
             Idle.SetActive(false);
@@ -53,7 +53,7 @@ public class TimeCounter : MonoBehaviour
     }
      IEnumerator GO()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(Const.CO.Const_Int_List[4]);
         FO.FadeOutFlag = true;
     }
 

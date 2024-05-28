@@ -50,13 +50,7 @@ public class GameManager2 : MonoBehaviour
     //徐々に画面が明るくなる処理
     private void Start()
     {
-        SettingBG.SetActive(false);
-        BGMSlinder.SetActive(false);
-        SESlinder.SetActive(false);
-        RotationSensitivitySlinder.SetActive(false);
-        UIButton.SetActive(false);
-        Camera_Up_Down_FlipButton.SetActive(false);
-        Camera_left_and_right_FlipButton.SetActive(false);
+        SettingCl();
         UIon_off_button = true;
         Camera_Upside_down = false;
         Camera_Flip_left_and_right = false;
@@ -70,26 +64,14 @@ public class GameManager2 : MonoBehaviour
     }
     public void SetRotationSensitivity(float volume)
     {
-        PlayerCamera.RotationSensitivity = SensitivitySlinder.value * 150.0f;
+        PlayerCamera.RotationSensitivity = SensitivitySlinder.value * 200.0f;
     }
     //コントローラーの接続確認
     //マウスの非表示、現在シーンの保存
     //設定画面の表示非表示
     private void Update()
-
     {
         GamePad_connection_Check();
-
-        if(connect)
-        {
-            var current_GP = Gamepad.current;
-            var Cansel = current_GP.buttonEast;
-
-            if(Cansel.wasPressedThisFrame && SettingFlag)
-            {
-                SettingCl();
-            }
-        }
 
         if (SceneManager.GetActiveScene().name != nowSceneName)
         {
@@ -207,9 +189,9 @@ public class GameManager2 : MonoBehaviour
     public IEnumerator LoadScene(string sceneName)
     {
         var color = blackScreen.color;
-        while (color.a <= 1)
+        while (color.a <= Const.CO.Const_Float_List[0])
         {
-            color += new Color(0, 0, 0, 0.05f);
+            color.a += 0.1f; 
             blackScreen.color = color;
 
             yield return null;
@@ -221,11 +203,11 @@ public class GameManager2 : MonoBehaviour
     {
         blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
         var color = blackScreen.color;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[0]);
 
         while (color.a >= 0)
         {
-            color -= new Color(0, 0, 0, 0.05f);
+            color.a -= 0.1f;
             blackScreen.color = color;
 
             yield return null;
@@ -235,16 +217,27 @@ public class GameManager2 : MonoBehaviour
     private void GamePad_connection_Check()
     {
         var controllerNames = Input.GetJoystickNames();
-        Debug.Log("コントローラー接続状態" + connect);
         if(controllerNames[0] == "")
         {
             connect = false;
+            Debug.Log("コントローラーは接続されていません");
         }
-        else
+        else 
         {
             connect = true;
+            Debug.Log("コントローラーは接続されています");
         }
 
+        if(connect)
+        {
+            var current_GP = Gamepad.current;
+            var Cansel = current_GP.buttonEast;
+
+            if(Cansel.wasPressedThisFrame && SettingFlag)
+            {
+                SettingCl();
+            }
+        }
     }
     //シーンに応じて音楽の再生、停止を行う
     public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)

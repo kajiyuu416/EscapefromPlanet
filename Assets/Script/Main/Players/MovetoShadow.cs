@@ -16,6 +16,6 @@ public class MovetoShadow : MonoBehaviour
         nowP.y = _initialPosition.y;
         nowP.z = target.position.z;
         transform.position = nowP;
-        float dis = Vector3.Distance(this.transform.position, Player.transform.position);
+        float dis = Vector3.Distance(transform.position, Player.transform.position);
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,123 +10,184 @@ using UnityEngine.InputSystem;
 //対象のボタンを押している秒数を取得しフラグを返す
 public class FloatPowerSC : MonoBehaviour
 {
-    [SerializeField] PlayerController PC;
     [SerializeField] GameObject EventObj1;
     [SerializeField] GameObject EventObj2;
-    public float PushTime;
-    public float floatPower = 4.0f;
-    public bool isFloat;
-    public bool isFloatFlag;
-    public static bool AdditionPlayerActionFlag = false;
-    private bool SmallInputFloat;
+    [SerializeField] TextMeshProUGUI text;
+    private PlayerController playerController;
+    private AdditionPlayerAction additionPlayerAction;
+    private bool isFloat;
+    private bool isFloatFlag;
+    private bool Aerial_Rotation;
     private bool isDownFlag;
     private float time;
-    private float Purposetime = 1.0f;
-    private float limittime = 3.5f;
     private  new Rigidbody rigidbody;
-    public Animator animator;
+    private Animator animator;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
+        playerController = FindObjectOfType<PlayerController>();
+        additionPlayerAction = FindObjectOfType<AdditionPlayerAction>();
     }
     private void OnTriggerEnter(Collider collision)
     {
-        if(!PC.isgroundFlag)
+        bool isground = playerController.Duplicate_isgroundFlag;
+
+        if(!isground)
         {
             if(collision.CompareTag("ground"))
             {
-                SmallInputFloat = false;
+                Aerial_Rotation = false;
             }
         }
     }
+
     private void Update()
     {
-        if(AdditionPlayerActionFlag)
+        if(GameManager2.FGF)
         {
             OnPushKey();
-            Timelength();
-            if(PC.isDead)
+            if(EventObj1.activeSelf || EventObj2.activeSelf)
+            {
+                EventObj1.SetActive(false);
+                EventObj2.SetActive(false);
+            }
+
+            if(isFloat)
+            {
+                text.text = "下降・・・Xボタンを離す";
+            }
+            else if(!isFloat)
+            {
+                text.text = "上昇・・・ダッシュ中 Xボタン長押し";
+            }
+
+            if(playerController.isDead)
             {
                 isFloat = false;
                 isFloatFlag = false;
                 return;
             }
-        }
-        if(GameManager2.FGF)
-        {
-            EventObj1.SetActive(false);
-            EventObj2.SetActive(false);
+
+
         }
     }
+    //特定のボタンを押した長さの取得
+    //押した長さに応じてプレイヤーが上昇
     public void OnPushKey()
     {
         var current_GP = Gamepad.current;
-        var Float = current_GP.buttonSouth;
-        if(Float.wasPressedThisFrame &&PC.isJump)
+        var Float = current_GP.buttonWest;
+        bool isground = playerController.Duplicate_isgroundFlag;
+        bool isrun = playerController.Duplicate_isRun;
+        bool ispose = playerController.Duplicate_ChangePose;
+        bool isjump = playerController.Duplicate_isJump;
+        bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
+        float PushTime = 0.0f;
+        const float Holdtime = 0.5f;
+        const float limittime = 3.0f;
+        const float floatPower = 3.0f;
+        //ボタンの入力チェック
+        //対応したボタンが押されたときと離されたとき
+        if(isground  && isrun && !isjump && !isoverJump && !ispose)
         {
-            isFloatFlag = true;
-            isDownFlag = true;
-            time = 0f;
-            PushTime = 0f;
+            if(Float.wasPressedThisFrame)
+            {
+                isFloatFlag = true;
+                isDownFlag = true;
+                timeReset();
+            }
+
+            if(Float.wasReleasedThisFrame)
+            {
+                isFloatFlag = false;
+                isDownFlag = false;
+                timeReset(); 
+            }
         }
-        
-        if (Float.wasReleasedThisFrame)
+        //特定のボタンを押している間タイムカウントを行い
+        //カウントを超えるまでフラグを返す
+        if(isFloatFlag)
+        {
+            time += Time.deltaTime;
+            PushTime = time / Holdtime;
+            if(time >= Holdtime)
+            {
+                isFloat = true;
+                playerController.Duplicate_isJump = false;
+            }
+
+            //タイムカウントが上限値を超えたとき
+            PushTime = time / limittime;
+            if(isDownFlag && time >= limittime)
+            {
+                Aerial_Rotation = true;
+                isFloatFlag = false;
+                isDownFlag = false;
+                isFloat = false;
+            }
+        }
+        //上昇中ボタンを離した時のコールバック
+        if(Float.wasReleasedThisFrame　&&isFloat)
+        {
+            Aerial_Rotation = true;
+            isFloatFlag = false;
+            isDownFlag = false;
+            isFloat = false;
+            timeReset();
+        }
+
+        //Player上昇
+        if(isFloat)
+        {
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, floatPower, rigidbody.velocity.z);
+            additionPlayerAction.Duplicate_isjumpOver = false;
+        }
+        //Playerがポーズ中はカウントを行わないよう制御
+        if(ispose)
         {
             isFloatFlag = false;
             isDownFlag = false;
-            SmallInputFloat = false;
+            isFloat = false;
+            timeReset();
+        }
+
+        animator.SetBool("Aerial_Rotation", Aerial_Rotation);
+        animator.SetBool("floating", isFloat);
+
+        void timeReset()
+        {
             time = 0f;
             PushTime = 0f;
         }
-        animator.SetBool("floating", isFloat);
-    }
-    public void Timelength()//キーが押された時間を取得し、フラグを返す
-    {
-        var current_GP = Gamepad.current;
-        var Float = current_GP.buttonSouth;
-        if (isFloatFlag)
-        {
-          time += Time.deltaTime;
-          PushTime = time / Purposetime;
-           if (time >= Purposetime)
-           {
-             isFloat = true;
-             PC.isJump = false;
-           }
-        }
 
-        if (isDownFlag)
-        {
-            time += Time.deltaTime;
-            PushTime = time / limittime;
-            if (time >= limittime)
-            {
-                isFloatFlag = false;
-                isDownFlag = false;
-                isFloat = false;
-            }
-        }
-        if (isFloat)
-        {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x,floatPower, rigidbody.velocity.z );
-            if (Float.wasReleasedThisFrame)
-            {
-                SmallInputFloat = true;
-                isFloatFlag = false;
-                isDownFlag = false;
-                isFloat = false;
-                time = 0f;
-                PushTime = 0f;
-            }
-            animator.SetBool("smallfloat", SmallInputFloat);
-        }
-        SmallInputFloat = false;
     }
     public void Spin()
     {
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE10();
+    }
+    public bool Duplicate_isFloat
+    {
+        get
+        {
+            return isFloat;
+        }
+        set
+        {
+            isFloat = value;
+        }
+    }
+    public bool Duplicate_isFloatFlag
+    {
+        get
+        {
+            return isFloatFlag;
+        }
+        set
+        {
+            isFloatFlag = value;
+        }
     }
 }
