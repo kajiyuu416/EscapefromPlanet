@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf1ee1e8225da0429a408e01f89e209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 9026291397355103771, guid: f8b37bb0b0ae6ab4cb86f68dea061a37, type: 3}
   _changeColorThreshold: 5
   _startColor: {r: 1, g: 1, b: 1, a: 1}
   _endColor: {r: 1, g: 0, b: 0, a: 1}
@@ -308,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf1ee1e8225da0429a408e01f89e209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
   _changeColorThreshold: 10
   _startColor: {r: 1, g: 1, b: 1, a: 1}
   _endColor: {r: 1, g: 0, b: 0, a: 1}
@@ -443,6 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf1ee1e8225da0429a408e01f89e209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
   _changeColorThreshold: 10
   _startColor: {r: 1, g: 1, b: 1, a: 1}
   _endColor: {r: 1, g: 0, b: 0, a: 1}

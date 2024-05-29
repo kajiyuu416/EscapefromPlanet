@@ -40,7 +40,7 @@ public class AdditionPlayerAction : MonoBehaviour
             //Playerが地面と接触且つ、走っている状態で特定のボタンを押した時
             if(isrun && isground)
             {
-                if(JumpOver.wasPressedThisFrame &&!isjump &&!isfloat)
+                if(PlayerController.Interval_InputButtondown(JumpOver,1.5f) && !isjump &&!isfloat)
                 {
                     isjumpOver = true;
                     floatPowerSC.Duplicate_isFloat = false;
@@ -55,6 +55,7 @@ public class AdditionPlayerAction : MonoBehaviour
                     animator.SetTrigger("RunningSlide");
                     SM.SettingPlaySE8();
                 }
+              
             }
 
             if(EventObj1.activeSelf || EventObj2.activeSelf)
@@ -67,8 +68,8 @@ public class AdditionPlayerAction : MonoBehaviour
             {
                 isjumpOver = false;
             }
-            animator.SetBool("Jumpover", isjumpOver);
         }
+        animator.SetBool("Jumpover", isjumpOver);
     }
     public void OverJumpmiss()
     {
@@ -77,6 +78,18 @@ public class AdditionPlayerAction : MonoBehaviour
         isground = false;
         animator.SetBool("Jumpover",false);
         Debug.Log("Jumpmiss");
+    }
+    private void OnTriggerEnter(Collider collision)
+    {
+        bool isground = playerController.Duplicate_isgroundFlag;
+
+        if(!isground)
+        {
+            if(collision.CompareTag("ground"))
+            {
+                isjumpOver = false;
+            }
+        }
     }
     public bool Duplicate_isjumpOver
     {

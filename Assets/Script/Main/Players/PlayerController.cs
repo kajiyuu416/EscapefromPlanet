@@ -109,8 +109,7 @@ public class PlayerController : MonoBehaviour
 
         if(collision.CompareTag("ResetArea"))
         {
-            Scene ThisScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(ThisScene.name);
+            transform.position = CP;
         }
     }
     private void OnTriggerExit(Collider collision)
@@ -143,7 +142,7 @@ public class PlayerController : MonoBehaviour
             if(!GameManager.pauseflag)
             {
                 Quaternion QL = Quaternion.LookRotation(moveForward);
-                transform.rotation = Quaternion.Lerp(transform.rotation, QL, 15.0f * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, QL, 10.0f * Time.deltaTime);
             }
         }
         //特定のフラグが返っていればプレイヤーの動作を制御する
@@ -203,7 +202,6 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("jump", isJump);
         animator.SetBool("walk", isWalk);
         animator.SetFloat("Speed", velocity.magnitude * speed, 0.1f, Time.deltaTime);
-        animator.SetBool("Jumpover", isoverJump);
     }
     //ボタンの入力に応じてプレイヤーのポーズを変更
     private void ChangeIdlePose()

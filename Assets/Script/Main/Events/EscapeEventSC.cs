@@ -95,7 +95,6 @@ public class EscapeEventSC : MonoBehaviour
             {
                 Eventskip = true;
                 EventEnd();
-                Debug.Log("EventSkip");
             }
         }
     }

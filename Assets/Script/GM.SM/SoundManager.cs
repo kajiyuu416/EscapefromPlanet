@@ -70,6 +70,7 @@ public class SoundManager : MonoBehaviour
         SeSlinder.onValueChanged.AddListener(SetSEVolume);
         Startbgm1();
     }
+    //ボリュームの下限値、上昇値の設定
     public void SetBGMVolume(float volume)
     {
         audioMixer.SetFloat("BGM", Mathf.Clamp(Mathf.Log10(volume) * 60f, -80f, 0f));

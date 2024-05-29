@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+
+//コライダーがプレイヤーと接触時、カメラワークの変更
+//インスペクターで指定したオブジェクトの表示
 public class Laserappearance : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera subcamera4;
     [SerializeField] GameObject Lasers;
-    [SerializeField] GameObject Idle;
 
     private void OnTriggerEnter(Collider collision)
     {

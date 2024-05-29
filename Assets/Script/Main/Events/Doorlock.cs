@@ -4,7 +4,7 @@ using TMPro;
 using Cinemachine;
 public class Doorlock : MonoBehaviour
 {
-    //コライダーと接触時テキスト表示
+    //コライダーと接触時テキスト表示、カメラワーク変更
     [SerializeField] TextMeshProUGUI DoorlockText;
     [SerializeField] CinemachineVirtualCamera subcamera7;
 
