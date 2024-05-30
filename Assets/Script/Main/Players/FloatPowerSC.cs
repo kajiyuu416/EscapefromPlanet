@@ -10,8 +10,7 @@ using UnityEngine.InputSystem;
 //対象のボタンを押している秒数を取得しフラグを返す
 public class FloatPowerSC : MonoBehaviour
 {
-    [SerializeField] GameObject EventObj1;
-    [SerializeField] GameObject EventObj2;
+    [SerializeField] GameObject EventObj;
     [SerializeField] TextMeshProUGUI text;
     private PlayerController playerController;
     private AdditionPlayerAction additionPlayerAction;
@@ -49,10 +48,9 @@ public class FloatPowerSC : MonoBehaviour
         if(GameManager2.FGF)
         {
             OnPushKey();
-            if(EventObj1.activeSelf || EventObj2.activeSelf)
+            if(EventObj.activeSelf)
             {
-                EventObj1.SetActive(false);
-                EventObj2.SetActive(false);
+                EventObj.SetActive(false);
             }
 
             if(isFloat)

@@ -18,15 +18,15 @@ public class ChangeScene : MonoBehaviour
     {
         var current_GP = Gamepad.current;
         var Cansel = current_GP.buttonEast;
-            if (Cansel.wasPressedThisFrame)
-            {
-                fadeinout.FadeOutFlag = true;
-                StartCoroutine("Skip");
-            }
+        if(Cansel.wasPressedThisFrame && !fadeinout.FadeOutFlag)
+        {
+            fadeinout.FadeOutFlag = true;
+            StartCoroutine("Skip");
+        }
     }
     IEnumerator Skip()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[4]);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[3]);
         SceneManager.LoadScene("MainScene");
         GameManager2.instance.firstLoadFlag = true;
     }

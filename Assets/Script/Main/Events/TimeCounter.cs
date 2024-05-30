@@ -37,8 +37,7 @@ public class TimeCounter : MonoBehaviour
             timeText.enabled = false;
             explosionEfe.SetActive(true);
             Idle.SetActive(false);
-            GameManager.instance.ActionUI1.SetActive(false);
-            GameManager.instance.ActionUI2.SetActive(false);
+            GameManager.instance.PlayerUI.SetActive(false);
             GameManager.pauseflag = true;
             SoundManager.Instance.StopAudio();
             SoundManager.Instance.Startbgm4();

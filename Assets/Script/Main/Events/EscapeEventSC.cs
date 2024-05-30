@@ -26,8 +26,7 @@ public class EscapeEventSC : MonoBehaviour
         {
             gameObject.GetComponent<BoxCollider>().enabled = false;
             subcamera3.Priority = Const.CO.Const_Int_List[0];
-            GameManager.instance.ActionUI1.SetActive(false);
-            GameManager.instance.ActionUI2.SetActive(false);
+            GameManager.instance.PlayerUI.SetActive(false);
             GameManager.pauseflag = true;
             SoundManager.Instance.StopAudio();
             SoundManager.Instance.SettingPlaySE14();
@@ -77,8 +76,7 @@ public class EscapeEventSC : MonoBehaviour
         SoundManager.Instance.StopAudio();
         SoundManager.Instance.Startbgm3();
         GameManager.pauseflag = false;
-        GameManager.instance.ActionUI1.SetActive(true);
-        GameManager.instance.ActionUI2.SetActive(true);
+        GameManager.instance.PlayerUI.SetActive(true);
         EscapeEvent = false;
         SM.MPF = true;
         Timer.SetActive(true);

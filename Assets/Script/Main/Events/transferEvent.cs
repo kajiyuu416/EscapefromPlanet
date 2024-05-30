@@ -28,8 +28,7 @@ public class transferEvent : MonoBehaviour
             transEfe.SetActive(true);
             Timer.SetActive(false);
             gameObject.GetComponent<BoxCollider>().enabled = false;
-            GameManager.instance.ActionUI1.SetActive(false);
-            GameManager.instance.ActionUI2.SetActive(false);
+            GameManager.instance.PlayerUI.SetActive(false);
             SoundManager.Instance.StopAudio();
             SoundManager.Instance.SettingPlaySE12();
             GameManager.pauseflag = true;

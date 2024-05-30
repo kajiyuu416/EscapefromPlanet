@@ -220,12 +220,10 @@ public class GameManager2 : MonoBehaviour
         if(controllerNames[0] == "")
         {
             connect = false;
-            Debug.Log("コントローラーは接続されていません");
         }
         else 
         {
             connect = true;
-            Debug.Log("コントローラーは接続されています");
         }
 
         if(connect)

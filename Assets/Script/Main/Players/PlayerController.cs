@@ -177,14 +177,14 @@ public class PlayerController : MonoBehaviour
             {
                 moveSpeed = RunSpeed;
                 ChangePose = false;
-                gameManager.ActionUI1.SetActive(false);
-                gameManager.ActionUI2.SetActive(true);
+                gameManager.PlayerActionUI1.SetActive(false);
+                gameManager.PlayerActionUI2.SetActive(true);
             }
             else if(!isRun)
             {
                 moveSpeed = WalkSpeed;
-                gameManager.ActionUI1.SetActive(true);
-                gameManager.ActionUI2.SetActive(false);
+                gameManager.PlayerActionUI1.SetActive(true);
+                gameManager.PlayerActionUI2.SetActive(false);
             }
 
             //ÉWÉÉÉìÉvèàóù

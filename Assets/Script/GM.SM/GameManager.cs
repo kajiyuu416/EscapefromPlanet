@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using System.Collections;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject GameOverTextobj;
@@ -16,9 +18,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject GameClearTextobj;
     [SerializeField] GameObject restrictionImage1;
     [SerializeField] GameObject restrictionImage2;
-    [SerializeField] public GameObject ActionUI;
-    [SerializeField] public GameObject ActionUI1;
-    [SerializeField] public GameObject ActionUI2;
+    [SerializeField] GameObject UI;
+    [SerializeField] public GameObject PlayerUI;
+    [SerializeField] public GameObject PlayerActionUI1;
+    [SerializeField] public GameObject PlayerActionUI2;
     [SerializeField] AdditionPlayerAction AA;
     [SerializeField] FloatPowerSC FP;
     [SerializeField] Text GOCount;
@@ -26,8 +29,8 @@ public class GameManager : MonoBehaviour
     public static bool pauseflag;
     public static int count = 0;
     private bool RestartFlag;
-    private bool GameOverFlag;
-    private bool GameClearFlag;
+    private bool GameOverFlag = false;
+    private bool GameClearFlag = false;
     private bool SettingOPflag;
     private bool stbflag;
 
@@ -35,9 +38,9 @@ public class GameManager : MonoBehaviour
     //UI表示のON、OFFチェック
     private void Update()
     {
+        Pause();
         if(GameManager2.connect)
         {
-            Pause();
             var current_GP = Gamepad.current;
             var Cansel = current_GP.buttonEast;
             if(GameClearFlag)
@@ -57,13 +60,13 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if(GameManager2.UIon_off_button &&!ActionUI.activeSelf)
+        if(GameManager2.UIon_off_button &&!UI.activeSelf)
         {
-           ActionUI.SetActive(true);
+           UI.SetActive(true);
         }
-        else if(!GameManager2.UIon_off_button &&ActionUI.activeSelf)
+        else if(!GameManager2.UIon_off_button &&UI.activeSelf)
         {
-           ActionUI.SetActive(false);
+           UI.SetActive(false);
         }
 
         if (!GameOverFlag && RestartFlag)
@@ -79,10 +82,8 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         pauseflag = true;
-        GameOverFlag = false;
         GOCount.text = count.ToString();
-        Invoke("Standbytime",Const.CO.Const_Float_List[3]);
-
+        Invoke(nameof(Standby), Const.CO.Const_Float_List[3]);
         if (instance == null)
         {
             instance = this;
@@ -106,13 +107,13 @@ public class GameManager : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(SettingButton);
           　SoundManager.Instance.SettingPlaySE4();
         }
-        if (Cansel.wasPressedThisFrame && SettingOPflag)
+        if (Cansel.wasPressedThisFrame && SettingOPflag )
         {
-            pauseflag = false;
             SettingOPflag = false;
             PauseTextobj.SetActive(false);
             PauseBackground.SetActive(false);
             Idle.GetComponent<Animator>().speed = Const.CO.Const_Float_List[0];
+            StartCoroutine(Standbytime());
         }
 
     }
@@ -142,41 +143,51 @@ public class GameManager : MonoBehaviour
         GameOverTextobj.SetActive(true);
         GameOverBackground.SetActive(true);
         warningimage.SetActive(false);
-        ActionUI1.SetActive(false);
-        ActionUI2.SetActive(false);
+        PlayerUI.SetActive(false);
         pauseflag = true;
+        stbflag = false;
         SoundManager.Instance.StopAudio();
         SoundManager.Instance.SettingPlaySE2();
         SoundManager.Instance.SettingPlaySE9();
+        StartCoroutine(ReStartThiScene());
         count++;
-        Invoke("ReStartThiScene", Const.CO.Const_Float_List[3]);
     }
     public void RestartFlagOn()
     {
         RestartFlag = true;
     }
-    //リスタート時に呼ばれる関数
-    private void ReStartThiScene()
-    {
-        Scene ThisScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(ThisScene.name);
-        SoundManager.Instance.StopAudio();
-    }
+
     //タイトル画面に戻る際呼ばれる関数
     private void BacktoTitle()
     {
-        ActionUI1.SetActive(false);
-        ActionUI2.SetActive(false);
+        PlayerUI.SetActive(false);
         SceneManager.LoadScene("title");
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE();
-
     }
-   　//リスタート時のプレイヤーの起き上がりアニメーションが終了するまでのプレイヤーの動き制御
-    private void Standbytime()
+    //特定のアクションが終了するまでのプレイヤー制御
+    public static IEnumerator Standbytime()
+    {
+        for(var i = 0; i < 5; i++)
+        {
+            yield return null;
+        }
+        pauseflag = false;
+    }
+
+   public void Standby()
     {
         stbflag = true;
         pauseflag = false;
     }
 
+    //リスタート時に呼ばれる関数
+    //ゲームオーバー後3秒後にリスタート時に呼ばれる関数
+    private IEnumerator ReStartThiScene()
+    {
+        yield return new WaitForSeconds(Const.CO.Const_Int_List[2]);
+        Scene ThisScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(ThisScene.name);
+        SoundManager.Instance.StopAudio();
+    }
 }

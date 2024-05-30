@@ -37,8 +37,7 @@ public class actionEvent : MonoBehaviour
         {
             actionFlag = true;
             GameManager.pauseflag = true;
-            GameManager.instance.ActionUI1.SetActive(false);
-            GameManager.instance.ActionUI2.SetActive(false);
+            GameManager.instance.PlayerUI.SetActive(false);
             moveiSC.SetActive(true);
             ActionPop.text = "";
             SoundManager.Instance.StopAudio();
@@ -77,8 +76,7 @@ public class actionEvent : MonoBehaviour
         MessageIndication();
         moveiSC.SetActive(false);
         GameManager.pauseflag = false;
-        GameManager.instance.ActionUI1.SetActive(true);
-        GameManager.instance.ActionUI2.SetActive(true);
+        GameManager.instance.PlayerUI.SetActive(true);
         SoundManager.Instance.Startbgm2();
         SoundManager.Instance.SettingPlaySE6();
     }

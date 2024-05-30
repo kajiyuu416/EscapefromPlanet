@@ -15,35 +15,18 @@ public class FadeInOut : MonoBehaviour
         StartCoroutine(FadeIn());
     }
     private void Update()
-    { 
-        if (FadeInFlag)
-        {
-            if(!fadeIn)
-            {
-                StartCoroutine(FadeIn());
-                fadeIn = true;
-            }
-         
-        }
-        if (FadeOutFlag)
-        {
-            if(!fadeOut)
-            {
-                StartCoroutine(FadeOut());
-                fadeOut = true;
-            }
-
-        }
+    {
+        FadeIn_OutFlag();
     }
     public IEnumerator FadeIn()
     {
         blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
         var color = blackScreen.color;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[0]);
 
         while (color.a >= 0)
         {
-            color -= new Color(0, 0, 0, 0.01f);
+            color.a -= 0.1f;
             blackScreen.color = color;
 
             yield return null;
@@ -58,9 +41,9 @@ public class FadeInOut : MonoBehaviour
         blackScreen.gameObject.SetActive(true);
         var color = blackScreen.color;
 
-        while (color.a <= 1)
+        while (color.a <= Const.CO.Const_Float_List[0])
         {
-            color += new Color(0, 0, 0, 0.01f);
+            color.a += 0.1f;
             blackScreen.color = color;
 
             yield return null;
@@ -69,4 +52,26 @@ public class FadeInOut : MonoBehaviour
         fadeOut = false;
         RSF = true;
     }
+
+    private void FadeIn_OutFlag()
+    {
+        if(FadeInFlag)
+        {
+            if(!fadeIn)
+            {
+                StartCoroutine(FadeIn());
+                fadeIn = true;
+            }
+        }
+
+        if(FadeOutFlag)
+        {
+            if(!fadeOut)
+            {
+                StartCoroutine(FadeOut());
+                fadeOut = true;
+            }
+        }
+    }
+
 }

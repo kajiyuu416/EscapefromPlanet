@@ -3,8 +3,7 @@ using UnityEngine.InputSystem;
 //アクション追加①大ジャンプとスライディングの追加
 public class AdditionPlayerAction : MonoBehaviour
 {
-    [SerializeField] GameObject EventObj1;
-    [SerializeField] GameObject EventObj2;
+    [SerializeField] GameObject EventObj;
     private PlayerController playerController;
     private FloatPowerSC floatPowerSC;
     private const float JumpOverPower = 200.0f;
@@ -57,11 +56,9 @@ public class AdditionPlayerAction : MonoBehaviour
                 }
               
             }
-
-            if(EventObj1.activeSelf || EventObj2.activeSelf)
+            if(EventObj.activeSelf)
             {
-                EventObj1.SetActive(false);
-                EventObj2.SetActive(false);
+                EventObj.SetActive(false);
             }
 
             if(playerController.isDead)
@@ -77,7 +74,6 @@ public class AdditionPlayerAction : MonoBehaviour
         isjumpOver = false;
         isground = false;
         animator.SetBool("Jumpover",false);
-        Debug.Log("Jumpmiss");
     }
     private void OnTriggerEnter(Collider collision)
     {

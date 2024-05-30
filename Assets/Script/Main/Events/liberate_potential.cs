@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using UnityEngine.Assertions.Must;
 
 //コライダーに接触している状態で特定のボタン入力があった際に
 //イベントを発生させ、プレイヤーへ能力付与のフラグを返す
@@ -11,12 +13,17 @@ public class liberate_potential: MonoBehaviour
     [SerializeField] TextMeshProUGUI SkipText;
     [SerializeField] SpawnEffect SE;
     [SerializeField] GameObject AE;
-    private MeshRenderer meshRenderer;
+    [SerializeField] List<BoxCollider> BoxColList;
+    [SerializeField] List<MeshRenderer>MeshRenList;
     public bool actionFlag;
 
     private void Update()
     {
         OnClose();
+    }
+    private void Awake()
+    {
+        not_applicable();
     }
     private void OnTriggerStay(Collider collision)
     {
@@ -61,42 +68,43 @@ public class liberate_potential: MonoBehaviour
     {
         GameManager.pauseflag = true;
         SoundManager.Instance.SettingPlaySE12();
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.enabled = false;
+        SE.enabled = true;
         actionFlag = true;
         ActionPop.text = "";
         SkipText.text = "Bボタンでスキップ";
-        SE.enabled = true;
     }
+    //フラグを返す、UIの非表示
     private void OnClose()
     {
-            var current_GP = Gamepad.current;
-            var close = current_GP.buttonEast;
-            if(actionFlag && close.wasPressedThisFrame && !GameManager2.AGF)
-            {
-                GameManager2.AGF = true;
-                GameManager.pauseflag = false;
-                actionFlag = false;
-                AE.SetActive(false);
-                SkipText.text = "";
-                ActionPop.text = "";
-            }
-            else if(actionFlag && close.wasPressedThisFrame && GameManager2.AGF && !GameManager2.FGF)
-            {
-                GameManager2.FGF = true;
-                GameManager.pauseflag = false;
-                actionFlag = false;
-                AE.SetActive(false);
-                SkipText.text = "";
-                ActionPop.text = "";
-            }
+        var current_GP = Gamepad.current;
+        var close = current_GP.buttonEast;
+        if(actionFlag && close.wasPressedThisFrame && !GameManager2.AGF)
+        {
+            GameManager2.AGF = true;
+            AE.SetActive(false);
+            StartCoroutine(GameManager.Standbytime());
+            not_applicable();
+            actionFlag = false;
+            SkipText.text = "";
+            ActionPop.text = "";
+        }
+        else if(actionFlag && close.wasPressedThisFrame && GameManager2.AGF && !GameManager2.FGF)
+        {
+            GameManager2.FGF = true;
+            AE.SetActive(false);
+            StartCoroutine(GameManager.Standbytime());
+            not_applicable();
+            actionFlag = false;
+            SkipText.text = "";
+            ActionPop.text = "";
+        }
     }
     private void GiveOverJump()
     {
         if(!GameManager2.AGF)
         {
-            AE.SetActive(true);
             SkipText.text = "";
+            AE.SetActive(true);
         }
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE11();
@@ -105,11 +113,26 @@ public class liberate_potential: MonoBehaviour
     {
         if(!GameManager2.FGF)
         {
-            AE.SetActive(true);
             SkipText.text = "";
+            AE.SetActive(true);
         }
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE11();
+    }
+    //特定のフラグが返っている時、リスト内のコライダー、メッシュを非表示にする
+    private void not_applicable()
+    {
+        if(GameManager2.AGF)
+        {
+            BoxColList[0].enabled = false;
+            MeshRenList[0].enabled = false;
+        }
+
+        if(GameManager2.FGF)
+        {
+            BoxColList[Const.CO.Const_Int_List[0]].enabled = false;
+            MeshRenList[Const.CO.Const_Int_List[0]].enabled = false;
+        }
     }
 }
 
