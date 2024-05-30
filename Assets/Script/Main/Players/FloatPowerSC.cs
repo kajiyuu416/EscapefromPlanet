@@ -39,6 +39,7 @@ public class FloatPowerSC : MonoBehaviour
             if(collision.CompareTag("ground"))
             {
                 Aerial_Rotation = false;
+                isFloatFlag = false;
             }
         }
     }
@@ -85,8 +86,7 @@ public class FloatPowerSC : MonoBehaviour
         bool isjump = playerController.Duplicate_isJump;
         bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
         float PushTime = 0.0f;
-        const float Holdtime = 0.5f;
-        const float limittime = 3.0f;
+        const float limittime = 2.0f;
         const float floatPower = 3.0f;
         //ボタンの入力チェック
         //対応したボタンが押されたときと離されたとき
@@ -111,15 +111,10 @@ public class FloatPowerSC : MonoBehaviour
         if(isFloatFlag)
         {
             time += Time.deltaTime;
-            PushTime = time / Holdtime;
-            if(time >= Holdtime)
-            {
-                isFloat = true;
-                playerController.Duplicate_isJump = false;
-            }
-
-            //タイムカウントが上限値を超えたとき
+            isFloat = true;
+            playerController.Duplicate_isJump = false;
             PushTime = time / limittime;
+            //タイムカウントが上限値を超えたとき
             if(isDownFlag && time >= limittime)
             {
                 Aerial_Rotation = true;

@@ -96,6 +96,7 @@ public class liberate_potential: MonoBehaviour
         if(!GameManager2.AGF)
         {
             AE.SetActive(true);
+            SkipText.text = "";
         }
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE11();
@@ -105,6 +106,7 @@ public class liberate_potential: MonoBehaviour
         if(!GameManager2.FGF)
         {
             AE.SetActive(true);
+            SkipText.text = "";
         }
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE11();
