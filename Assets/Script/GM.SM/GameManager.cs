@@ -7,10 +7,8 @@ using UnityEngine.InputSystem;
 using System.Collections;
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] GameObject GameOverTextobj;
-    [SerializeField] GameObject GameOverBackground;
-    [SerializeField] GameObject PauseTextobj;
-    [SerializeField] GameObject PauseBackground;
+    [SerializeField] GameObject GameOverobj;
+    [SerializeField] GameObject Pauseobj;
     [SerializeField] GameObject Idle;
     [SerializeField] GameObject MC;
     [SerializeField] GameObject SettingButton;
@@ -34,50 +32,16 @@ public class GameManager : MonoBehaviour
     private bool SettingOPflag;
     private bool stbflag;
 
-    //ゲームオーバー時の条件チェック
-    //UI表示のON、OFFチェック
     private void Update()
     {
         Pause();
-        if(GameManager2.connect)
-        {
-            var current_GP = Gamepad.current;
-            var Cansel = current_GP.buttonEast;
-            if(GameClearFlag)
-            {
-                if(Cansel.wasPressedThisFrame)
-                {
-                    SceneManager.LoadScene("title");
-                    GameClearFlag = false;
-                }
-            }
-        }
-
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-        {
-            EventSystem.current.SetSelectedGameObject(SettingButton);
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-
-        if(GameManager2.UIon_off_button &&!UI.activeSelf)
-        {
-           UI.SetActive(true);
-        }
-        else if(!GameManager2.UIon_off_button &&UI.activeSelf)
-        {
-           UI.SetActive(false);
-        }
-
-        if (!GameOverFlag && RestartFlag)
-        {
-            GameOver();
-            GameOverFlag = true;
-        }
         GivePower();
+        UIcheck();
+        GameFlagcheck();
     }
 
     //ゲームオーバー回数のカウント
+    //フレームレート固定
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -100,8 +64,7 @@ public class GameManager : MonoBehaviour
         {
             pauseflag = true;
             SettingOPflag = true;
-            PauseTextobj.SetActive(true);
-            PauseBackground.SetActive(true);
+            Pauseobj.SetActive(true);
             warningimage.SetActive(false);
             Idle.GetComponent<Animator>().speed = 0;
             EventSystem.current.SetSelectedGameObject(SettingButton);
@@ -110,8 +73,7 @@ public class GameManager : MonoBehaviour
         if (Cansel.wasPressedThisFrame && SettingOPflag )
         {
             SettingOPflag = false;
-            PauseTextobj.SetActive(false);
-            PauseBackground.SetActive(false);
+            Pauseobj.SetActive(false);
             Idle.GetComponent<Animator>().speed = Const.CO.Const_Float_List[0];
             StartCoroutine(Standbytime());
         }
@@ -140,8 +102,7 @@ public class GameManager : MonoBehaviour
     //ゲームオーバー時に呼ばれる関数
     private void GameOver()
     {
-        GameOverTextobj.SetActive(true);
-        GameOverBackground.SetActive(true);
+        GameOverobj.SetActive(true);
         warningimage.SetActive(false);
         PlayerUI.SetActive(false);
         pauseflag = true;
@@ -166,9 +127,10 @@ public class GameManager : MonoBehaviour
         SM.SettingPlaySE();
     }
     //特定のアクションが終了するまでのプレイヤー制御
+    //5フレーム後にフラグを返す
     public static IEnumerator Standbytime()
     {
-        for(var i = 0; i < 5; i++)
+        for(var i = 0; i < Const.CO.Const_Int_List[4]; i++)
         {
             yield return null;
         }
@@ -186,8 +148,47 @@ public class GameManager : MonoBehaviour
     private IEnumerator ReStartThiScene()
     {
         yield return new WaitForSeconds(Const.CO.Const_Int_List[2]);
-        Scene ThisScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(ThisScene.name);
         SoundManager.Instance.StopAudio();
+        yield return GameManager2.instance.FadeOut("MainScene");
     }
+    //ゲームオーバー時の条件チェック
+    //UI表示のON、OFFチェック
+    private void UIcheck()
+    {
+        if(GameManager2.UIon_off_button && !UI.activeSelf)
+        {
+            UI.SetActive(true);
+        }
+        else if(!GameManager2.UIon_off_button && UI.activeSelf)
+        {
+            UI.SetActive(false);
+        }
+    }
+    private void GameFlagcheck()
+    {
+        if(GameManager2.connect)
+        {
+            var current_GP = Gamepad.current;
+            var Cansel = current_GP.buttonEast;
+            if(GameClearFlag && Cansel.wasPressedThisFrame)
+            {
+                BacktoTitle();
+                GameClearFlag = false;
+            }
+        }
+
+        if(!GameOverFlag && RestartFlag)
+        {
+            GameOver();
+            GameOverFlag = true;
+        }
+
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            EventSystem.current.SetSelectedGameObject(SettingButton);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
 }

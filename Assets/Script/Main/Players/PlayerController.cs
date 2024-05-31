@@ -71,14 +71,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
     }
-    private void FixedUpdate()
-    {
-        if (isDead)
-        {
-            return;
-        }
-    }
-    //プレイヤーが地面に面しているかの確認、スポーン位置の更新、壁をすり抜けたときに強制的にリセットをかける（直近のリスポーン位置へ）
+    //プレイヤーが地面に面しているかの確認、スポーン位置の更新、壁をすり抜けたときに強制的にリセットをかける（最後に通過したリスポーンポイントの位置へ）
     private void OnTriggerEnter(Collider collision)
     {
         if (isDead)
@@ -100,6 +93,7 @@ public class PlayerController : MonoBehaviour
             CP = transform.position; // 現在位置を記憶
         }
     }
+
     private void OnTriggerStay(Collider collision)
     {
         if (collision.CompareTag("ground"))
@@ -131,11 +125,11 @@ public class PlayerController : MonoBehaviour
         var jump = current_GP.buttonSouth;
         var velocity = new Vector3(PlayerMove_input.x, 0, PlayerMove_input.z).normalized;
         bool isfloat = floatPowerSC.Duplicate_isFloatFlag;
+        bool isAerial_Rotation = floatPowerSC.Duplicate_Aerial_Rotation;
         bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(Const.CO.Const_Float_List[0], 0, Const.CO.Const_Float_List[0])).normalized;
         Vector3 moveForward = cameraForward * PlayerMove_input.z + Camera.main.transform.right * PlayerMove_input.x;
         rigidbody.velocity = moveForward * moveSpeed + new Vector3(0, rigidbody.velocity.y, 0);
-
 
         if(moveForward != Vector3.zero)
         {
@@ -179,6 +173,10 @@ public class PlayerController : MonoBehaviour
                 ChangePose = false;
                 gameManager.PlayerActionUI1.SetActive(false);
                 gameManager.PlayerActionUI2.SetActive(true);
+                if(isfloat || isAerial_Rotation)
+                {
+                    moveSpeed = WalkSpeed;
+                }
             }
             else if(!isRun)
             {
@@ -186,6 +184,8 @@ public class PlayerController : MonoBehaviour
                 gameManager.PlayerActionUI1.SetActive(true);
                 gameManager.PlayerActionUI2.SetActive(false);
             }
+
+
 
             //ジャンプ処理
             if(Interval_InputButtondown(jump, 0.5f) &&isgroundFlag &&!isoverJump &&!isfloat)

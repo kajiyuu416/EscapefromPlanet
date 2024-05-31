@@ -14,8 +14,10 @@ public class StartButtonSC : MonoBehaviour
     private void Start()
     {
         startButton = GetComponent<Button>();
-        startButton.onClick.AddListener(() => {
+        startButton.onClick.AddListener(() =>
+        {
             GameManager2.GameStart();
+            EventSystem.current.SetSelectedGameObject(null);
         });
     }
     private void Update()

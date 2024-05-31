@@ -89,17 +89,16 @@ public class GameManager2 : MonoBehaviour
     {
         if (instance.firstLoadFlag == false)
         {
-            instance.StartCoroutine(instance.LoadScene("OpScene"));
+            instance.StartCoroutine(instance.FadeOut("OpScene"));
             SoundManager SM = SoundManager.Instance;
             SM.SettingPlaySE();
         }
         else
         {
-            instance.StartCoroutine(instance.LoadScene("MainScene"));
+            instance.StartCoroutine(instance.FadeOut("MainScene"));
             SoundManager SM = SoundManager.Instance;
             SM.SettingPlaySE();
         }
-
     }
     public static void Setting()
     {
@@ -186,7 +185,7 @@ public class GameManager2 : MonoBehaviour
         }
     }
     //徐々にフェードアウトしていき完全に暗くなるとシーンをロードする
-    public IEnumerator LoadScene(string sceneName)
+    public IEnumerator FadeOut(string sceneName)
     {
         var color = blackScreen.color;
         while (color.a <= Const.CO.Const_Float_List[0])
@@ -196,7 +195,7 @@ public class GameManager2 : MonoBehaviour
 
             yield return null;
         }
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadSceneAsync(sceneName);
     }
     //徐々に明るくなる処理
     public IEnumerator FadeIn()

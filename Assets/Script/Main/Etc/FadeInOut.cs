@@ -53,7 +53,7 @@ public class FadeInOut : MonoBehaviour
         RSF = true;
     }
 
-    private void FadeIn_OutFlag()
+    public void FadeIn_OutFlag()
     {
         if(FadeInFlag)
         {

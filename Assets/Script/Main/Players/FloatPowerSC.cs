@@ -183,4 +183,11 @@ public class FloatPowerSC : MonoBehaviour
             isFloatFlag = value;
         }
     }
+    public bool Duplicate_Aerial_Rotation
+    {
+        get
+        {
+            return Aerial_Rotation;
+        }
+    }
 }

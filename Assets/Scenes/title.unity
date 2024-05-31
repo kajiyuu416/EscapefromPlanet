@@ -16285,6 +16285,11 @@ PrefabInstance:
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 304269738013827699, guid: 0054d904e20006a4190e9f8a1fc80d87,
+        type: 3}
+      propertyPath: m_text
+      value: "B\u30DC\u30BF\u30F3\u3067\u623B\u308B"
+      objectReference: {fileID: 0}
     - target: {fileID: 799087834883742058, guid: 0054d904e20006a4190e9f8a1fc80d87,
         type: 3}
       propertyPath: m_Name

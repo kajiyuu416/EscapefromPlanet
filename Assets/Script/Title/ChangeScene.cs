@@ -10,33 +10,33 @@ public class ChangeScene : MonoBehaviour
 {
     [SerializeField] VideoPlayer videoPlayer;
     [SerializeField] FadeInOut fadeinout;
+    private AsyncOperation asyncLoad;
     private void Start()
     {
         videoPlayer.loopPointReached += LoopPointReached;
-    }
-    private void Update()
-    {
-        var current_GP = Gamepad.current;
-        var Cansel = current_GP.buttonEast;
-        if(Cansel.wasPressedThisFrame && !fadeinout.FadeOutFlag)
-        {
-            fadeinout.FadeOutFlag = true;
-            StartCoroutine("Skip");
-        }
+        StartCoroutine("Skip");
     }
     IEnumerator Skip()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[3]);
-        SceneManager.LoadScene("MainScene");
+        var current_GP = Gamepad.current;
+        var SkipButton = current_GP.buttonEast;
+        asyncLoad = SceneManager.LoadSceneAsync("MainScene");
+        asyncLoad.allowSceneActivation = false;
+        bool waitFlag = true;
+        while(waitFlag)
+        {
+            yield return null;
+            waitFlag = !SkipButton.wasPressedThisFrame;
+        }
+        yield return fadeinout.FadeOut();
+        asyncLoad.allowSceneActivation = true;
         GameManager2.instance.firstLoadFlag = true;
+        yield return asyncLoad;
     }
     public void LoopPointReached(VideoPlayer vp)
     {
         // ìÆâÊçƒê∂äÆóπéûÇÃèàóù
-        SceneManager.LoadScene("MainScene");
         GameManager2.instance.firstLoadFlag = true;
+        asyncLoad.allowSceneActivation = true;
     }
-
- 
-
 }
