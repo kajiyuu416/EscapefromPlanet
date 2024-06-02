@@ -16327,6 +16327,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1597602295146250450, guid: 0054d904e20006a4190e9f8a1fc80d87,
         type: 3}
+      propertyPath: timer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1597602295146250450, guid: 0054d904e20006a4190e9f8a1fc80d87,
+        type: 3}
       propertyPath: SensitivitySlinder
       value: 
       objectReference: {fileID: 1159329480}

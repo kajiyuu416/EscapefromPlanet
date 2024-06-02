@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
     private void BacktoTitle()
     {
         PlayerUI.SetActive(false);
-        SceneManager.LoadScene("title");
+        SceneManager.LoadScene(0);
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE();
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 //子オブジェクト（各パーツ）を表示、レーザーに降れば部分はランダムな方向に力を加え飛ばされるような表現を実装
 public class Child : MonoBehaviour
 {
-    private float Speed = 20.0f;
+    private const float Speed = 20.0f;
     private float time;
     private float vecX;
     private float vecY;

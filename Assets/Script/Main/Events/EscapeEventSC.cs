@@ -44,7 +44,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetText1()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[4]);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[2]);
         if(!Eventskip)
         {
             Actiontmessage.text = "¦‘¾—z‚ª‰F’ˆ‘D‚ÉÚ‹ß’†¦";
@@ -53,7 +53,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetText2()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[4]);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[3]);
         if(!Eventskip)
         {
             Actiontmessage.text = "‹Ù‹}’Eo‘•’u‚ğ–Úw‚µ‚Ä‚­‚¾‚³‚¢";
@@ -62,7 +62,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetAction()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[4]);
+        yield return new WaitForSeconds(Const.CO.Const_Float_List[3]);
         if(!Eventskip)
         {
             EventEnd();
