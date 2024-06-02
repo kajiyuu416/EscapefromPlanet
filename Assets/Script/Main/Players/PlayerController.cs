@@ -204,7 +204,7 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            //ジャンプ処理
+            //ジャンプ処理・0.5秒間入力を制限
             if(Interval_InputButtondown(jump, 0.5f) &&isgroundFlag &&!isoverJump &&!isfloat)
             {
                 isJump = true;

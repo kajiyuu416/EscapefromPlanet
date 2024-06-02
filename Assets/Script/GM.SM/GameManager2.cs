@@ -281,8 +281,6 @@ public class GameManager2 : MonoBehaviour
             SM.Startbgm1();
             countdown = timer;
             loadDemoScene = false;
-
-
         }
         // Scene1Ç©ÇÁScene3Ç÷
         if (beforeScene == "title" && nextScene.name == "MainScene")
