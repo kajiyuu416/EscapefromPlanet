@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-
 public class GameManager2 : MonoBehaviour
 {
     [SerializeField] GameObject SettingBG;
@@ -28,11 +27,15 @@ public class GameManager2 : MonoBehaviour
     public static bool Camera_Upside_down;
     public static bool Camera_Flip_left_and_right;
     public static GameManager2 instance;
-    public bool firstLoadFlag;
+    private bool firstLoadFlag;
+    private bool SettingFlag;
+    private bool loadDemoScene;
     private string beforeScene;
     private string nowSceneName = "title";
     private Image blackScreen;
-    private bool SettingFlag;
+
+    private const float timer = 20.0f;
+    private float countdown;
     private void Awake()
     {
         if (instance == null)
@@ -56,6 +59,7 @@ public class GameManager2 : MonoBehaviour
         Camera_Flip_left_and_right = false;
         StartCoroutine(FadeIn());
         beforeScene = "title";
+        countdown = timer;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
@@ -69,18 +73,35 @@ public class GameManager2 : MonoBehaviour
     //コントローラーの接続確認
     //マウスの非表示、現在シーンの保存
     //設定画面の表示非表示
+    //設定画面表示時は、DemoSceneに移行しないようにリターンし処理の制御
     private void Update()
     {
         GamePad_connection_Check();
-
-        if (SceneManager.GetActiveScene().name != nowSceneName)
+        if(SceneManager.GetActiveScene().name != nowSceneName)
         {
             nowSceneName = SceneManager.GetActiveScene().name;
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+        }
+
+        if(SettingFlag)
+        {
+            return;
+        }
+
+        if(beforeScene == "title")
+        {
+            countdown -= Time.deltaTime;
+
+            if(countdown <= 0 &&!loadDemoScene)
+            {
+                countdown = 0;
+                loadDemoScene = true;
+                instance.StartCoroutine(instance.FadeOut("DemoScene"));
+            }
         }
     }
 
@@ -195,7 +216,7 @@ public class GameManager2 : MonoBehaviour
 
             yield return null;
         }
-        SceneManager.LoadSceneAsync(sceneName);
+        SceneManager.LoadSceneAsync(sceneName).allowSceneActivation = true;
     }
     //徐々に明るくなる処理
     public IEnumerator FadeIn()
@@ -258,6 +279,8 @@ public class GameManager2 : MonoBehaviour
             SoundManager SM = SoundManager.Instance;
             SM.StopAudio();
             SM.Startbgm1();
+            countdown = timer;
+            loadDemoScene = false;
         }
         // Scene1からScene3へ
         if (beforeScene == "title" && nextScene.name == "MainScene")
@@ -273,9 +296,32 @@ public class GameManager2 : MonoBehaviour
             SM.StopAudio();
             SM.Startbgm2();
         }
-
+        if(beforeScene == "title" && nextScene.name == "DemoScene")
+        {
+            SoundManager SM = SoundManager.Instance;
+            SM.StopAudio();
+        }
+        if(beforeScene == "DemoScene" && nextScene.name == "title")
+        {
+            StartCoroutine(FadeIn());
+            SoundManager SM = SoundManager.Instance;
+            SM.StopAudio();
+            SM.Startbgm1();
+            countdown = timer;
+            loadDemoScene = false;
+        }
         //遷移後のシーン名を「１つ前のシーン名」として保持
         beforeScene = nextScene.name;
     }
-
+    public bool Duplicate_firstLoadFlag
+    {
+        get
+        {
+            return firstLoadFlag;
+        }
+        set
+        {
+            firstLoadFlag = value;
+        }
+    }
 }

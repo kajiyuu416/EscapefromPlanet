@@ -757,3 +757,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1890960848}
   fadeinout: {fileID: 749930263}
+  SceneName: MainScene

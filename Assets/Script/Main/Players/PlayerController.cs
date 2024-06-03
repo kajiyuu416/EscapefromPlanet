@@ -32,17 +32,20 @@ public class PlayerController : MonoBehaviour
     private static float timer;
     public static PlayerController instance;
     private Child[] Parts;
+    private TrailRenderer[] Child_Trails;
     private new Rigidbody rigidbody;
     public Vector2 moveInputVal;
     public Vector2 CameraInputVal;
     private Vector3 PlayerMove_input;
     private static Vector3 CP = new Vector3();
+   
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         Parts = GetComponentsInChildren<Child>();
+        Child_Trails = GetComponentsInChildren<TrailRenderer>();
         floatPowerSC = FindObjectOfType<FloatPowerSC>();
         additionPlayerAction = FindObjectOfType<AdditionPlayerAction>();
     }
@@ -185,9 +188,23 @@ public class PlayerController : MonoBehaviour
                 gameManager.PlayerActionUI2.SetActive(false);
             }
 
+            if(isJump||isoverJump)
+            {
+                foreach(var ct in Child_Trails)
+                {
+                    ct.emitting = true;
+                }
+            }
+            else if(isgroundFlag)
+            {
+                foreach(var ct in Child_Trails)
+                {
+                    ct.emitting = false;
+                }
+            }
 
 
-            //ジャンプ処理
+            //ジャンプ処理・0.5秒間入力を制限
             if(Interval_InputButtondown(jump, 0.5f) &&isgroundFlag &&!isoverJump &&!isfloat)
             {
                 isJump = true;
@@ -250,11 +267,15 @@ public class PlayerController : MonoBehaviour
     //プレイヤーがレーザー接触時、自身を非表示にし子オブジェクトの表示を行う
     public void PlayerDeath()
     {
-        IdleBody.SetActive(false);
+        foreach(var ct in Child_Trails)
+        {
+            ct.emitting = false;
+        }
         foreach (var p in Parts)
         {
             p.On();
         }
+        IdleBody.SetActive(false);
         gameManager.RestartFlagOn();
         isDead = true;
         animator.SetBool("Death", isDead);
