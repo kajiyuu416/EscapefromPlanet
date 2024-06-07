@@ -32,7 +32,7 @@ public class EscapeEventFlagSC : MonoBehaviour
         {
                 ActionPop.text = "";
                 GameManager.pauseflag = true;
-                FO.FadeOutFlag = true;
+                FO.fadeOutFlag = true;
                 boxCollider.enabled = false;
                 meshRenderer.enabled = false;
                 StartCoroutine("SetALF");
@@ -56,8 +56,8 @@ public class EscapeEventFlagSC : MonoBehaviour
 
     IEnumerator SetALF()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[2]);
-        FO.FadeInFlag = true;
+        yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
+        FO.fadeInFlag = true;
         GameManager.pauseflag = false;
         GameManager2.ALF = true;
         SoundManager.Instance.SettingPlaySE6();
@@ -72,7 +72,7 @@ public class EscapeEventFlagSC : MonoBehaviour
     }
     IEnumerator SetText()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[2]);
+        yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
         Actiontmessage.text = "";
     }
 }

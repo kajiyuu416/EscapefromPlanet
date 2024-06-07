@@ -55,7 +55,7 @@ public class Child : MonoBehaviour
                 transform.position = new Vector3(vecX, vecY, vecZ);
                 transform.position = initialPosition;
                 rigidbody.velocity = transform.forward.normalized * Speed;
-                time = Const.CO.Const_Float_List[3];
+                time = Const.CO.const_Float_List[3];
             }
         }
      

@@ -37,7 +37,7 @@ public class actionEvent : MonoBehaviour
         {
             actionFlag = true;
             GameManager.pauseflag = true;
-            GameManager.instance.PlayerUI.SetActive(false);
+            GameManager.instance.playerui.SetActive(false);
             moveiSC.SetActive(true);
             ActionPop.text = "";
             SoundManager.Instance.StopAudio();
@@ -67,7 +67,7 @@ public class actionEvent : MonoBehaviour
     }
     IEnumerator SetText()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[2]);
+        yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
         ActionPop.text = "";
     }
     // “®‰æÄ¶Š®—¹‚Ìˆ—
@@ -76,7 +76,7 @@ public class actionEvent : MonoBehaviour
         MessageIndication();
         moveiSC.SetActive(false);
         GameManager.pauseflag = false;
-        GameManager.instance.PlayerUI.SetActive(true);
+        GameManager.instance.playerui.SetActive(true);
         SoundManager.Instance.Startbgm2();
         SoundManager.Instance.SettingPlaySE6();
     }

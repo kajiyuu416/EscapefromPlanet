@@ -8,35 +8,35 @@ using UnityEngine.Audio;
 //オーディオミキサーを使用してボリューム管理
 public class SoundManager : MonoBehaviour
 { 
-    [SerializeField] AudioClip SelectSe;
-    [SerializeField] AudioClip HitSe;
-    [SerializeField] AudioClip LandingSe;
-    [SerializeField] AudioClip SlidingSe;
-    [SerializeField] AudioClip PoseSe;
-    [SerializeField] AudioClip RespawnSe;
-    [SerializeField] AudioClip ActionSelectSe;
-    [SerializeField] AudioClip UnlockSe;
-    [SerializeField] AudioClip ScreamSe;
-    [SerializeField] AudioClip SpinSE;
-    [SerializeField] AudioClip GrantSE;
-    [SerializeField] AudioClip ExtinctionSE;
+    [SerializeField] AudioClip selectSe;
+    [SerializeField] AudioClip hitSe;
+    [SerializeField] AudioClip landingSe;
+    [SerializeField] AudioClip slidingSe;
+    [SerializeField] AudioClip poseSe;
+    [SerializeField] AudioClip respawnSe;
+    [SerializeField] AudioClip actionSelectSe;
+    [SerializeField] AudioClip unlockSe;
+    [SerializeField] AudioClip screamSe;
+    [SerializeField] AudioClip spinSE;
+    [SerializeField] AudioClip grantSE;
+    [SerializeField] AudioClip extinctionSE;
     [SerializeField] AudioClip keyboardinputSE;
     [SerializeField] AudioClip warningSE;
-    [SerializeField] AudioClip GameClearSE;
+    [SerializeField] AudioClip gameClearSE;
     [SerializeField] AudioMixer audioMixer;
-    [SerializeField] Slider BgmSlinder;
-    [SerializeField] Slider SeSlinder;
+    [SerializeField] Slider bgmSlinder;
+    [SerializeField] Slider seSlinder;
 
-    GameObject bgmObj;
-    GameObject SeObj;
+    private GameObject bgmObj;
+    private GameObject SeObj;
 
-    AudioSource bgm1AudioSource;
-    AudioSource bgm2AudioSource;
-    AudioSource bgm3AudioSource;
-    AudioSource bgm4AudioSource;
-    AudioSource SelectSeAudioSource;
-    AudioSource HitSeAudioSource;
-    AudioSource LandingSeAudioSource;
+    private AudioSource bgm1AudioSource;
+    private AudioSource bgm2AudioSource;
+    private AudioSource bgm3AudioSource;
+    private AudioSource bgm4AudioSource;
+    private AudioSource SelectSeAudioSource;
+    private AudioSource HitSeAudioSource;
+    private AudioSource LandingSeAudioSource;
 
     public static SoundManager Instance
     {
@@ -64,10 +64,10 @@ public class SoundManager : MonoBehaviour
         HitSeAudioSource = SeObj.transform.GetChild(1).gameObject.GetComponent<AudioSource>();
         LandingSeAudioSource = SeObj.transform.GetChild(2).gameObject.GetComponent<AudioSource>();
 
-        SetBGMVolume(BgmSlinder.value);
-        SetSEVolume(SeSlinder.value);
-        BgmSlinder.onValueChanged.AddListener(SetBGMVolume);
-        SeSlinder.onValueChanged.AddListener(SetSEVolume);
+        SetBGMVolume(bgmSlinder.value);
+        SetSEVolume(seSlinder.value);
+        bgmSlinder.onValueChanged.AddListener(SetBGMVolume);
+        seSlinder.onValueChanged.AddListener(SetSEVolume);
         Startbgm1();
     }
     //ボリュームの下限値、上昇値の設定
@@ -105,51 +105,51 @@ public class SoundManager : MonoBehaviour
     }
     public void SettingPlaySE()
     {
-        SelectSeAudioSource.PlayOneShot(SelectSe);
+        SelectSeAudioSource.PlayOneShot(selectSe);
     }
     public void SettingPlaySE2()
     {
-        SelectSeAudioSource.PlayOneShot(HitSe);
+        SelectSeAudioSource.PlayOneShot(hitSe);
     }
     public void SettingPlaySE3()
     {
-        SelectSeAudioSource.PlayOneShot(LandingSe);
+        SelectSeAudioSource.PlayOneShot(landingSe);
     }
     public void SettingPlaySE4()
     {
-        SelectSeAudioSource.PlayOneShot(PoseSe);
+        SelectSeAudioSource.PlayOneShot(poseSe);
     }
     public void SettingPlaySE5()
     {
-        SelectSeAudioSource.PlayOneShot(ActionSelectSe);
+        SelectSeAudioSource.PlayOneShot(actionSelectSe);
     }
     public void SettingPlaySE6()
     {
-        SelectSeAudioSource.PlayOneShot(UnlockSe);
+        SelectSeAudioSource.PlayOneShot(unlockSe);
     }
     public void SettingPlaySE7()
     {
-        SelectSeAudioSource.PlayOneShot(RespawnSe);
+        SelectSeAudioSource.PlayOneShot(respawnSe);
     }
     public void SettingPlaySE8()
     {
-        SelectSeAudioSource.PlayOneShot(SlidingSe);
+        SelectSeAudioSource.PlayOneShot(slidingSe);
     }
     public void SettingPlaySE9()
     {
-        SelectSeAudioSource.PlayOneShot(ScreamSe);
+        SelectSeAudioSource.PlayOneShot(screamSe);
     }
     public void SettingPlaySE10()
     {
-        SelectSeAudioSource.PlayOneShot(SpinSE);
+        SelectSeAudioSource.PlayOneShot(spinSE);
     }
     public void SettingPlaySE11()
     {
-        SelectSeAudioSource.PlayOneShot(GrantSE);
+        SelectSeAudioSource.PlayOneShot(grantSE);
     }
     public void SettingPlaySE12()
     {
-        SelectSeAudioSource.PlayOneShot(ExtinctionSE);
+        SelectSeAudioSource.PlayOneShot(extinctionSE);
     }
     public void SettingPlaySE13()
     {
@@ -161,6 +161,6 @@ public class SoundManager : MonoBehaviour
     }   
     public void SettingPlaySE15()
     {
-        SelectSeAudioSource.PlayOneShot(GameClearSE);
+        SelectSeAudioSource.PlayOneShot(gameClearSE);
     }
 }

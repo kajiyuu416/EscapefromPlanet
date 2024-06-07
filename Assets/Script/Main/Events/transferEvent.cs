@@ -9,11 +9,11 @@ using UnityEngine.InputSystem;
 //プレイヤー、UIを非表示、カメラの位置を変更、転送エフェクトの表示
 public class transferEvent : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI ActionPop;
-    [SerializeField] GameObject IdleMeshs;
+    [SerializeField] TextMeshProUGUI actionPop;
+    [SerializeField] GameObject idleMeshs;
     [SerializeField] GameObject transEfe;
-    [SerializeField] GameObject Timer;
-    [SerializeField] FadeInOut FO;
+    [SerializeField] GameObject timer;
+    [SerializeField] FadeInOut fadeinout;
     public CinemachineVirtualCamera subcamera5;
     public CinemachineVirtualCamera subcamera6;
     private void OnTriggerStay(Collider collision)
@@ -21,57 +21,57 @@ public class transferEvent : MonoBehaviour
         var current_GP = Gamepad.current;
         var Check = current_GP.leftShoulder;
 
-        if (collision.CompareTag("Player") && Check.wasPressedThisFrame && GameManager2.FGF)
+        if (collision.CompareTag("Player") && Check.wasPressedThisFrame && GameManager2.floatPowerGetFlag)
         {
-            subcamera5.Priority = Const.CO.Const_Int_List[0];
-            IdleMeshs.SetActive(false);
+            subcamera5.Priority = Const.CO.const_Int_List[0];
+            idleMeshs.SetActive(false);
             transEfe.SetActive(true);
-            Timer.SetActive(false);
+            timer.SetActive(false);
             gameObject.GetComponent<BoxCollider>().enabled = false;
-            GameManager.instance.PlayerUI.SetActive(false);
+            GameManager.instance.playerui.SetActive(false);
             SoundManager.Instance.StopAudio();
             SoundManager.Instance.SettingPlaySE12();
             GameManager.pauseflag = true;
-            ActionPop.text = "";
+            actionPop.text = "";
             StartCoroutine("FOtrue");
         }
-        if (collision.CompareTag("Player") && Check.wasPressedThisFrame && !GameManager2.FGF)
+        if (collision.CompareTag("Player") && Check.wasPressedThisFrame && !GameManager2.floatPowerGetFlag)
         {
-            ActionPop.text = "転送装置のロックが解除されていません";
+            actionPop.text = "転送装置のロックが解除されていません";
         }
     }
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.name == "Idle")
+        if (collision.gameObject.name == "idle")
         {
-            ActionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = "LBボタン入力でアクション行う";
         }
     }
     private void OnTriggerExit(Collider collision)
     {
-        if (collision.gameObject.name == "Idle")
+        if (collision.gameObject.name == "idle")
         {
-            ActionPop.text = ""; 
+            actionPop.text = ""; 
         }
     }
     IEnumerator FOtrue()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Int_List[2]);
-        FO.FadeOutFlag = true;
+        yield return new WaitForSeconds(Const.CO.const_Int_List[2]);
+        fadeinout.fadeOutFlag = true;
         subcamera5.Priority = 0;
         StartCoroutine("CameraSwitch");
     }
     IEnumerator FItrue()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Int_List[2]);
-        FO.FadeInFlag = true;
+        yield return new WaitForSeconds(Const.CO.const_Int_List[2]);
+        fadeinout.fadeInFlag = true;
         GameManager.instance.GameClear();
     }
     IEnumerator CameraSwitch()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Int_List[3]);
-        subcamera6.Priority = Const.CO.Const_Int_List[0];
+        yield return new WaitForSeconds(Const.CO.const_Int_List[3]);
+        subcamera6.Priority = Const.CO.const_Int_List[0];
         StartCoroutine("FItrue");
     }
 

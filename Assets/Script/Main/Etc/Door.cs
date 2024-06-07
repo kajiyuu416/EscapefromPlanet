@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    private bool OpendoorFlag = false;
+    private bool opendoorFlag = false;
     public Animator animator;
 
     //プレイヤーがコライダーの範囲内に扉が開き、範囲外に出ると扉が閉まる
@@ -16,9 +16,9 @@ public class Door : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            OpendoorFlag = true;
+            opendoorFlag = true;
         }
-        animator.SetBool("character_nearby", OpendoorFlag);
+        animator.SetBool("character_nearby", opendoorFlag);
     }
 
     private void OnTriggerExit(Collider collision)
@@ -26,18 +26,18 @@ public class Door : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
-            OpendoorFlag = false;
+            opendoorFlag = false;
 
         }
-        animator.SetBool("character_nearby", OpendoorFlag);
+        animator.SetBool("character_nearby", opendoorFlag);
     }
     private void OnTriggerStay(Collider collision)
     {
         if (collision.CompareTag("Player"))
         {
-            OpendoorFlag = true;
+            opendoorFlag = true;
         }
-        animator.SetBool("character_nearby", OpendoorFlag);
+        animator.SetBool("character_nearby", opendoorFlag);
 
     }
 }

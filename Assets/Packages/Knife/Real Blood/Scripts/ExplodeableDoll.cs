@@ -64,7 +64,7 @@ namespace Knife.RealBlood
             attachedCollider.enabled = true;
             isExploded = false;
             animator.ResetTrigger(explosionTrigger);
-            animator.Play("Idle");
+            animator.Play("idle");
             foreach (var g in explosionObjects)
             {
                 g.SetActive(false);

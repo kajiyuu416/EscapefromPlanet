@@ -7,29 +7,29 @@ using UnityEngine.InputSystem;
 using System.Collections;
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] GameObject GameOverobj;
-    [SerializeField] GameObject Pauseobj;
-    [SerializeField] GameObject Idle;
-    [SerializeField] GameObject MC;
-    [SerializeField] GameObject SettingButton;
+    [SerializeField] GameObject gameOverobj;
+    [SerializeField] GameObject pauseobj;
+    [SerializeField] GameObject idle;
+    [SerializeField] GameObject maincamera;
+    [SerializeField] GameObject settingButton;
     [SerializeField] GameObject warningimage;
-    [SerializeField] GameObject GameClearTextobj;
+    [SerializeField] GameObject gameClearTextobj;
     [SerializeField] GameObject restrictionImage1;
     [SerializeField] GameObject restrictionImage2;
-    [SerializeField] GameObject UI;
-    [SerializeField] public GameObject PlayerUI;
-    [SerializeField] public GameObject PlayerActionUI1;
-    [SerializeField] public GameObject PlayerActionUI2;
-    [SerializeField] AdditionPlayerAction AA;
-    [SerializeField] FloatPowerSC FP;
-    [SerializeField] Text GOCount;
+    [SerializeField] GameObject ui;
+    [SerializeField] public GameObject playerui;
+    [SerializeField] public GameObject playeractionui1;
+    [SerializeField] public GameObject playeractionui2;
+    [SerializeField] AdditionPlayerAction additionPlayerAction;
+    [SerializeField] FloatPowerSC floatPowerSC;
+    [SerializeField] Text gameOverCount;
     public static GameManager instance;
     public static bool pauseflag;
     public static int count = 0;
-    private bool RestartFlag;
-    private bool GameOverFlag = false;
-    private bool GameClearFlag = false;
-    private bool SettingOPflag;
+    private bool restartFlag;
+    private bool gameOverFlag = false;
+    private bool gameClearFlag = false;
+    private bool settingOPflag;
     private bool stbflag;
 
     private void Update()
@@ -46,8 +46,8 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         pauseflag = true;
-        GOCount.text = count.ToString();
-        Invoke(nameof(Standby), Const.CO.Const_Float_List[3]);
+        gameOverCount.text = count.ToString();
+        Invoke(nameof(Standby), Const.CO.const_Float_List[3]);
         if (instance == null)
         {
             instance = this;
@@ -63,18 +63,18 @@ public class GameManager : MonoBehaviour
         if (Setting.wasPressedThisFrame && !pauseflag && stbflag)
         {
             pauseflag = true;
-            SettingOPflag = true;
-            Pauseobj.SetActive(true);
+            settingOPflag = true;
+            pauseobj.SetActive(true);
             warningimage.SetActive(false);
-            Idle.GetComponent<Animator>().speed = 0;
-            EventSystem.current.SetSelectedGameObject(SettingButton);
+            idle.GetComponent<Animator>().speed = 0;
+            EventSystem.current.SetSelectedGameObject(settingButton);
           　SoundManager.Instance.SettingPlaySE4();
         }
-        if (Cansel.wasPressedThisFrame && SettingOPflag )
+        if (Cansel.wasPressedThisFrame && settingOPflag )
         {
-            SettingOPflag = false;
-            Pauseobj.SetActive(false);
-            Idle.GetComponent<Animator>().speed = Const.CO.Const_Float_List[0];
+            settingOPflag = false;
+            pauseobj.SetActive(false);
+            idle.GetComponent<Animator>().speed = Const.CO.const_Float_List[0];
             StartCoroutine(Standbytime());
         }
 
@@ -82,11 +82,11 @@ public class GameManager : MonoBehaviour
     //static bool型のflagが返っているかチェック
     private void GivePower()
     {
-        if (GameManager2.AGF)
+        if (GameManager2.additionPlayerActionGetFlag)
         {
             Destroy(restrictionImage1);
         }
-        if (GameManager2.FGF)
+        if (GameManager2.floatPowerGetFlag)
         {
             Destroy(restrictionImage2);
         }
@@ -94,17 +94,17 @@ public class GameManager : MonoBehaviour
     //ゲームクリア時に呼ばれる関数
     public  void GameClear()
     {
-        GameClearFlag = true;
-        GameClearTextobj.SetActive(true);
+        gameClearFlag = true;
+        gameClearTextobj.SetActive(true);
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE15();
     }
     //ゲームオーバー時に呼ばれる関数
     private void GameOver()
     {
-        GameOverobj.SetActive(true);
+        gameOverobj.SetActive(true);
         warningimage.SetActive(false);
-        PlayerUI.SetActive(false);
+        playerui.SetActive(false);
         pauseflag = true;
         stbflag = false;
         SoundManager.Instance.StopAudio();
@@ -115,13 +115,13 @@ public class GameManager : MonoBehaviour
     }
     public void RestartFlagOn()
     {
-        RestartFlag = true;
+        restartFlag = true;
     }
 
     //タイトル画面に戻る際呼ばれる関数
     private void BacktoTitle()
     {
-        PlayerUI.SetActive(false);
+        playerui.SetActive(false);
         SceneManager.LoadScene(0);
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE();
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
     //5フレーム後にフラグを返す
     public static IEnumerator Standbytime()
     {
-        for(var i = 0; i < Const.CO.Const_Int_List[4]; i++)
+        for(var i = 0; i < Const.CO.const_Int_List[4]; i++)
         {
             yield return null;
         }
@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
     //ゲームオーバー後3秒後にリスタート時に呼ばれる関数
     private IEnumerator ReStartThiScene()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Int_List[2]);
+        yield return new WaitForSeconds(Const.CO.const_Int_List[2]);
         SoundManager.Instance.StopAudio();
         yield return GameManager2.instance.FadeOut("MainScene");
     }
@@ -155,13 +155,13 @@ public class GameManager : MonoBehaviour
     //UI表示のON、OFFチェック
     private void UIcheck()
     {
-        if(GameManager2.UIon_off_button && !UI.activeSelf)
+        if(GameManager2.uion_off_button && !ui.activeSelf)
         {
-            UI.SetActive(true);
+            ui.SetActive(true);
         }
-        else if(!GameManager2.UIon_off_button && UI.activeSelf)
+        else if(!GameManager2.uion_off_button && ui.activeSelf)
         {
-            UI.SetActive(false);
+            ui.SetActive(false);
         }
     }
     private void GameFlagcheck()
@@ -170,22 +170,22 @@ public class GameManager : MonoBehaviour
         {
             var current_GP = Gamepad.current;
             var Cansel = current_GP.buttonEast;
-            if(GameClearFlag && Cansel.wasPressedThisFrame)
+            if(gameClearFlag && Cansel.wasPressedThisFrame)
             {
                 BacktoTitle();
-                GameClearFlag = false;
+                gameClearFlag = false;
             }
         }
 
-        if(!GameOverFlag && RestartFlag)
+        if(!gameOverFlag && restartFlag)
         {
             GameOver();
-            GameOverFlag = true;
+            gameOverFlag = true;
         }
 
         if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
-            EventSystem.current.SetSelectedGameObject(SettingButton);
+            EventSystem.current.SetSelectedGameObject(settingButton);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }

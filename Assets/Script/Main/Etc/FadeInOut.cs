@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 public class FadeInOut : MonoBehaviour
 {
-    public bool FadeInFlag;
-    public bool FadeOutFlag;
-    public bool RSF;
+    public bool fadeInFlag;
+    public bool fadeOutFlag;
     private Image blackScreen;
     private bool fadeIn = false;
     private bool fadeOut = false;
+    private bool fadeOutEnd;
     //フラグが返るとフェードイン、フェードアウトの処理
     private void Start()
     {
@@ -22,7 +22,7 @@ public class FadeInOut : MonoBehaviour
     {
         blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
         var color = blackScreen.color;
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[0]);
+        yield return new WaitForSeconds(Const.CO.const_Float_List[0]);
 
         while (color.a >= 0)
         {
@@ -31,9 +31,9 @@ public class FadeInOut : MonoBehaviour
 
             yield return null;
         }
-        FadeInFlag = false;
+        fadeInFlag = false;
         fadeIn = false;
-        RSF = false;
+        fadeOutEnd = false;
     }
     public IEnumerator FadeOut()
     {
@@ -41,21 +41,21 @@ public class FadeInOut : MonoBehaviour
         blackScreen.gameObject.SetActive(true);
         var color = blackScreen.color;
 
-        while (color.a <= Const.CO.Const_Float_List[0])
+        while (color.a <= Const.CO.const_Float_List[0])
         {
             color.a += 0.1f;
             blackScreen.color = color;
 
             yield return null;
         }
-        FadeOutFlag = false;
+        fadeOutFlag = false;
         fadeOut = false;
-        RSF = true;
+        fadeOutEnd = true;
     }
 
     public void FadeIn_OutFlag()
     {
-        if(FadeInFlag)
+        if(fadeInFlag)
         {
             if(!fadeIn)
             {
@@ -64,13 +64,26 @@ public class FadeInOut : MonoBehaviour
             }
         }
 
-        if(FadeOutFlag)
+        if(fadeOutFlag)
         {
             if(!fadeOut)
             {
                 StartCoroutine(FadeOut());
                 fadeOut = true;
             }
+        }
+    }
+
+    public bool Duplicate_fadeOutEnd
+    {
+        get
+        {
+            return fadeOutEnd;
+        }
+
+        set
+        {
+            fadeOutEnd = value;
         }
     }
 

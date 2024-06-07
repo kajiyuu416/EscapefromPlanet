@@ -22,11 +22,11 @@ public class EscapeEventSC : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Player") && GameManager2.ALF && GameManager2.AGF && GameManager2.FGF)
+        if (collision.CompareTag("Player") && GameManager2.ALF && GameManager2.additionPlayerActionGetFlag && GameManager2.floatPowerGetFlag)
         {
             gameObject.GetComponent<BoxCollider>().enabled = false;
-            subcamera3.Priority = Const.CO.Const_Int_List[0];
-            GameManager.instance.PlayerUI.SetActive(false);
+            subcamera3.Priority = Const.CO.const_Int_List[0];
+            GameManager.instance.playerui.SetActive(false);
             GameManager.pauseflag = true;
             SoundManager.Instance.StopAudio();
             SoundManager.Instance.SettingPlaySE14();
@@ -44,7 +44,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetText1()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[2]);
+        yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
         if(!Eventskip)
         {
             Actiontmessage.text = "¦‘¾—z‚ª‰F’ˆ‘D‚ÉÚ‹ß’†¦";
@@ -53,7 +53,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetText2()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[3]);
+        yield return new WaitForSeconds(Const.CO.const_Float_List[3]);
         if(!Eventskip)
         {
             Actiontmessage.text = "‹Ù‹}’Eo‘•’u‚ğ–Úw‚µ‚Ä‚­‚¾‚³‚¢";
@@ -62,7 +62,7 @@ public class EscapeEventSC : MonoBehaviour
     }
     private IEnumerator SetAction()
     {
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[3]);
+        yield return new WaitForSeconds(Const.CO.const_Float_List[3]);
         if(!Eventskip)
         {
             EventEnd();
@@ -76,7 +76,7 @@ public class EscapeEventSC : MonoBehaviour
         SoundManager.Instance.StopAudio();
         SoundManager.Instance.Startbgm3();
         GameManager.pauseflag = false;
-        GameManager.instance.PlayerUI.SetActive(true);
+        GameManager.instance.playerui.SetActive(true);
         EscapeEvent = false;
         SM.MPF = true;
         Timer.SetActive(true);

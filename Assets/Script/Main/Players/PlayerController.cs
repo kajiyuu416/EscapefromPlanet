@@ -124,13 +124,13 @@ public class PlayerController : MonoBehaviour
         PlayerMove_input.z = moveInputVal.y;
         var current_GP = Gamepad.current;
         var Run = current_GP.rightShoulder;
-        var speed = Run.isPressed ? Const.CO.Const_Float_List[1] : Const.CO.Const_Float_List[0];
+        var speed = Run.isPressed ? Const.CO.const_Float_List[1] : Const.CO.const_Float_List[0];
         var jump = current_GP.buttonSouth;
         var velocity = new Vector3(PlayerMove_input.x, 0, PlayerMove_input.z).normalized;
         bool isfloat = floatPowerSC.Duplicate_isFloatFlag;
         bool isAerial_Rotation = floatPowerSC.Duplicate_Aerial_Rotation;
         bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
-        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(Const.CO.Const_Float_List[0], 0, Const.CO.Const_Float_List[0])).normalized;
+        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(Const.CO.const_Float_List[0], 0, Const.CO.const_Float_List[0])).normalized;
         Vector3 moveForward = cameraForward * PlayerMove_input.z + Camera.main.transform.right * PlayerMove_input.x;
         rigidbody.velocity = moveForward * moveSpeed + new Vector3(0, rigidbody.velocity.y, 0);
 
@@ -174,8 +174,8 @@ public class PlayerController : MonoBehaviour
             {
                 moveSpeed = RunSpeed;
                 ChangePose = false;
-                gameManager.PlayerActionUI1.SetActive(false);
-                gameManager.PlayerActionUI2.SetActive(true);
+                gameManager.playeractionui1.SetActive(false);
+                gameManager.playeractionui2.SetActive(true);
                 if(isfloat || isAerial_Rotation)
                 {
                     moveSpeed = WalkSpeed;
@@ -184,8 +184,8 @@ public class PlayerController : MonoBehaviour
             else if(!isRun)
             {
                 moveSpeed = WalkSpeed;
-                gameManager.PlayerActionUI1.SetActive(true);
-                gameManager.PlayerActionUI2.SetActive(false);
+                gameManager.playeractionui1.SetActive(true);
+                gameManager.playeractionui2.SetActive(false);
             }
 
             if(isJump||isoverJump)

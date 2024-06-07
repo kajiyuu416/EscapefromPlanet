@@ -26,7 +26,7 @@ public class AdditionPlayerAction : MonoBehaviour
     private void Additional_Actions()
     {
         //“Á’è‚Ìƒtƒ‰ƒO‚ª‹A‚Á‚Ä‚¢‚½ê‡‚Ì‚İˆ—
-        if(GameManager2.AGF && !playerController.isDead)
+        if(GameManager2.additionPlayerActionGetFlag && !playerController.isDead)
         {
             var current_GP = Gamepad.current;
             var JumpOver = current_GP.buttonNorth;
@@ -46,7 +46,7 @@ public class AdditionPlayerAction : MonoBehaviour
                     rigidbody.AddForce(transform.up * JumpOverPower, ForceMode.Impulse);
                 }
 
-                if(PlayerController.Interval_InputButtondown(RunningSlide, Const.CO.Const_Float_List[0]))
+                if(PlayerController.Interval_InputButtondown(RunningSlide, Const.CO.const_Float_List[0]))
                 {
                     rigidbody.AddForce(transform.forward * slidingPower, ForceMode.Impulse);
                     floatPowerSC.Duplicate_isFloat = false;

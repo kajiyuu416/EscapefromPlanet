@@ -10,7 +10,7 @@ public class VideoController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.name == "Idle")
+        if(collision.gameObject.name == "idle")
         {
             renderer.material.color = Color.white;
             ChildMesh.enabled = false;
@@ -19,7 +19,7 @@ public class VideoController : MonoBehaviour
     }
     private void OnTriggerExit(Collider collision)
     {
-        if(collision.gameObject.name == "Idle")
+        if(collision.gameObject.name == "idle")
         {
             renderer.material.color = Color.black;
             ChildMesh.enabled = true;

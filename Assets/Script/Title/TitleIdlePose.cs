@@ -17,14 +17,14 @@ public class TitleIdlePose : MonoBehaviour
             DancePose = false;
 
         }
-        if (SelectNum == Const.CO.Const_Int_List[0])
+        if (SelectNum == Const.CO.const_Int_List[0])
         {
 
             CrouchPose = false;
             LayingPose = true;
             DancePose = false;
         }
-        if (SelectNum == Const.CO.Const_Int_List[1])
+        if (SelectNum == Const.CO.const_Int_List[1])
         {
             CrouchPose = false;
             LayingPose = false;

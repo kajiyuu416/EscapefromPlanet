@@ -59,8 +59,8 @@ namespace Knife.RealBlood
         {
             isExploded = false;
             headAnimator.ResetTrigger(headExplosionTrigger);
-            headAnimator.Play("Idle");
-            bodyAnimator.Play("Idle");
+            headAnimator.Play("idle");
+            bodyAnimator.Play("idle");
             foreach (var h in headExplosionObjects)
             {
                 h.SetActive(false);

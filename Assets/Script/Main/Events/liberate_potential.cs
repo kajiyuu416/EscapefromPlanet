@@ -29,20 +29,20 @@ public class liberate_potential: MonoBehaviour
     {
         var current_GP = Gamepad.current;
         var Check = current_GP.leftShoulder;
-        if (collision.CompareTag("Player") && Check.wasPressedThisFrame && !GameManager2.AGF)
+        if (collision.CompareTag("Player") && Check.wasPressedThisFrame && !GameManager2.additionPlayerActionGetFlag)
         {
             if (!actionFlag)
             {
                 OnCheck();
-                Invoke("GiveOverJump",Const.CO.Const_Float_List[1]);
+                Invoke("GiveOverJump",Const.CO.const_Float_List[1]);
             }
         }
-        if(collision.CompareTag("Player") && Check.wasPressedThisFrame && GameManager2.AGF && !GameManager2.FGF)
+        if(collision.CompareTag("Player") && Check.wasPressedThisFrame && GameManager2.additionPlayerActionGetFlag && !GameManager2.floatPowerGetFlag)
         {
             if (!actionFlag)
             {
                 OnCheck();
-                Invoke("GiveFloat", Const.CO.Const_Float_List[1]);
+                Invoke("GiveFloat", Const.CO.const_Float_List[1]);
             }
         }
         if(collision.CompareTag("Player"))
@@ -78,9 +78,9 @@ public class liberate_potential: MonoBehaviour
     {
         var current_GP = Gamepad.current;
         var close = current_GP.buttonEast;
-        if(actionFlag && close.wasPressedThisFrame && !GameManager2.AGF)
+        if(actionFlag && close.wasPressedThisFrame && !GameManager2.additionPlayerActionGetFlag)
         {
-            GameManager2.AGF = true;
+            GameManager2.additionPlayerActionGetFlag = true;
             AE.SetActive(false);
             StartCoroutine(GameManager.Standbytime());
             not_applicable();
@@ -88,9 +88,9 @@ public class liberate_potential: MonoBehaviour
             SkipText.text = "";
             ActionPop.text = "";
         }
-        else if(actionFlag && close.wasPressedThisFrame && GameManager2.AGF && !GameManager2.FGF)
+        else if(actionFlag && close.wasPressedThisFrame && GameManager2.additionPlayerActionGetFlag && !GameManager2.floatPowerGetFlag)
         {
-            GameManager2.FGF = true;
+            GameManager2.floatPowerGetFlag = true;
             AE.SetActive(false);
             StartCoroutine(GameManager.Standbytime());
             not_applicable();
@@ -101,7 +101,7 @@ public class liberate_potential: MonoBehaviour
     }
     private void GiveOverJump()
     {
-        if(!GameManager2.AGF)
+        if(!GameManager2.additionPlayerActionGetFlag)
         {
             SkipText.text = "";
             AE.SetActive(true);
@@ -111,7 +111,7 @@ public class liberate_potential: MonoBehaviour
     }
     private void GiveFloat()
     {
-        if(!GameManager2.FGF)
+        if(!GameManager2.floatPowerGetFlag)
         {
             SkipText.text = "";
             AE.SetActive(true);
@@ -122,16 +122,16 @@ public class liberate_potential: MonoBehaviour
     //特定のフラグが返っている時、リスト内のコライダー、メッシュを非表示にする
     private void not_applicable()
     {
-        if(GameManager2.AGF)
+        if(GameManager2.additionPlayerActionGetFlag)
         {
             BoxColList[0].enabled = false;
             MeshRenList[0].enabled = false;
         }
 
-        if(GameManager2.FGF)
+        if(GameManager2.floatPowerGetFlag)
         {
-            BoxColList[Const.CO.Const_Int_List[0]].enabled = false;
-            MeshRenList[Const.CO.Const_Int_List[0]].enabled = false;
+            BoxColList[Const.CO.const_Int_List[0]].enabled = false;
+            MeshRenList[Const.CO.const_Int_List[0]].enabled = false;
         }
     }
 }

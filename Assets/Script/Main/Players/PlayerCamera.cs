@@ -49,7 +49,7 @@ public class PlayerCamera : MonoBehaviour
             rotY = 0;
         }
         // ¶‰E‰ñ“]
-        if(GameManager2.Camera_Flip_left_and_right)
+        if(GameManager2.camera_Flip_left_and_right)
         {
             transform.RotateAround(lookAt, Vector3.down, rotX);
         }
@@ -59,7 +59,7 @@ public class PlayerCamera : MonoBehaviour
         }
         //ã¸‰º~‚Ì§ŒÀ
         // ƒJƒƒ‰‚ªƒvƒŒƒCƒ„[‚Ì^ã‚â^‰º‚É‚ ‚é‚Æ‚«‚É‚»‚êˆÈã‰ñ“]‚³‚¹‚È‚¢‚æ‚¤‚É‚·‚é
-        if(!GameManager2.Camera_Upside_down)
+        if(!GameManager2.camera_Upside_down)
         {
             if(transform.forward.y > off_upper_limit && rotY < 0)
             {
@@ -89,7 +89,7 @@ public class PlayerCamera : MonoBehaviour
         }
 
         // ã‰º‰ñ“]
-        if(GameManager2.Camera_Upside_down)
+        if(GameManager2.camera_Upside_down)
         {
             transform.RotateAround(lookAt, -transform.right, rotY);
         }
@@ -111,7 +111,7 @@ public class PlayerCamera : MonoBehaviour
         var current_GP = Gamepad.current;
         var camera_Reset = current_GP.rightStickButton;
 
-        if(PlayerController.Interval_InputButtondown(camera_Reset, Const.CO.Const_Float_List[0]) &&!GameManager.pauseflag)
+        if(PlayerController.Interval_InputButtondown(camera_Reset, Const.CO.const_Float_List[0]) &&!GameManager.pauseflag)
         {
             normalBody.material = DefaultBodyMaterial;
             transform.rotation = Quaternion.Lerp(Target.rotation, transform.rotation, 3.0f * Time.deltaTime);
@@ -123,11 +123,11 @@ public class PlayerCamera : MonoBehaviour
     {
         if(First_Event.actionFlag)
         {
-            subcamera1.Priority = Const.CO.Const_Int_List[0];
+            subcamera1.Priority = Const.CO.const_Int_List[0];
         }
         if(Second_Event.actionFlag)
         {
-            subcamera2.Priority = Const.CO.Const_Int_List[0];
+            subcamera2.Priority = Const.CO.const_Int_List[0];
         }
 
         if(!First_Event.actionFlag)

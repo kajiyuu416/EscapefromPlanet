@@ -45,7 +45,7 @@ public class FloatPowerSC : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager2.FGF)
+        if(GameManager2.floatPowerGetFlag)
         {
             OnPushKey();
             if(EventObj.activeSelf)

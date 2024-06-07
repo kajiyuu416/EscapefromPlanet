@@ -7,28 +7,28 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 public class GameManager2 : MonoBehaviour
 {
-    [SerializeField] GameObject SettingBG;
-    [SerializeField] GameObject BGMSlinder;
-    [SerializeField] GameObject SESlinder;
-    [SerializeField] GameObject RotationSensitivitySlinder;
-    [SerializeField] GameObject UIButton;
-    [SerializeField] GameObject Camera_Up_Down_FlipButton;
-    [SerializeField] GameObject Camera_left_and_right_FlipButton;
-    [SerializeField] Text UI_on_off_text;
-    [SerializeField] Text Camera_Up_down_text;
-    [SerializeField] Text Camera_Flip_left_and_right_text;
-    [SerializeField] Slider SensitivitySlinder;
+    [SerializeField] GameObject settingBG;
+    [SerializeField] GameObject bgmSlinder;
+    [SerializeField] GameObject seSlinder;
+    [SerializeField] GameObject rotationSensitivitySlinder;
+    [SerializeField] GameObject uiButton;
+    [SerializeField] GameObject camera_Up_Down_FlipButton;
+    [SerializeField] GameObject camera_left_and_right_FlipButton;
+    [SerializeField] Text ui_on_off_text;
+    [SerializeField] Text camera_Up_down_text;
+    [SerializeField] Text camera_Flip_left_and_right_text;
+    [SerializeField] Slider sensitivitySlinder;
 
-    public static bool AGF;
-    public static bool FGF;
+    public static bool additionPlayerActionGetFlag;
+    public static bool floatPowerGetFlag;
     public static bool ALF;
     public static bool connect;
-    public static bool UIon_off_button;
-    public static bool Camera_Upside_down;
-    public static bool Camera_Flip_left_and_right;
+    public static bool uion_off_button;
+    public static bool camera_Upside_down;
+    public static bool camera_Flip_left_and_right;
     public static GameManager2 instance;
     private bool firstLoadFlag;
-    private bool SettingFlag;
+    private bool settingFlag;
     private bool loadDemoScene;
     private string beforeScene;
     private string nowSceneName = "title";
@@ -54,21 +54,21 @@ public class GameManager2 : MonoBehaviour
     private void Start()
     {
         SettingCl();
-        UIon_off_button = true;
-        Camera_Upside_down = false;
-        Camera_Flip_left_and_right = false;
+        uion_off_button = true;
+        camera_Upside_down = false;
+        camera_Flip_left_and_right = false;
         StartCoroutine(FadeIn());
         beforeScene = "title";
         countdown = timer;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
-        SetRotationSensitivity(SensitivitySlinder.value);
-        SensitivitySlinder.onValueChanged.AddListener(SetRotationSensitivity);
+        SetRotationSensitivity(sensitivitySlinder.value);
+        sensitivitySlinder.onValueChanged.AddListener(SetRotationSensitivity);
     }
     public void SetRotationSensitivity(float volume)
     {
-        PlayerCamera.RotationSensitivity = SensitivitySlinder.value * 200.0f;
+        PlayerCamera.RotationSensitivity = sensitivitySlinder.value * 200.0f;
     }
     //コントローラーの接続確認
     //マウスの非表示、現在シーンの保存
@@ -87,7 +87,7 @@ public class GameManager2 : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
-        if(SettingFlag)
+        if(settingFlag)
         {
             return;
         }
@@ -137,79 +137,79 @@ public class GameManager2 : MonoBehaviour
     //設定を開いたとき
     public void SettingOp()
     {
-        SettingBG.SetActive(true);
-        BGMSlinder.SetActive(true);
-        SESlinder.SetActive(true);
-        RotationSensitivitySlinder.SetActive(true);
-        UIButton.SetActive(true);
-        Camera_Up_Down_FlipButton.SetActive(true);
-        Camera_left_and_right_FlipButton.SetActive(true);
-        SettingFlag = true;
-        EventSystem.current.SetSelectedGameObject(UIButton);
+        settingBG.SetActive(true);
+        bgmSlinder.SetActive(true);
+        seSlinder.SetActive(true);
+        rotationSensitivitySlinder.SetActive(true);
+        uiButton.SetActive(true);
+        camera_Up_Down_FlipButton.SetActive(true);
+        camera_left_and_right_FlipButton.SetActive(true);
+        settingFlag = true;
+        EventSystem.current.SetSelectedGameObject(uiButton);
     }
     //設定を閉じたとき
     public void SettingCl()
     {
-        SettingBG.SetActive(false);
-        BGMSlinder.SetActive(false);
-        SESlinder.SetActive(false);
-        RotationSensitivitySlinder.SetActive(false);
-        UIButton.SetActive(false);
-        Camera_Up_Down_FlipButton.SetActive(false);
-        Camera_left_and_right_FlipButton.SetActive(false);
-        SettingFlag = false;
+        settingBG.SetActive(false);
+        bgmSlinder.SetActive(false);
+        seSlinder.SetActive(false);
+        rotationSensitivitySlinder.SetActive(false);
+        uiButton.SetActive(false);
+        camera_Up_Down_FlipButton.SetActive(false);
+        camera_left_and_right_FlipButton.SetActive(false);
+        settingFlag = false;
     }
     //設定画面のON・OFF切り替え
     public void Push_Button_UIChange()
     {
-        UIon_off_button = !UIon_off_button;
+        uion_off_button = !uion_off_button;
 
-        if (UIon_off_button == true)
+        if (uion_off_button == true)
         {
-            UI_on_off_text.text = "ON";
-            UI_on_off_text.color = Color.red;
+            ui_on_off_text.text = "ON";
+            ui_on_off_text.color = Color.red;
         }
-        else if((UIon_off_button == false))
+        else if((uion_off_button == false))
         {
-            UI_on_off_text.text = "OFF";
-            UI_on_off_text.color = Color.blue;
+            ui_on_off_text.text = "OFF";
+            ui_on_off_text.color = Color.blue;
         }
     }
     public void Push_Button_Camera_Up_Down_Change()
     {
-        Camera_Upside_down = !Camera_Upside_down;
+        camera_Upside_down = !camera_Upside_down;
 
-        if(Camera_Upside_down == true)
+        if(camera_Upside_down == true)
         {
-            Camera_Up_down_text.text = "ON";
-            Camera_Up_down_text.color = Color.red;
+            camera_Up_down_text.text = "ON";
+            camera_Up_down_text.color = Color.red;
         }
-        else if((Camera_Upside_down == false))
+        else if((camera_Upside_down == false))
         {
-            Camera_Up_down_text.text = "OFF";
-            Camera_Up_down_text.color = Color.blue;
+            camera_Up_down_text.text = "OFF";
+            camera_Up_down_text.color = Color.blue;
         }
     }
     public void Push_Button_Camera_Left_Right_Change()
     {
-        Camera_Flip_left_and_right = !Camera_Flip_left_and_right;
+        camera_Flip_left_and_right = !camera_Flip_left_and_right;
 
-        if(Camera_Flip_left_and_right == true)
+        if(camera_Flip_left_and_right == true)
         {
-            Camera_Flip_left_and_right_text.text = "ON";
-            Camera_Flip_left_and_right_text.color = Color.red;
+            camera_Flip_left_and_right_text.text = "ON";
+            camera_Flip_left_and_right_text.color = Color.red;
         }
-        else if((Camera_Flip_left_and_right == false))
+        else if((camera_Flip_left_and_right == false))
         {
-            Camera_Flip_left_and_right_text.text = "OFF";
-            Camera_Flip_left_and_right_text.color = Color.blue;
+            camera_Flip_left_and_right_text.text = "OFF";
+            camera_Flip_left_and_right_text.color = Color.blue;
         }
     }
     //徐々にフェードアウトしていき完全に暗くなるとシーンをロードする
     public IEnumerator FadeOut(string sceneName)
     {
         var color = blackScreen.color;
-        while (color.a <= Const.CO.Const_Float_List[0])
+        while (color.a <= Const.CO.const_Float_List[0])
         {
             color.a += 0.1f; 
             blackScreen.color = color;
@@ -223,7 +223,7 @@ public class GameManager2 : MonoBehaviour
     {
         blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
         var color = blackScreen.color;
-        yield return new WaitForSeconds(Const.CO.Const_Float_List[0]);
+        yield return new WaitForSeconds(Const.CO.const_Float_List[0]);
 
         while (color.a >= 0)
         {
@@ -251,7 +251,7 @@ public class GameManager2 : MonoBehaviour
             var current_GP = Gamepad.current;
             var Cansel = current_GP.buttonEast;
 
-            if(Cansel.wasPressedThisFrame && SettingFlag)
+            if(Cansel.wasPressedThisFrame && settingFlag)
             {
                 SettingCl();
             }
