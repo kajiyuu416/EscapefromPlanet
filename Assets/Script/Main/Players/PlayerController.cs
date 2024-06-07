@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
                     ct.emitting = true;
                 }
             }
-            else if(isgroundFlag)
+            else if(!isJump || !isoverJump)
             {
                 foreach(var ct in Child_Trails)
                 {

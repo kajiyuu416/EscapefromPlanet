@@ -17,7 +17,7 @@ public class LazerController : MonoBehaviour
     [SerializeField] float IO;
     [SerializeField] float IT;
     [SerializeField] MeshRenderer LSchild;
-    private int Direction = 1;
+    private int direction = 1;
     private bool isResetFlag = false;
     private string secondtagname;
     private Vector3 _initialPosition;
@@ -27,7 +27,7 @@ public class LazerController : MonoBehaviour
 
     public enum Selectnumber
     {
-        Zero, One, Two, Three, Four, Five, Six, Seven
+        Zero, One, Two, Three, Four, Five, Six, Seven, Eight
     }
     public Selectnumber sn;
     private void Start()
@@ -37,10 +37,13 @@ public class LazerController : MonoBehaviour
         _initialRotation = gameObject.transform.rotation;
 
         secondtagname = "ResetPoint";
-        if (sn == Selectnumber.Six)
+        if (sn == Selectnumber.Six || sn == Selectnumber.Eight)
         {
-            boxCollider = GetComponent<BoxCollider>();
-            meshRenderer = GetComponent<MeshRenderer>();
+            if(boxCollider == null || meshRenderer == null)
+            {
+                boxCollider = GetComponent<BoxCollider>();
+                meshRenderer = GetComponent<MeshRenderer>();
+            }
 
             foreach (MeshRenderer child in LSchild.GetComponentsInChildren<MeshRenderer>())
             {
@@ -90,23 +93,23 @@ public class LazerController : MonoBehaviour
         else if (sn == Selectnumber.Two)
         {
      
-            transform.position = new Vector3(transform.position.x + movespeed * Time.fixedDeltaTime * Direction, _initialPosition.y, _initialPosition.z);
-            if (transform.position.x >= target2.position.x) Direction = -1;
-            if (transform.position.x <= target1.position.x) Direction = 1;
+            transform.position = new Vector3(transform.position.x + movespeed * Time.fixedDeltaTime * direction, _initialPosition.y, _initialPosition.z);
+            if (transform.position.x >= target2.position.x) direction = -1;
+            if (transform.position.x <= target1.position.x) direction = 1;
         }
         else if (sn == Selectnumber.Three)
         {
-            transform.position = new Vector3(_initialPosition.x, transform.position.y + movespeed * Time.fixedDeltaTime * Direction, _initialPosition.z);
-            if (transform.position.y >= target2.position.y) Direction = -1;
-            if (transform.position.y <= target1.position.y) Direction = 1;
+            transform.position = new Vector3(_initialPosition.x, transform.position.y + movespeed * Time.fixedDeltaTime * direction, _initialPosition.z);
+            if (transform.position.y >= target2.position.y) direction = -1;
+            if (transform.position.y <= target1.position.y) direction = 1;
 
         }
         else if (sn == Selectnumber.Four)
         {
    
-            transform.position = new Vector3(_initialPosition.x, _initialPosition.y, transform.position.z + movespeed * Time.fixedDeltaTime * Direction);
-            if (transform.position.z >= target2.position.z) Direction = -1;
-            if (transform.position.z <= target1.position.z) Direction = 1;
+            transform.position = new Vector3(_initialPosition.x, _initialPosition.y, transform.position.z + movespeed * Time.fixedDeltaTime * direction);
+            if (transform.position.z >= target2.position.z) direction = -1;
+            if (transform.position.z <= target1.position.z) direction = 1;
 
         }
         else if (sn == Selectnumber.Five)
@@ -119,7 +122,6 @@ public class LazerController : MonoBehaviour
             time += Time.deltaTime;
             if (time > OT)
             {
-               
                 meshRenderer.enabled = false;
                 boxCollider.enabled = false;
             }
@@ -137,10 +139,28 @@ public class LazerController : MonoBehaviour
         }
         else if (sn == Selectnumber.Seven)
         {
-            transform.position = new Vector3(transform.position.x + movespeed * Time.fixedDeltaTime * Direction, _initialPosition.y, _initialPosition.z);
-            if (transform.position.x >= target2.position.x) Direction = -1;
-            if (transform.position.x <= target1.position.x) Direction = 1;
+            transform.position = new Vector3(transform.position.x + movespeed * Time.fixedDeltaTime * direction, _initialPosition.y, _initialPosition.z);
+            if (transform.position.x >= target2.position.x) direction = -1;
+            if (transform.position.x <= target1.position.x) direction = 1;
             gameObject.transform.Rotate(new Vector3(rotatex, rotatey, rotatez) * Time.deltaTime);
+        }
+        else if (sn == Selectnumber.Eight)
+        {
+            time += Time.deltaTime;
+
+            if(time > IO)
+            {
+                meshRenderer.enabled = false;
+                boxCollider.enabled = false;
+                LSchild.enabled = true;
+            }
+            if(time > IT)
+            {
+                meshRenderer.enabled = true;
+                boxCollider.enabled = true;
+                LSchild.enabled = false;
+                time = 0;
+            }
         }
     }
 }
