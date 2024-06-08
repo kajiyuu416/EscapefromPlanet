@@ -4,8 +4,8 @@ public class UnlockDoorSC : MonoBehaviour
 {
     //フラグが返ると、開錠済みのドアを生成
     [SerializeField] GameObject lockDoor;
-    [SerializeField] GameObject UnlockDoor;
-    private bool GenerateFlag = false;
+    [SerializeField] GameObject unlockDoor;
+    private bool generateFlag = false;
     private void Update()
     {
         Generate_Door();
@@ -13,10 +13,10 @@ public class UnlockDoorSC : MonoBehaviour
 
     private void Generate_Door()
     {
-        if(actionEvent.actionFlag && !GenerateFlag)
+        if(actionEvent.actionFlag && !generateFlag)
         {
-            GenerateFlag = true;
-            Instantiate(UnlockDoor, transform.position, Quaternion.identity);
+            generateFlag = true;
+            Instantiate(unlockDoor, transform.position, Quaternion.identity);
             lockDoor.SetActive(false);
  
         }

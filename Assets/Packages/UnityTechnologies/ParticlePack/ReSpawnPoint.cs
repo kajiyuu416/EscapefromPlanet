@@ -2,27 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.InputSystem;
 
 //リスポーン位置更新オブジェクトのエフェクト再生、表示非表示
 public class ReSpawnPoint : MonoBehaviour
 {
-    [SerializeField] PlayerController PC;
-    [SerializeField] BoxCollider Boxcol;
-    public float spawnEffectTime = 2;
-    public float pause = 1;
-    private float timer = 0;
+    [SerializeField] BoxCollider boxcol;
+    [SerializeField] TextMeshProUGUI actionpop;
+    private float spawnEffectTime = 2;
+    private float pause = 1;
     public AnimationCurve fadeIn;
+    private float timer = 0;
     private int shaderProperty;
-    [SerializeField] TextMeshProUGUI AP;
-    ParticleSystem ps;
-    new Renderer renderer;
+    private ParticleSystem ps;
+    private PlayerController playerController;
+    private new Renderer renderer;
 
     private void Start()
     {
         shaderProperty = Shader.PropertyToID("_cutoff");
         renderer = GetComponent<Renderer>();
         ps = GetComponentInChildren<ParticleSystem>();
+        playerController = FindObjectOfType<PlayerController>();
         var main = ps.main;
         main.duration = spawnEffectTime;
         ps.Play();
@@ -30,9 +30,9 @@ public class ReSpawnPoint : MonoBehaviour
 
     private void Update()
     {
-        if(PC.isDead)
+        if(playerController.Duplicate_isDead)
         {
-            Boxcol.enabled = false;
+            boxcol.enabled = false;
         }
         if (timer < spawnEffectTime + pause)
         {
@@ -50,14 +50,14 @@ public class ReSpawnPoint : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            AP.text = "チェックポイントの更新を行いました";
+            actionpop.text = "チェックポイントの更新を行いました";
             StartCoroutine("SetText");
         }
     }
     IEnumerator SetText()
     {
         yield return new WaitForSeconds(2.0f);
-        AP.text = "";
+        actionpop.text = "";
         gameObject.SetActive(false);
     }
 }

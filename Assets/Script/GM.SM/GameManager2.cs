@@ -68,7 +68,7 @@ public class GameManager2 : MonoBehaviour
     }
     public void SetRotationSensitivity(float volume)
     {
-        PlayerCamera.RotationSensitivity = sensitivitySlinder.value * 200.0f;
+        PlayerCamera.rotationSensitivity = sensitivitySlinder.value * 200.0f;
     }
     //コントローラーの接続確認
     //マウスの非表示、現在シーンの保存

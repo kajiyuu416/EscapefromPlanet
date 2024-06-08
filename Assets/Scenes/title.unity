@@ -1867,7 +1867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 212731334}
-  SelectNum: 1
+  selectNum: 1
 --- !u!65 &212731333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3128,7 +3128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 349032956}
-  SelectNum: 2
+  selectNum: 2
 --- !u!65 &349032955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6727,7 +6727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 861056582}
-  SelectNum: 0
+  selectNum: 0
 --- !u!65 &861056581
 BoxCollider:
   m_ObjectHideFlags: 0

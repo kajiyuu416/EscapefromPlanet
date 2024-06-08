@@ -332,9 +332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3daf2aee6512741bc7b7fd782fd540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FadeInFlag: 0
-  FadeOutFlag: 0
-  RSF: 0
+  fadeInFlag: 0
+  fadeOutFlag: 0
 --- !u!1 &1255057689
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,4 +949,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1890960848}
   fadeinout: {fileID: 749930263}
-  SceneName: title
+  sceneName: title

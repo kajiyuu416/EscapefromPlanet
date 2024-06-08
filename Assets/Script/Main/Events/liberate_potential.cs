@@ -8,13 +8,13 @@ using UnityEngine.Assertions.Must;
 //イベントを発生させ、プレイヤーへ能力付与のフラグを返す
 public class liberate_potential: MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI ActionPop;
-    [SerializeField] TextMeshProUGUI Actiontmessage;
-    [SerializeField] TextMeshProUGUI SkipText;
-    [SerializeField] SpawnEffect SE;
-    [SerializeField] GameObject AE;
-    [SerializeField] List<BoxCollider> BoxColList;
-    [SerializeField] List<MeshRenderer>MeshRenList;
+    [SerializeField] TextMeshProUGUI actionPop;
+    [SerializeField] TextMeshProUGUI actiontmessage;
+    [SerializeField] TextMeshProUGUI skipText;
+    [SerializeField] SpawnEffect spawneffect;
+    [SerializeField] GameObject actionimage;
+    [SerializeField] List<BoxCollider> boxColList;
+    [SerializeField] List<MeshRenderer>meshRenList;
     public bool actionFlag;
 
     private void Update()
@@ -47,31 +47,31 @@ public class liberate_potential: MonoBehaviour
         }
         if(collision.CompareTag("Player"))
         {
-            ActionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = "LBボタン入力でアクション行う";
         }
     }
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.CompareTag("Player"))
         {
-            ActionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = "LBボタン入力でアクション行う";
         }
     }
     private void OnTriggerExit(Collider collision)
     {
         if(collision.CompareTag("Player"))
         {
-            ActionPop.text = "";
+            actionPop.text = "";
         }
     }
     private void OnCheck()
     {
         GameManager.pauseflag = true;
         SoundManager.Instance.SettingPlaySE12();
-        SE.enabled = true;
+        spawneffect.enabled = true;
         actionFlag = true;
-        ActionPop.text = "";
-        SkipText.text = "Bボタンでスキップ";
+        actionPop.text = "";
+        skipText.text = "Bボタンでスキップ";
     }
     //フラグを返す、UIの非表示
     private void OnClose()
@@ -81,30 +81,30 @@ public class liberate_potential: MonoBehaviour
         if(actionFlag && close.wasPressedThisFrame && !GameManager2.additionPlayerActionGetFlag)
         {
             GameManager2.additionPlayerActionGetFlag = true;
-            AE.SetActive(false);
+            actionimage.SetActive(false);
             StartCoroutine(GameManager.Standbytime());
             not_applicable();
             actionFlag = false;
-            SkipText.text = "";
-            ActionPop.text = "";
+            skipText.text = "";
+            actionPop.text = "";
         }
         else if(actionFlag && close.wasPressedThisFrame && GameManager2.additionPlayerActionGetFlag && !GameManager2.floatPowerGetFlag)
         {
             GameManager2.floatPowerGetFlag = true;
-            AE.SetActive(false);
+            actionimage.SetActive(false);
             StartCoroutine(GameManager.Standbytime());
             not_applicable();
             actionFlag = false;
-            SkipText.text = "";
-            ActionPop.text = "";
+            skipText.text = "";
+            actionPop.text = "";
         }
     }
     private void GiveOverJump()
     {
         if(!GameManager2.additionPlayerActionGetFlag)
         {
-            SkipText.text = "";
-            AE.SetActive(true);
+            skipText.text = "";
+            actionimage.SetActive(true);
         }
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE11();
@@ -113,8 +113,8 @@ public class liberate_potential: MonoBehaviour
     {
         if(!GameManager2.floatPowerGetFlag)
         {
-            SkipText.text = "";
-            AE.SetActive(true);
+            skipText.text = "";
+            actionimage.SetActive(true);
         }
         SoundManager SM = SoundManager.Instance;
         SM.SettingPlaySE11();
@@ -124,14 +124,14 @@ public class liberate_potential: MonoBehaviour
     {
         if(GameManager2.additionPlayerActionGetFlag)
         {
-            BoxColList[0].enabled = false;
-            MeshRenList[0].enabled = false;
+            boxColList[0].enabled = false;
+            meshRenList[0].enabled = false;
         }
 
         if(GameManager2.floatPowerGetFlag)
         {
-            BoxColList[Const.CO.const_Int_List[0]].enabled = false;
-            MeshRenList[Const.CO.const_Int_List[0]].enabled = false;
+            boxColList[Const.CO.const_Int_List[0]].enabled = false;
+            meshRenList[Const.CO.const_Int_List[0]].enabled = false;
         }
     }
 }

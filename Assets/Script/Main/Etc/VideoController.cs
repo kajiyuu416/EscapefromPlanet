@@ -6,14 +6,14 @@ public class VideoController : MonoBehaviour
 {
     [SerializeField] List<VideoPlayer> videoPlayersList;
     [SerializeField] Renderer renderer;
-    [SerializeField] MeshRenderer ChildMesh;
+    [SerializeField] MeshRenderer childMesh;
 
     private void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.name == "idle")
         {
             renderer.material.color = Color.white;
-            ChildMesh.enabled = false;
+            childMesh.enabled = false;
             IsPlay();
         }
     }
@@ -22,7 +22,7 @@ public class VideoController : MonoBehaviour
         if(collision.gameObject.name == "idle")
         {
             renderer.material.color = Color.black;
-            ChildMesh.enabled = true;
+            childMesh.enabled = true;
             IsStop();
         }
     }

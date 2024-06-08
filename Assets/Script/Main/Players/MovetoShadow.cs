@@ -3,7 +3,7 @@ using UnityEngine;
 public class MovetoShadow : MonoBehaviour
 {
     [SerializeField] Transform target;
-    [SerializeField] GameObject Player;
+    [SerializeField] GameObject player;
     private Vector3 _initialPosition;
     private Vector3 nowP = Vector3.zero;
     private void Start()
@@ -16,6 +16,6 @@ public class MovetoShadow : MonoBehaviour
         nowP.y = _initialPosition.y;
         nowP.z = target.position.z;
         transform.position = nowP;
-        float dis = Vector3.Distance(transform.position, Player.transform.position);
+        float dis = Vector3.Distance(transform.position, player.transform.position);
     }
 }

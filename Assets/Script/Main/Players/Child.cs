@@ -5,7 +5,7 @@ using UnityEngine;
 //子オブジェクト（各パーツ）を表示、レーザーに降れば部分はランダムな方向に力を加え飛ばされるような表現を実装
 public class Child : MonoBehaviour
 {
-    private const float Speed = 20.0f;
+    private const float speed = 20.0f;
     private float time;
     private float vecX;
     private float vecY;
@@ -13,7 +13,6 @@ public class Child : MonoBehaviour
     private Vector3 initialPosition;
     public GameObject particleObject;
     public PlayerController playerController;
-
     private MeshRenderer meshRenderer;
     private new Rigidbody rigidbody;
     private BoxCollider boxCollider;
@@ -54,7 +53,7 @@ public class Child : MonoBehaviour
                 vecZ = Random.Range(-5, 5);
                 transform.position = new Vector3(vecX, vecY, vecZ);
                 transform.position = initialPosition;
-                rigidbody.velocity = transform.forward.normalized * Speed;
+                rigidbody.velocity = transform.forward.normalized * speed;
                 time = Const.CO.const_Float_List[3];
             }
         }

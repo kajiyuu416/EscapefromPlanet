@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ObjectDistanceSC : MonoBehaviour
 {
-    [SerializeField] List<GameObject> ObjectList;
-    private const float DestroyDistance = 100.0f;
+    [SerializeField] List<GameObject> laserobjectList;
+    private const float destroyDistance = 100.0f;
     //Razerオブジェクトをリストに登録し
     //距離に応じてオブジェクトを非表示にする。処理負荷軽減の為。
     private void Update()
@@ -15,15 +15,15 @@ public class ObjectDistanceSC : MonoBehaviour
     }
     private void Check_Distance()
     {
-        foreach(var obj in ObjectList)
+        foreach(var obj in laserobjectList)
         {
             float distance = Vector3.Distance(transform.position, obj.transform.position);
 
-            if(distance > DestroyDistance && obj.activeSelf)
+            if(distance > destroyDistance && obj.activeSelf)
             {
                 obj.gameObject.SetActive(false);
             }
-            else if(distance < DestroyDistance && !obj.activeSelf)
+            else if(distance < destroyDistance && !obj.activeSelf)
             {
                 obj.gameObject.SetActive(true);
             }

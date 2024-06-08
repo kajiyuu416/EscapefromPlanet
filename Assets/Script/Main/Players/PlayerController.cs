@@ -10,51 +10,51 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
-    [SerializeField] GameObject IdleBody;
+    [SerializeField] GameObject idleBody;
     [SerializeField] Animator animator;
     private FloatPowerSC floatPowerSC;
     private AdditionPlayerAction additionPlayerAction;
-    private const float WalkSpeed = 3.0f;
-    private const float RunSpeed = 7.0f;
-    private const float JumpPower = 140.0f;
+    private const float walkSpeed = 3.0f;
+    private const float runSpeed = 7.0f;
+    private const float jumpPower = 140.0f;
     private float moveSpeed;
     private bool isWalk;
     private bool isRun;
     private bool isJump;
     private bool isgroundFlag;
-    public  bool ChangePose;
-    private bool CrouchPose;
-    private bool LayingPose;
-    private bool DancePose;
-    public bool isDead;
+    private bool changePose;
+    private bool crouchPose;
+    private bool layingPose;
+    private bool dancePose;
+    private bool isDead;
     private static bool preventContinuityInput;
     private static float buttonDownTime;
     private static float timer;
     public static PlayerController instance;
-    private Child[] Parts;
-    private TrailRenderer[] Child_Trails;
+    private Child[] childParts;
+    private TrailRenderer[] child_Trails;
     private new Rigidbody rigidbody;
-    public Vector2 moveInputVal;
-    public Vector2 CameraInputVal;
-    private Vector3 PlayerMove_input;
-    private static Vector3 CP = new Vector3();
+    private Vector2 moveInputVal;
+    private Vector2 cameraInputVal;
+    private Vector3 playerMove_input;
+    private static Vector3 checkPoint = new Vector3();
    
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        Parts = GetComponentsInChildren<Child>();
-        Child_Trails = GetComponentsInChildren<TrailRenderer>();
+        childParts = GetComponentsInChildren<Child>();
+        child_Trails = GetComponentsInChildren<TrailRenderer>();
         floatPowerSC = FindObjectOfType<FloatPowerSC>();
         additionPlayerAction = FindObjectOfType<AdditionPlayerAction>();
     }
 
     private void Start()
     {
-        if(CP != Vector3.zero)
+        if(checkPoint != Vector3.zero)
         {
-            transform.position = CP;
+            transform.position = checkPoint;
         }
     }
     private void Update()
@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
         if(collision.CompareTag("spawnpoint"))
         {
-            CP = transform.position; // 現在位置を記憶
+            checkPoint = transform.position; // 現在位置を記憶
         }
     }
 
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
         if(collision.CompareTag("ResetArea"))
         {
-            transform.position = CP;
+            transform.position = checkPoint;
         }
     }
     private void OnTriggerExit(Collider collision)
@@ -115,23 +115,23 @@ public class PlayerController : MonoBehaviour
         {
             isgroundFlag = false;
             Posefalse();
-            ChangePose = false;
+            changePose = false;
         }
     }
     private void PlayerMove()//プレイヤーの移動及び歩きアニメーション処理
     {
-        PlayerMove_input.x = moveInputVal.x;
-        PlayerMove_input.z = moveInputVal.y;
+        playerMove_input.x = moveInputVal.x;
+        playerMove_input.z = moveInputVal.y;
         var current_GP = Gamepad.current;
         var Run = current_GP.rightShoulder;
         var speed = Run.isPressed ? Const.CO.const_Float_List[1] : Const.CO.const_Float_List[0];
         var jump = current_GP.buttonSouth;
-        var velocity = new Vector3(PlayerMove_input.x, 0, PlayerMove_input.z).normalized;
+        var velocity = new Vector3(playerMove_input.x, 0, playerMove_input.z).normalized;
         bool isfloat = floatPowerSC.Duplicate_isFloatFlag;
         bool isAerial_Rotation = floatPowerSC.Duplicate_Aerial_Rotation;
         bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(Const.CO.const_Float_List[0], 0, Const.CO.const_Float_List[0])).normalized;
-        Vector3 moveForward = cameraForward * PlayerMove_input.z + Camera.main.transform.right * PlayerMove_input.x;
+        Vector3 moveForward = cameraForward * playerMove_input.z + Camera.main.transform.right * playerMove_input.x;
         rigidbody.velocity = moveForward * moveSpeed + new Vector3(0, rigidbody.velocity.y, 0);
 
         if(moveForward != Vector3.zero)
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         //特定のフラグが返っていればプレイヤーの動作を制御する
-        if(GameManager.pauseflag || ChangePose)
+        if(GameManager.pauseflag || changePose)
         {
             velocity = Vector3.zero;
             rigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezeRotation;
@@ -153,18 +153,18 @@ public class PlayerController : MonoBehaviour
         if(!GameManager.pauseflag)
         {
             // Walk状態であればスピードの変更、UI表示の変更
-            if(PlayerMove_input != Vector3.zero && isgroundFlag &&!isJump)
+            if(playerMove_input != Vector3.zero && isgroundFlag &&!isJump)
             {
                 isWalk = true;
                 isRun = false;
-                moveSpeed = WalkSpeed;
+                moveSpeed = walkSpeed;
                 //Run状態であればスピードの変更、UI表示の変更
-                if(Run.isPressed && !ChangePose)
+                if(Run.isPressed && !changePose)
                 {
                     isRun = true;
                 }
             }
-            else if(PlayerMove_input == Vector3.zero && isgroundFlag)
+            else if(playerMove_input == Vector3.zero && isgroundFlag)
             {
                 isWalk = false;
                 isRun = false;
@@ -172,32 +172,32 @@ public class PlayerController : MonoBehaviour
 
             if(isRun)
             {
-                moveSpeed = RunSpeed;
-                ChangePose = false;
+                moveSpeed = runSpeed;
+                changePose = false;
                 gameManager.playeractionui1.SetActive(false);
                 gameManager.playeractionui2.SetActive(true);
                 if(isfloat || isAerial_Rotation)
                 {
-                    moveSpeed = WalkSpeed;
+                    moveSpeed = walkSpeed;
                 }
             }
             else if(!isRun)
             {
-                moveSpeed = WalkSpeed;
+                moveSpeed = walkSpeed;
                 gameManager.playeractionui1.SetActive(true);
                 gameManager.playeractionui2.SetActive(false);
             }
 
             if(isJump||isoverJump)
             {
-                foreach(var ct in Child_Trails)
+                foreach(var ct in child_Trails)
                 {
                     ct.emitting = true;
                 }
             }
             else if(!isJump || !isoverJump)
             {
-                foreach(var ct in Child_Trails)
+                foreach(var ct in child_Trails)
                 {
                     ct.emitting = false;
                 }
@@ -210,8 +210,8 @@ public class PlayerController : MonoBehaviour
                 isJump = true;
                 isWalk = false;
                 Posefalse();
-                ChangePose = false;
-                rigidbody.AddForce(transform.up * JumpPower, ForceMode.Impulse);
+                changePose = false;
+                rigidbody.AddForce(transform.up * jumpPower, ForceMode.Impulse);
             }
             rigidbody.constraints = RigidbodyConstraints.None;
             rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
@@ -227,55 +227,55 @@ public class PlayerController : MonoBehaviour
         var Crouch = current_GP.buttonEast;
         var Laying = current_GP.buttonWest;
         var Dance = current_GP.buttonNorth;
-        if (!isRun && !ChangePose && isgroundFlag &&!GameManager.pauseflag)
+        if (!isRun && !changePose && isgroundFlag &&!GameManager.pauseflag)
         {
             if(Crouch.isPressed)
             {
-                CrouchPose = true;
+                crouchPose = true;
             }
             else if(Laying.isPressed)
             {
-                LayingPose = true;
+                layingPose = true;
             }
             else if(Dance.isPressed)
             {
-                DancePose = true;
+                dancePose = true;
             }
 
-            if(CrouchPose || LayingPose || DancePose)
+            if(crouchPose || layingPose || dancePose)
             {
-                ChangePose = true;
+                changePose = true;
             }
         }
 
         if(Crouch.wasReleasedThisFrame || Laying.wasReleasedThisFrame || Dance.wasReleasedThisFrame)
         {
             Posefalse();
-            ChangePose = false;
+            changePose = false;
         }
 
-        animator.SetBool("Crouch", CrouchPose);
-        animator.SetBool("Laying", LayingPose);
-        animator.SetBool("dance", DancePose);
+        animator.SetBool("Crouch", crouchPose);
+        animator.SetBool("Laying", layingPose);
+        animator.SetBool("dance", dancePose);
     }
     private void Posefalse()
     {
-        CrouchPose = false;
-        LayingPose = false;
-        DancePose = false;
+        crouchPose = false;
+        layingPose = false;
+        dancePose = false;
     }
     //プレイヤーがレーザー接触時、自身を非表示にし子オブジェクトの表示を行う
     public void PlayerDeath()
     {
-        foreach(var ct in Child_Trails)
+        foreach(var ct in child_Trails)
         {
             ct.emitting = false;
         }
-        foreach (var p in Parts)
+        foreach (var p in childParts)
         {
             p.On();
         }
-        IdleBody.SetActive(false);
+        idleBody.SetActive(false);
         gameManager.RestartFlagOn();
         isDead = true;
         animator.SetBool("Death", isDead);
@@ -322,7 +322,7 @@ public class PlayerController : MonoBehaviour
     }
     public void OnCamera(InputValue var)
     {
-       CameraInputVal = var.Get<Vector2>();
+       cameraInputVal = var.Get<Vector2>();
     }
     public bool Duplicate_isRun
     {
@@ -357,7 +357,21 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return ChangePose;
+            return changePose;
+        }
+    }   
+    public bool Duplicate_isDead
+    {
+        get
+        {
+            return isDead;
+        }
+    }
+    public Vector2 Duplicate_cameraInputVal
+    {
+        get
+        {
+            return cameraInputVal;
         }
     }
 

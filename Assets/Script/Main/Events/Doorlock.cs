@@ -5,14 +5,14 @@ using Cinemachine;
 public class Doorlock : MonoBehaviour
 {
     //コライダーと接触時テキスト表示、カメラワーク変更
-    [SerializeField] TextMeshProUGUI DoorlockText;
+    [SerializeField] TextMeshProUGUI doorlockText;
     [SerializeField] CinemachineVirtualCamera subcamera7;
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.CompareTag("Player"))
         {
-            DoorlockText.text = "        ～扉は緊急ロック中～ \n"+ 
+            doorlockText.text = "        ～扉は緊急ロック中～ \n"+ 
                 "コンソールルームにて解除可能";
             subcamera7.Priority = Const.CO.const_Int_List[0];
             GameManager.pauseflag = true;
@@ -25,7 +25,7 @@ public class Doorlock : MonoBehaviour
         yield return new WaitForSeconds(Const.CO.const_Float_List[4]);
         subcamera7.Priority = 0;
         GameManager.pauseflag = false;
-        DoorlockText.text = "";
+        doorlockText.text = "";
         StartCoroutine("SetAction2");
     }
     private IEnumerator SetAction2()

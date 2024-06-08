@@ -6,27 +6,28 @@ using UnityEngine.InputSystem;
 //カメラ操作、Cinemachineによるカメラ切り替え
 public class PlayerCamera : MonoBehaviour
 {
-    [SerializeField] Transform Target;
-    [SerializeField] float DistanceToPlayerM;    // カメラとプレイヤーとの距離[m]
-    [SerializeField] float SlideDistanceM;       // カメラを横にスライドさせる；プラスの時右へ，マイナスの時左へ[m]
-    [SerializeField] float HeightM;            // 注視点の高さ[m]
+    [SerializeField] Transform target;
+    [SerializeField] float distanceToPlayerM;    // カメラとプレイヤーとの距離[m]
+    [SerializeField] float slideDistanceM;       // カメラを横にスライドさせる；プラスの時右へ，マイナスの時左へ[m]
+    [SerializeField] float heightM;            // 注視点の高さ[m]
     [SerializeField] CinemachineVirtualCamera subcamera1;
     [SerializeField] CinemachineVirtualCamera subcamera2;
-    [SerializeField] liberate_potential First_Event;
-    [SerializeField] liberate_potential Second_Event;
-    [SerializeField] PlayerController PC;
+    [SerializeField] liberate_potential first_Event;
+    [SerializeField] liberate_potential second_Event;
     [SerializeField] SkinnedMeshRenderer normalBody;
-    [SerializeField] Material DefaultBodyMaterial;
-    [SerializeField] Material TransmissionBodyMaterial;
-    public static float RotationSensitivity = 75.0f;// 感度
+    [SerializeField] Material defaultBodyMaterial;
+    [SerializeField] Material transmissionBodyMaterial;
+    private PlayerController playerController;
+    public static float rotationSensitivity = 75.0f;// 感度
     private void Awake()
     {
-        if (Target == null)
+        if (target == null)
         {
             Debug.LogError("ターゲットが設定されていない");
             Application.Quit();
         }
-        transform.position = Target.position;
+        transform.position = target.position;
+        playerController = FindObjectOfType<PlayerController>();
     }
     private void FixedUpdate()
     {
@@ -35,15 +36,15 @@ public class PlayerCamera : MonoBehaviour
     }
     private void CameraMove()
     {
-        var rotX = PC.CameraInputVal.x * Time.deltaTime * RotationSensitivity;
-        var rotY = PC.CameraInputVal.y * Time.deltaTime * RotationSensitivity;
-        var lookAt = Target.position + Vector3.up * HeightM;
+        var rotX = playerController.Duplicate_cameraInputVal.x * Time.deltaTime * rotationSensitivity;
+        var rotY = playerController.Duplicate_cameraInputVal.y * Time.deltaTime * rotationSensitivity;
+        var lookAt = target.position + Vector3.up * heightM;
         float off_upper_limit = 0.5f;
         float off_lower_limit = -0.7f;
         float on_upper_limit = -0.7f;
         float on_lower_limit = 0.5f;
 
-        if(PC.isDead || GameManager.pauseflag)
+        if(playerController.Duplicate_isDead || GameManager.pauseflag)
         {
             rotX = 0;
             rotY = 0;
@@ -64,13 +65,13 @@ public class PlayerCamera : MonoBehaviour
             if(transform.forward.y > off_upper_limit && rotY < 0)
             {
                 rotY = 0;
-                normalBody.material = TransmissionBodyMaterial;
+                normalBody.material = transmissionBodyMaterial;
             }
 
             if(transform.forward.y < off_lower_limit && rotY > 0)
             {
                 rotY = 0;
-                normalBody.material = TransmissionBodyMaterial;
+                normalBody.material = transmissionBodyMaterial;
             }
         }
         else
@@ -78,13 +79,13 @@ public class PlayerCamera : MonoBehaviour
             if(transform.forward.y < on_upper_limit && rotY < 0)
             {
                 rotY = 0;
-                normalBody.material = TransmissionBodyMaterial;
+                normalBody.material = transmissionBodyMaterial;
             }
 
             if(transform.forward.y > on_lower_limit && rotY > 0)
             {
                 rotY = 0;
-                normalBody.material = TransmissionBodyMaterial;
+                normalBody.material = transmissionBodyMaterial;
             }
         }
 
@@ -100,42 +101,42 @@ public class PlayerCamera : MonoBehaviour
 
         if(rotY != 0)
         {
-            normalBody.material = DefaultBodyMaterial;
+            normalBody.material = defaultBodyMaterial;
         }
         // カメラとプレイヤーとの間の距離を調整
-        transform.position = lookAt - transform.forward * DistanceToPlayerM;
+        transform.position = lookAt - transform.forward * distanceToPlayerM;
 
         // カメラを横にずらして中央を開ける
-        transform.position = transform.position + transform.right * SlideDistanceM;
+        transform.position = transform.position + transform.right * slideDistanceM;
 
         var current_GP = Gamepad.current;
         var camera_Reset = current_GP.rightStickButton;
 
         if(PlayerController.Interval_InputButtondown(camera_Reset, Const.CO.const_Float_List[0]) &&!GameManager.pauseflag)
         {
-            normalBody.material = DefaultBodyMaterial;
-            transform.rotation = Quaternion.Lerp(Target.rotation, transform.rotation, 3.0f * Time.deltaTime);
+            normalBody.material = defaultBodyMaterial;
+            transform.rotation = Quaternion.Lerp(target.rotation, transform.rotation, 3.0f * Time.deltaTime);
             Debug.Log("カメラリセット");
         }
     }
 
     private void ChangeCamera()
     {
-        if(First_Event.actionFlag)
+        if(first_Event.actionFlag)
         {
             subcamera1.Priority = Const.CO.const_Int_List[0];
         }
-        if(Second_Event.actionFlag)
+        if(second_Event.actionFlag)
         {
             subcamera2.Priority = Const.CO.const_Int_List[0];
         }
 
-        if(!First_Event.actionFlag)
+        if(!first_Event.actionFlag)
         {
 
             subcamera1.Priority = 0;
         }
-        if(!Second_Event.actionFlag)
+        if(!second_Event.actionFlag)
         {
             subcamera2.Priority = 0;
         }

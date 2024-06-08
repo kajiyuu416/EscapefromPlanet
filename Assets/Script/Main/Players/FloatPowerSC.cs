@@ -10,13 +10,13 @@ using UnityEngine.InputSystem;
 //対象のボタンを押している秒数を取得しフラグを返す
 public class FloatPowerSC : MonoBehaviour
 {
-    [SerializeField] GameObject EventObj;
+    [SerializeField] GameObject eventObj;
     [SerializeField] TextMeshProUGUI text;
     private PlayerController playerController;
     private AdditionPlayerAction additionPlayerAction;
     private bool isFloat;
     private bool isFloatFlag;
-    private bool Aerial_Rotation;
+    private bool aerial_Rotation;
     private bool isDownFlag;
     private float time;
     private  new Rigidbody rigidbody;
@@ -37,7 +37,7 @@ public class FloatPowerSC : MonoBehaviour
         {
             if(collision.CompareTag("ground"))
             {
-                Aerial_Rotation = false;
+                aerial_Rotation = false;
                 isFloatFlag = false;
             }
         }
@@ -48,9 +48,9 @@ public class FloatPowerSC : MonoBehaviour
         if(GameManager2.floatPowerGetFlag)
         {
             OnPushKey();
-            if(EventObj.activeSelf)
+            if(eventObj.activeSelf)
             {
-                EventObj.SetActive(false);
+                eventObj.SetActive(false);
             }
 
             if(isFloat)
@@ -62,7 +62,7 @@ public class FloatPowerSC : MonoBehaviour
                 text.text = "上昇・・・ダッシュ中 Xボタン長押し";
             }
 
-            if(playerController.isDead)
+            if(playerController.Duplicate_isDead)
             {
                 isFloat = false;
                 isFloatFlag = false;
@@ -115,7 +115,7 @@ public class FloatPowerSC : MonoBehaviour
             //タイムカウントが上限値を超えたとき
             if(isDownFlag && time >= limittime)
             {
-                Aerial_Rotation = true;
+                aerial_Rotation = true;
                 isFloatFlag = false;
                 isDownFlag = false;
                 isFloat = false;
@@ -124,7 +124,7 @@ public class FloatPowerSC : MonoBehaviour
         //上昇中ボタンを離した時のコールバック
         if(Float.wasReleasedThisFrame　&&isFloat)
         {
-            Aerial_Rotation = true;
+            aerial_Rotation = true;
             isFloatFlag = false;
             isDownFlag = false;
             isFloat = false;
@@ -146,7 +146,7 @@ public class FloatPowerSC : MonoBehaviour
             timeReset();
         }
 
-        animator.SetBool("Aerial_Rotation", Aerial_Rotation);
+        animator.SetBool("Aerial_Rotation", aerial_Rotation);
         animator.SetBool("floating", isFloat);
 
         void timeReset()
@@ -187,7 +187,7 @@ public class FloatPowerSC : MonoBehaviour
     {
         get
         {
-            return Aerial_Rotation;
+            return aerial_Rotation;
         }
     }
 }

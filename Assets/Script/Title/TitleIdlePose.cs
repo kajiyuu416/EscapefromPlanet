@@ -3,35 +3,35 @@ public class TitleIdlePose : MonoBehaviour
 {
     //インスペクターでセレクトしたポーズへ変更
     [SerializeField] Animator animator;
-    [SerializeField] int SelectNum;
-    private bool CrouchPose;
-    private bool LayingPose;
-    private bool DancePose;
+    [SerializeField] int selectNum;
+    private bool crouchPose;
+    private bool layingPose;
+    private bool dancePose;
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        if (SelectNum == 0)
+        if (selectNum == 0)
         {
-            CrouchPose = true;
-            LayingPose = false;
-            DancePose = false;
+            crouchPose = true;
+            layingPose = false;
+            dancePose = false;
 
         }
-        if (SelectNum == Const.CO.const_Int_List[0])
+        if (selectNum == Const.CO.const_Int_List[0])
         {
 
-            CrouchPose = false;
-            LayingPose = true;
-            DancePose = false;
+            crouchPose = false;
+            layingPose = true;
+            dancePose = false;
         }
-        if (SelectNum == Const.CO.const_Int_List[1])
+        if (selectNum == Const.CO.const_Int_List[1])
         {
-            CrouchPose = false;
-            LayingPose = false;
-            DancePose = true;
+            crouchPose = false;
+            layingPose = false;
+            dancePose = true;
         }
-        animator.SetBool("Crouch", CrouchPose);
-        animator.SetBool("Laying", LayingPose);
-        animator.SetBool("dance", DancePose);
+        animator.SetBool("Crouch", crouchPose);
+        animator.SetBool("Laying", layingPose);
+        animator.SetBool("dance", dancePose);
     }
 }

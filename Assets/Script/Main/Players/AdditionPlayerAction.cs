@@ -3,10 +3,10 @@ using UnityEngine.InputSystem;
 //アクション追加①大ジャンプとスライディングの追加
 public class AdditionPlayerAction : MonoBehaviour
 {
-    [SerializeField] GameObject EventObj;
+    [SerializeField] GameObject eventObj;
     private PlayerController playerController;
     private FloatPowerSC floatPowerSC;
-    private const float JumpOverPower = 200.0f;
+    private const float jumpOverPower = 200.0f;
     private const float slidingPower = 1000.0f;
     private bool isjumpOver;
     private Animator animator;
@@ -26,7 +26,7 @@ public class AdditionPlayerAction : MonoBehaviour
     private void Additional_Actions()
     {
         //特定のフラグが帰っていた場合のみ処理
-        if(GameManager2.additionPlayerActionGetFlag && !playerController.isDead)
+        if(GameManager2.additionPlayerActionGetFlag && !playerController.Duplicate_isDead)
         {
             var current_GP = Gamepad.current;
             var JumpOver = current_GP.buttonNorth;
@@ -43,7 +43,7 @@ public class AdditionPlayerAction : MonoBehaviour
                 {
                     isjumpOver = true;
                     floatPowerSC.Duplicate_isFloat = false;
-                    rigidbody.AddForce(transform.up * JumpOverPower, ForceMode.Impulse);
+                    rigidbody.AddForce(transform.up * jumpOverPower, ForceMode.Impulse);
                 }
 
                 if(PlayerController.Interval_InputButtondown(RunningSlide, Const.CO.const_Float_List[0]))
@@ -56,12 +56,12 @@ public class AdditionPlayerAction : MonoBehaviour
                 }
               
             }
-            if(EventObj.activeSelf)
+            if(eventObj.activeSelf)
             {
-                EventObj.SetActive(false);
+                eventObj.SetActive(false);
             }
 
-            if(playerController.isDead)
+            if(playerController.Duplicate_isDead)
             {
                 isjumpOver = false;
             }

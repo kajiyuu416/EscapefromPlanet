@@ -6,9 +6,9 @@ using UnityEngine.InputSystem;
 //脱出装置のロック解除イベント
 public class EscapeEventFlagSC : MonoBehaviour
 {
-    [SerializeField] FadeInOut FO;
-    [SerializeField] TextMeshProUGUI ActionPop;
-    [SerializeField] TextMeshProUGUI Actiontmessage;
+    [SerializeField] FadeInOut fadeinout;
+    [SerializeField] TextMeshProUGUI actionPop;
+    [SerializeField] TextMeshProUGUI actiontmessage;
     [SerializeField] MeshRenderer meshRenderer;
     [SerializeField] BoxCollider boxCollider;
     private void Start()
@@ -30,9 +30,9 @@ public class EscapeEventFlagSC : MonoBehaviour
 
         if (collision.CompareTag("Player") && Check.wasPressedThisFrame && !GameManager2.ALF)
         {
-                ActionPop.text = "";
+                actionPop.text = "";
                 GameManager.pauseflag = true;
-                FO.fadeOutFlag = true;
+                fadeinout.fadeOutFlag = true;
                 boxCollider.enabled = false;
                 meshRenderer.enabled = false;
                 StartCoroutine("SetALF");
@@ -43,21 +43,21 @@ public class EscapeEventFlagSC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            ActionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = "LBボタン入力でアクション行う";
         }
     }
     private void OnTriggerExit(Collider collision)
     {
         if (collision.CompareTag("Player"))
         {
-            ActionPop.text = "";
+            actionPop.text = "";
         }
     }
 
     IEnumerator SetALF()
     {
         yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
-        FO.fadeInFlag = true;
+        fadeinout.fadeInFlag = true;
         GameManager.pauseflag = false;
         GameManager2.ALF = true;
         SoundManager.Instance.SettingPlaySE6();
@@ -66,14 +66,14 @@ public class EscapeEventFlagSC : MonoBehaviour
     }
     private void MessageIndication()
     {
-        Actiontmessage.text = "緊急脱出装置のロックが解除された";
+        actiontmessage.text = "緊急脱出装置のロックが解除された";
         StartCoroutine("SetText");
 
     }
     IEnumerator SetText()
     {
         yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
-        Actiontmessage.text = "";
+        actiontmessage.text = "";
     }
 }
 

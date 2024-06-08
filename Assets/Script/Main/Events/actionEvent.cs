@@ -9,10 +9,10 @@ using UnityEngine.InputSystem;
 //イベントを発生させ、映像を流す処理。
 public class actionEvent : MonoBehaviour
 {
-    [SerializeField] GameObject ActionPoint;
+    [SerializeField] GameObject actionPoint;
     [SerializeField] MeshRenderer meshRenderer;
     [SerializeField] BoxCollider boxCollider;
-    [SerializeField] TextMeshProUGUI ActionPop;
+    [SerializeField] TextMeshProUGUI actionPop;
     [SerializeField] GameObject moveiSC;
     [SerializeField] VideoPlayer videoPlayer;
     public static bool actionFlag = false;
@@ -24,7 +24,7 @@ public class actionEvent : MonoBehaviour
     {
         if(actionFlag)
         {
-            ActionPoint.SetActive(false);
+            actionPoint.SetActive(false);
             boxCollider.enabled = false;
             meshRenderer.enabled = false;
         }
@@ -39,7 +39,7 @@ public class actionEvent : MonoBehaviour
             GameManager.pauseflag = true;
             GameManager.instance.playerui.SetActive(false);
             moveiSC.SetActive(true);
-            ActionPop.text = "";
+            actionPop.text = "";
             SoundManager.Instance.StopAudio();
             SoundManager.Instance.SettingPlaySE5();
         }
@@ -48,7 +48,7 @@ public class actionEvent : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            ActionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = "LBボタン入力でアクション行う";
         }
     }
 
@@ -56,19 +56,19 @@ public class actionEvent : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            ActionPop.text = "";
+            actionPop.text = "";
         }
     }
 
     private void MessageIndication()
     {
-        ActionPop.text = "扉のロック解除に成功";
+        actionPop.text = "扉のロック解除に成功";
         StartCoroutine("SetText");
     }
     IEnumerator SetText()
     {
         yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
-        ActionPop.text = "";
+        actionPop.text = "";
     }
     // 動画再生完了時の処理
     public void LoopPointReached(VideoPlayer vp)

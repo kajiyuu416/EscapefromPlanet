@@ -9,7 +9,7 @@ using Cinemachine;
 public class Laserappearance : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera subcamera4;
-    [SerializeField] GameObject Lasers;
+    [SerializeField] GameObject lasers;
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -17,7 +17,7 @@ public class Laserappearance : MonoBehaviour
         {
             gameObject.GetComponent<BoxCollider>().enabled = false;
             subcamera4.Priority = Const.CO.const_Int_List[0];
-            Lasers.SetActive(true);
+            lasers.SetActive(true);
             GameManager.pauseflag = true;
             StartCoroutine("ViewpointBack");
         }

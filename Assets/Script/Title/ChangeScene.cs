@@ -11,12 +11,12 @@ public class ChangeScene : MonoBehaviour
 {
     [SerializeField] VideoPlayer videoPlayer;
     [SerializeField] FadeInOut fadeinout;
-    [SerializeField] string SceneName;
-    private GameManager2 Gamemanager2;
+    [SerializeField] string sceneName;
+    private GameManager2 gamemanager2;
     private AsyncOperation asyncLoad;
     private void Start()
     {
-        Gamemanager2 = FindObjectOfType<GameManager2>();
+        gamemanager2 = FindObjectOfType<GameManager2>();
         videoPlayer.loopPointReached += LoopPointReached;
         StartCoroutine("Skip");
     }
@@ -24,7 +24,7 @@ public class ChangeScene : MonoBehaviour
     {
         var current_GP = Gamepad.current;
         var SkipButton = current_GP.buttonEast;
-        asyncLoad = SceneManager.LoadSceneAsync(SceneName);
+        asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
         bool waitFlag = true;
         while(waitFlag)
@@ -36,7 +36,7 @@ public class ChangeScene : MonoBehaviour
         asyncLoad.allowSceneActivation = true;
         if(SceneManager.GetActiveScene().name == "OPScene")
         {
-            Gamemanager2.Duplicate_firstLoadFlag = true;
+            gamemanager2.Duplicate_firstLoadFlag = true;
         }
         yield return asyncLoad;
     }
@@ -45,7 +45,7 @@ public class ChangeScene : MonoBehaviour
         // ìÆâÊçƒê∂äÆóπéûÇÃèàóù
         if(SceneManager.GetActiveScene().name == "OPScene")
         {
-            Gamemanager2.Duplicate_firstLoadFlag = true;
+            gamemanager2.Duplicate_firstLoadFlag = true;
         }
         asyncLoad.allowSceneActivation = true;
     }

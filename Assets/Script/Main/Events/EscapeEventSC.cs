@@ -9,12 +9,12 @@ using UnityEngine.InputSystem;
 public class EscapeEventSC : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera subcamera3;
-    [SerializeField] SunMove SM;
-    [SerializeField] TextMeshProUGUI SkipText;
-    [SerializeField] TextMeshProUGUI Actiontmessage;
-    [SerializeField] GameObject Timer;
-    private bool EscapeEvent;
-    private bool Eventskip;
+    [SerializeField] SunMove sunmove;
+    [SerializeField] TextMeshProUGUI skipText;
+    [SerializeField] TextMeshProUGUI actiontmessage;
+    [SerializeField] GameObject timer;
+    private bool escapeEvent;
+    private bool eventskip;
     private void Update()
     {
         EventSkip();
@@ -35,9 +35,9 @@ public class EscapeEventSC : MonoBehaviour
     }
     private void MessageIndication()
     {
-        EscapeEvent = true;
-        Actiontmessage.text = "";
-        if(!Eventskip)
+        escapeEvent = true;
+        actiontmessage.text = "";
+        if(!eventskip)
         {
             StartCoroutine("SetText1");
         }
@@ -45,53 +45,53 @@ public class EscapeEventSC : MonoBehaviour
     private IEnumerator SetText1()
     {
         yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
-        if(!Eventskip)
+        if(!eventskip)
         {
-            Actiontmessage.text = "※太陽が宇宙船に接近中※";
+            actiontmessage.text = "※太陽が宇宙船に接近中※";
             StartCoroutine("SetText2");
         }
     }
     private IEnumerator SetText2()
     {
         yield return new WaitForSeconds(Const.CO.const_Float_List[3]);
-        if(!Eventskip)
+        if(!eventskip)
         {
-            Actiontmessage.text = "緊急脱出装置を目指してください";
+            actiontmessage.text = "緊急脱出装置を目指してください";
             StartCoroutine("SetAction");
         }
     }
     private IEnumerator SetAction()
     {
         yield return new WaitForSeconds(Const.CO.const_Float_List[3]);
-        if(!Eventskip)
+        if(!eventskip)
         {
             EventEnd();
         }
     }
     private void EventEnd()
     {
-        Actiontmessage.text = "";
-        SkipText.text = "";
+        actiontmessage.text = "";
+        skipText.text = "";
         subcamera3.Priority = 0;
         SoundManager.Instance.StopAudio();
         SoundManager.Instance.Startbgm3();
         GameManager.pauseflag = false;
         GameManager.instance.playerui.SetActive(true);
-        EscapeEvent = false;
-        SM.MPF = true;
-        Timer.SetActive(true);
+        escapeEvent = false;
+        sunmove.MPF = true;
+        timer.SetActive(true);
     }
     private void EventSkip()
     {
         var current_GP = Gamepad.current;
         var Skip = current_GP.buttonEast;
 
-        if(EscapeEvent && !Eventskip)
+        if(escapeEvent && !eventskip)
         {
-            SkipText.text = "Bボタンでスキップ";
+            skipText.text = "Bボタンでスキップ";
             if(Skip.wasPressedThisFrame)
             {
-                Eventskip = true;
+                eventskip = true;
                 EventEnd();
             }
         }
