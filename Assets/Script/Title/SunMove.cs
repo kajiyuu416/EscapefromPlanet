@@ -12,8 +12,8 @@ public class SunMove : MonoBehaviour
     public float roty = 0;
     public float rotz = 0;
     private Vector3 FirstPos = new Vector3(1000, 500, 50);
-    private Vector3 SecondPos = new Vector3(700, 300, 50);
-    private Vector3 ThirdPos = new Vector3(350, 150, 50);
+    private Vector3 SecondPos = new Vector3(500, 300, 50);
+    private Vector3 ThirdPos = new Vector3(220, 120, 50);
     public bool MPF = false;
     private bool firstPos;
     private bool secondPos;

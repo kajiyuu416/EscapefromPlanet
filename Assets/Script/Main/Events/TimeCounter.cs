@@ -43,18 +43,17 @@ public class TimeCounter : MonoBehaviour
             SoundManager.Instance.Startbgm4();
             StartCoroutine("GameOver");
         }
-        if (!fadeinout.Duplicate_fadeOutEnd && TimeUp)
+        if (fadeinout.Duplicate_fadeOutEnd && TimeUp)
         {
             TimeUp = false;
             Scene ThisScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(ThisScene.name);
-            Debug.Log("gameovera");
         }
     }
      IEnumerator GameOver()
     {
         yield return new WaitForSeconds(Const.CO.const_Int_List[4]);
-        fadeinout.Duplicate_fadeOutEnd = true;
+        fadeinout.fadeOutFlag = true;
     }
 
 }
