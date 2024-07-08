@@ -13,8 +13,13 @@ public class EscapeEventSC : MonoBehaviour
     [SerializeField] TextMeshProUGUI skipText;
     [SerializeField] TextMeshProUGUI actiontmessage;
     [SerializeField] GameObject timer;
+    private const string text = "※太陽が宇宙船に接近中※";
+    private const string text2 = "緊急脱出装置を目指してください";
+    private const string text3 = "Bボタンでスキップ";
     private bool escapeEvent;
     private bool eventskip;
+    private float waitsecond_shortTime = 3.0f;
+    private float waitsecond_longTime = 4.0f;
     private void Update()
     {
         EventSkip();
@@ -39,30 +44,30 @@ public class EscapeEventSC : MonoBehaviour
         actiontmessage.text = "";
         if(!eventskip)
         {
-            StartCoroutine("SetText1");
+            StartCoroutine(SetText1());
         }
     }
     private IEnumerator SetText1()
     {
-        yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
+        yield return new WaitForSeconds(waitsecond_shortTime);
         if(!eventskip)
         {
-            actiontmessage.text = "※太陽が宇宙船に接近中※";
-            StartCoroutine("SetText2");
+            actiontmessage.text = text;
+            StartCoroutine(SetText2());
         }
     }
     private IEnumerator SetText2()
     {
-        yield return new WaitForSeconds(Const.CO.const_Float_List[3]);
+        yield return new WaitForSeconds(waitsecond_longTime);
         if(!eventskip)
         {
-            actiontmessage.text = "緊急脱出装置を目指してください";
-            StartCoroutine("SetAction");
+            actiontmessage.text = text2;
+            StartCoroutine(SetAction());
         }
     }
     private IEnumerator SetAction()
     {
-        yield return new WaitForSeconds(Const.CO.const_Float_List[3]);
+        yield return new WaitForSeconds(waitsecond_longTime);
         if(!eventskip)
         {
             EventEnd();
@@ -84,12 +89,12 @@ public class EscapeEventSC : MonoBehaviour
     private void EventSkip()
     {
         var current_GP = Gamepad.current;
-        var Skip = current_GP.buttonEast;
+        var skip = current_GP.buttonEast;
 
         if(escapeEvent && !eventskip)
         {
-            skipText.text = "Bボタンでスキップ";
-            if(Skip.wasPressedThisFrame)
+            skipText.text = text3;
+            if(skip.wasPressedThisFrame)
             {
                 eventskip = true;
                 EventEnd();
