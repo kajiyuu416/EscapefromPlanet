@@ -124,13 +124,13 @@ public class PlayerController : MonoBehaviour
         playerMove_input.z = moveInputVal.y;
         var current_GP = Gamepad.current;
         var Run = current_GP.rightShoulder;
-        var speed = Run.isPressed ? Const.CO.const_Float_List[1] : Const.CO.const_Float_List[0];
+        var speed = Run.isPressed ? 2.0f : 1.0f;
         var jump = current_GP.buttonSouth;
         var velocity = new Vector3(playerMove_input.x, 0, playerMove_input.z).normalized;
         bool isfloat = floatPowerSC.Duplicate_isFloatFlag;
         bool isAerial_Rotation = floatPowerSC.Duplicate_Aerial_Rotation;
         bool isoverJump = additionPlayerAction.Duplicate_isjumpOver;
-        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(Const.CO.const_Float_List[0], 0, Const.CO.const_Float_List[0])).normalized;
+        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1.0f, 0, 1.0f)).normalized;
         Vector3 moveForward = cameraForward * playerMove_input.z + Camera.main.transform.right * playerMove_input.x;
         rigidbody.velocity = moveForward * moveSpeed + new Vector3(0, rigidbody.velocity.y, 0);
 

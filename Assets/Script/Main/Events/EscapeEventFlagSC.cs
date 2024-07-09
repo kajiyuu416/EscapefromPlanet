@@ -11,6 +11,9 @@ public class EscapeEventFlagSC : MonoBehaviour
     [SerializeField] TextMeshProUGUI actiontmessage;
     [SerializeField] MeshRenderer meshRenderer;
     [SerializeField] BoxCollider boxCollider;
+    private const string text1 = "LBボタン入力でアクション行う";
+    private const string text2 = "緊急脱出装置のロックが解除された";
+    private float waitsecondTime = 3.0f;
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
@@ -35,7 +38,7 @@ public class EscapeEventFlagSC : MonoBehaviour
                 fadeinout.fadeOutFlag = true;
                 boxCollider.enabled = false;
                 meshRenderer.enabled = false;
-                StartCoroutine("SetALF");
+                StartCoroutine(SetALF());
         }
 
     }
@@ -43,7 +46,7 @@ public class EscapeEventFlagSC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            actionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = text1;
         }
     }
     private void OnTriggerExit(Collider collision)
@@ -56,7 +59,7 @@ public class EscapeEventFlagSC : MonoBehaviour
 
     IEnumerator SetALF()
     {
-        yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
+        yield return new WaitForSeconds(waitsecondTime);
         fadeinout.fadeInFlag = true;
         GameManager.pauseflag = false;
         GameManager2.ALF = true;
@@ -66,13 +69,12 @@ public class EscapeEventFlagSC : MonoBehaviour
     }
     private void MessageIndication()
     {
-        actiontmessage.text = "緊急脱出装置のロックが解除された";
-        StartCoroutine("SetText");
-
+        actiontmessage.text = text2;
+        StartCoroutine(SetText());
     }
     IEnumerator SetText()
     {
-        yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
+        yield return new WaitForSeconds(waitsecondTime);
         actiontmessage.text = "";
     }
 }

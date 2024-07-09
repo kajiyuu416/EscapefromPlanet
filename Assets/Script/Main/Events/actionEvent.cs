@@ -16,6 +16,8 @@ public class actionEvent : MonoBehaviour
     [SerializeField] GameObject moveiSC;
     [SerializeField] VideoPlayer videoPlayer;
     public static bool actionFlag = false;
+    private const string text1 = "LBボタン入力でアクション行う";
+    private const string text2 = "扉のロック解除に成功";
     private void Start()
     {
         videoPlayer.loopPointReached += LoopPointReached;
@@ -48,7 +50,7 @@ public class actionEvent : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            actionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = text1;
         }
     }
 
@@ -62,12 +64,12 @@ public class actionEvent : MonoBehaviour
 
     private void MessageIndication()
     {
-        actionPop.text = "扉のロック解除に成功";
-        StartCoroutine("SetText");
+        actionPop.text = text2;
+        StartCoroutine(SetText());
     }
     IEnumerator SetText()
     {
-        yield return new WaitForSeconds(Const.CO.const_Float_List[2]);
+        yield return new WaitForSeconds(3.0f);
         actionPop.text = "";
     }
     // 動画再生完了時の処理

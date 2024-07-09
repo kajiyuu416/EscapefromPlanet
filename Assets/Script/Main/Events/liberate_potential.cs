@@ -11,6 +11,8 @@ public class liberate_potential: MonoBehaviour
     [SerializeField] TextMeshProUGUI actionPop;
     [SerializeField] TextMeshProUGUI actiontmessage;
     [SerializeField] TextMeshProUGUI skipText;
+    private const string text1 = "LBボタン入力でアクション行う";
+    private const string text2 = "Bボタンでスキップ";
     [SerializeField] SpawnEffect spawneffect;
     [SerializeField] GameObject actionimage;
     [SerializeField] List<BoxCollider> boxColList;
@@ -34,7 +36,7 @@ public class liberate_potential: MonoBehaviour
             if (!actionFlag)
             {
                 OnCheck();
-                Invoke("GiveOverJump",Const.CO.const_Float_List[1]);
+                Invoke("GiveOverJump",2.0f);
             }
         }
         if(collision.CompareTag("Player") && Check.wasPressedThisFrame && GameManager2.additionPlayerActionGetFlag && !GameManager2.floatPowerGetFlag)
@@ -42,19 +44,19 @@ public class liberate_potential: MonoBehaviour
             if (!actionFlag)
             {
                 OnCheck();
-                Invoke("GiveFloat", Const.CO.const_Float_List[1]);
+                Invoke("GiveFloat", 2.0f);
             }
         }
         if(collision.CompareTag("Player"))
         {
-            actionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = text1;
         }
     }
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.CompareTag("Player"))
         {
-            actionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = text1;
         }
     }
     private void OnTriggerExit(Collider collision)
@@ -71,7 +73,7 @@ public class liberate_potential: MonoBehaviour
         spawneffect.enabled = true;
         actionFlag = true;
         actionPop.text = "";
-        skipText.text = "Bボタンでスキップ";
+        skipText.text = text2;
     }
     //フラグを返す、UIの非表示
     private void OnClose()
@@ -130,8 +132,8 @@ public class liberate_potential: MonoBehaviour
 
         if(GameManager2.floatPowerGetFlag)
         {
-            boxColList[Const.CO.const_Int_List[0]].enabled = false;
-            meshRenList[Const.CO.const_Int_List[0]].enabled = false;
+            boxColList[1].enabled = false;
+            meshRenList[1].enabled = false;
         }
     }
 }

@@ -14,6 +14,7 @@ public class ChangeScene : MonoBehaviour
     [SerializeField] string sceneName;
     private GameManager2 gamemanager2;
     private AsyncOperation asyncLoad;
+    private const string scenename = "OPScene";
     private void Start()
     {
         gamemanager2 = FindObjectOfType<GameManager2>();
@@ -34,7 +35,7 @@ public class ChangeScene : MonoBehaviour
         }
         yield return fadeinout.FadeOut();
         asyncLoad.allowSceneActivation = true;
-        if(SceneManager.GetActiveScene().name == "OPScene")
+        if(SceneManager.GetActiveScene().name == scenename)
         {
             gamemanager2.Duplicate_firstLoadFlag = true;
         }
@@ -43,7 +44,7 @@ public class ChangeScene : MonoBehaviour
     public void LoopPointReached(VideoPlayer vp)
     {
         // “®‰æÄ¶Š®—¹‚Ìˆ—
-        if(SceneManager.GetActiveScene().name == "OPScene")
+        if(SceneManager.GetActiveScene().name == scenename)
         {
             gamemanager2.Duplicate_firstLoadFlag = true;
         }

@@ -46,7 +46,7 @@ public class AdditionPlayerAction : MonoBehaviour
                     rigidbody.AddForce(transform.up * jumpOverPower, ForceMode.Impulse);
                 }
 
-                if(PlayerController.Interval_InputButtondown(RunningSlide, Const.CO.const_Float_List[0]))
+                if(PlayerController.Interval_InputButtondown(RunningSlide, 1.0f))
                 {
                     rigidbody.AddForce(transform.forward * slidingPower, ForceMode.Impulse);
                     floatPowerSC.Duplicate_isFloat = false;

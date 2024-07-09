@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public static bool pauseflag;
     public static int count = 0;
+    private const string scenename = "MainScene";
     private bool restartFlag;
     private bool gameOverFlag = false;
     private bool gameClearFlag = false;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
         pauseflag = true;
         gameOverCount.text = count.ToString();
-        Invoke(nameof(Standby), Const.CO.const_Float_List[3]);
+        Invoke(nameof(Standby),3);
         if (instance == null)
         {
             instance = this;
@@ -74,7 +75,7 @@ public class GameManager : MonoBehaviour
         {
             settingOPflag = false;
             pauseobj.SetActive(false);
-            idle.GetComponent<Animator>().speed = Const.CO.const_Float_List[0];
+            idle.GetComponent<Animator>().speed = 1;
             StartCoroutine(Standbytime());
         }
 
@@ -130,7 +131,7 @@ public class GameManager : MonoBehaviour
     //5フレーム後にフラグを返す
     public static IEnumerator Standbytime()
     {
-        for(var i = 0; i < Const.CO.const_Int_List[4]; i++)
+        for(var i = 0; i < 5; i++)
         {
             yield return null;
         }
@@ -147,9 +148,9 @@ public class GameManager : MonoBehaviour
     //ゲームオーバー後3秒後にリスタート時に呼ばれる関数
     private IEnumerator ReStartThiScene()
     {
-        yield return new WaitForSeconds(Const.CO.const_Int_List[2]);
+        yield return new WaitForSeconds(2);
         SoundManager.Instance.StopAudio();
-        yield return GameManager2.instance.FadeOut("MainScene");
+        yield return GameManager2.instance.FadeOut(scenename);
     }
     //ゲームオーバー時の条件チェック
     //UI表示のON、OFFチェック

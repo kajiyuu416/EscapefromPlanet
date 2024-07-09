@@ -16,6 +16,9 @@ public class transferEvent : MonoBehaviour
     [SerializeField] FadeInOut fadeinout;
     public CinemachineVirtualCamera subcamera5;
     public CinemachineVirtualCamera subcamera6;
+    private const string text1 = "転送装置のロックが解除されていません";
+    private const string text2 = "LBボタン入力でアクション行う";
+    private const float waitsecondTime = 3.0f;
     private void OnTriggerStay(Collider collision)
     {
         var current_GP = Gamepad.current;
@@ -23,7 +26,7 @@ public class transferEvent : MonoBehaviour
 
         if (collision.CompareTag("Player") && Check.wasPressedThisFrame && GameManager2.floatPowerGetFlag)
         {
-            subcamera5.Priority = Const.CO.const_Int_List[0];
+            subcamera5.Priority = 1;
             idleMeshs.SetActive(false);
             transEfe.SetActive(true);
             timer.SetActive(false);
@@ -33,11 +36,11 @@ public class transferEvent : MonoBehaviour
             SoundManager.Instance.SettingPlaySE12();
             GameManager.pauseflag = true;
             actionPop.text = "";
-            StartCoroutine("FOtrue");
+            StartCoroutine(FOtrue());
         }
-        if (collision.CompareTag("Player") && Check.wasPressedThisFrame && !GameManager2.floatPowerGetFlag)
+        else
         {
-            actionPop.text = "転送装置のロックが解除されていません";
+            actionPop.text = text1;
         }
     }
 
@@ -45,7 +48,7 @@ public class transferEvent : MonoBehaviour
     {
         if (collision.gameObject.name == "idle")
         {
-            actionPop.text = "LBボタン入力でアクション行う";
+            actionPop.text = text2;
         }
     }
     private void OnTriggerExit(Collider collision)
@@ -57,23 +60,24 @@ public class transferEvent : MonoBehaviour
     }
     IEnumerator FOtrue()
     {
-        yield return new WaitForSeconds(Const.CO.const_Int_List[2]);
+        yield return new WaitForSeconds(waitsecondTime);
         fadeinout.fadeOutFlag = true;
         subcamera5.Priority = 0;
-        StartCoroutine("CameraSwitch");
-    }
-    IEnumerator FItrue()
-    {
-        yield return new WaitForSeconds(Const.CO.const_Int_List[2]);
-        fadeinout.fadeInFlag = true;
-        GameManager.instance.GameClear();
+        StartCoroutine(CameraSwitch());
     }
     IEnumerator CameraSwitch()
     {
-        yield return new WaitForSeconds(Const.CO.const_Int_List[3]);
-        subcamera6.Priority = Const.CO.const_Int_List[0];
-        StartCoroutine("FItrue");
+        yield return new WaitForSeconds(waitsecondTime);
+        subcamera6.Priority = 1;
+        StartCoroutine(FItrue());
     }
+    IEnumerator FItrue()
+    {
+        yield return new WaitForSeconds(waitsecondTime);
+        fadeinout.fadeInFlag = true;
+        GameManager.instance.GameClear();
+    }
+
 
 }
 

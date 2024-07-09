@@ -13,7 +13,7 @@ public class EscapeEventSC : MonoBehaviour
     [SerializeField] TextMeshProUGUI skipText;
     [SerializeField] TextMeshProUGUI actiontmessage;
     [SerializeField] GameObject timer;
-    private const string text = "※太陽が宇宙船に接近中※";
+    private const string text1 = "※太陽が宇宙船に接近中※";
     private const string text2 = "緊急脱出装置を目指してください";
     private const string text3 = "Bボタンでスキップ";
     private bool escapeEvent;
@@ -30,7 +30,7 @@ public class EscapeEventSC : MonoBehaviour
         if (collision.CompareTag("Player") && GameManager2.ALF && GameManager2.additionPlayerActionGetFlag && GameManager2.floatPowerGetFlag)
         {
             gameObject.GetComponent<BoxCollider>().enabled = false;
-            subcamera3.Priority = Const.CO.const_Int_List[0];
+            subcamera3.Priority = 1;
             GameManager.instance.playerui.SetActive(false);
             GameManager.pauseflag = true;
             SoundManager.Instance.StopAudio();
@@ -52,7 +52,7 @@ public class EscapeEventSC : MonoBehaviour
         yield return new WaitForSeconds(waitsecond_shortTime);
         if(!eventskip)
         {
-            actiontmessage.text = text;
+            actiontmessage.text = text1;
             StartCoroutine(SetText2());
         }
     }

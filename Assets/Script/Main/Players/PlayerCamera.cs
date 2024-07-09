@@ -62,30 +62,16 @@ public class PlayerCamera : MonoBehaviour
         // カメラがプレイヤーの真上や真下にあるときにそれ以上回転させないようにする
         if(!GameManager2.camera_Upside_down)
         {
-            if(transform.forward.y > off_upper_limit && rotY < 0)
+            if(transform.forward.y > off_upper_limit && rotY < 0 || transform.forward.y < off_lower_limit && rotY > 0)
             {
-                rotY = 0;
-                normalBody.material = transmissionBodyMaterial;
-            }
-
-            if(transform.forward.y < off_lower_limit && rotY > 0)
-            {
-                rotY = 0;
-                normalBody.material = transmissionBodyMaterial;
+                Init(ref rotY);
             }
         }
         else
         {
-            if(transform.forward.y < on_upper_limit && rotY < 0)
+            if(transform.forward.y < on_upper_limit && rotY < 0 || transform.forward.y > on_lower_limit && rotY > 0)
             {
-                rotY = 0;
-                normalBody.material = transmissionBodyMaterial;
-            }
-
-            if(transform.forward.y > on_lower_limit && rotY > 0)
-            {
-                rotY = 0;
-                normalBody.material = transmissionBodyMaterial;
+                Init(ref rotY);
             }
         }
 
@@ -112,11 +98,10 @@ public class PlayerCamera : MonoBehaviour
         var current_GP = Gamepad.current;
         var camera_Reset = current_GP.rightStickButton;
 
-        if(PlayerController.Interval_InputButtondown(camera_Reset, Const.CO.const_Float_List[0]) &&!GameManager.pauseflag)
+        if(PlayerController.Interval_InputButtondown(camera_Reset, 1) &&!GameManager.pauseflag)
         {
             normalBody.material = defaultBodyMaterial;
             transform.rotation = Quaternion.Lerp(target.rotation, transform.rotation, 3.0f * Time.deltaTime);
-            Debug.Log("カメラリセット");
         }
     }
 
@@ -124,11 +109,11 @@ public class PlayerCamera : MonoBehaviour
     {
         if(first_Event.actionFlag)
         {
-            subcamera1.Priority = Const.CO.const_Int_List[0];
+            subcamera1.Priority = 1;
         }
         if(second_Event.actionFlag)
         {
-            subcamera2.Priority = Const.CO.const_Int_List[0];
+            subcamera2.Priority = 1;
         }
 
         if(!first_Event.actionFlag)
@@ -140,6 +125,12 @@ public class PlayerCamera : MonoBehaviour
         {
             subcamera2.Priority = 0;
         }
+    }
+
+    private void Init(ref float val)
+    {
+        val = 0;
+        normalBody.material = transmissionBodyMaterial;
     }
 
 }

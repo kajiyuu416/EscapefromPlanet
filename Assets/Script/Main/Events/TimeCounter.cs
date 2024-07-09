@@ -33,7 +33,7 @@ public class TimeCounter : MonoBehaviour
         if (countdownSeconds <= 0 &&!TimeUp)
         {  // 0•b‚É‚È‚Á‚½‚Æ‚«‚Ìˆ—
             TimeUp= true;
-            subcamera3.Priority = Const.CO.const_Int_List[0];
+            subcamera3.Priority = 1;
             timeText.enabled = false;
             explosionEfe.SetActive(true);
             idle.SetActive(false);
@@ -41,7 +41,7 @@ public class TimeCounter : MonoBehaviour
             GameManager.pauseflag = true;
             SoundManager.Instance.StopAudio();
             SoundManager.Instance.Startbgm4();
-            StartCoroutine("GameOver");
+            StartCoroutine(GameOver());
         }
         if (fadeinout.Duplicate_fadeOutEnd && TimeUp)
         {
@@ -52,7 +52,7 @@ public class TimeCounter : MonoBehaviour
     }
      IEnumerator GameOver()
     {
-        yield return new WaitForSeconds(Const.CO.const_Int_List[4]);
+        yield return new WaitForSeconds(5);
         fadeinout.fadeOutFlag = true;
     }
 

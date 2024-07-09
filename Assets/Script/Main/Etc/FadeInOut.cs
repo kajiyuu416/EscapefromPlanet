@@ -22,7 +22,7 @@ public class FadeInOut : MonoBehaviour
     {
         blackScreen = GameObject.Find("BlackScreen").GetComponent<Image>();
         var color = blackScreen.color;
-        yield return new WaitForSeconds(Const.CO.const_Float_List[0]);
+        yield return new WaitForSeconds(1.0f);
 
         while (color.a >= 0)
         {
@@ -41,7 +41,7 @@ public class FadeInOut : MonoBehaviour
         blackScreen.gameObject.SetActive(true);
         var color = blackScreen.color;
 
-        while (color.a <= Const.CO.const_Float_List[0])
+        while (color.a <= 1.0f)
         {
             color.a += 0.1f;
             blackScreen.color = color;
