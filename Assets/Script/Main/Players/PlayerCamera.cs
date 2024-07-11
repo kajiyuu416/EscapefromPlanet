@@ -43,7 +43,7 @@ public class PlayerCamera : MonoBehaviour
         float off_lower_limit = -0.7f;
         float on_upper_limit = -0.7f;
         float on_lower_limit = 0.5f;
-
+        
         if(playerController.Duplicate_isDead || GameManager.pauseflag)
         {
             rotX = 0;
@@ -105,6 +105,12 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
+    private void Init(ref float val)
+    {
+        val = 0;
+        normalBody.material = transmissionBodyMaterial;
+    }
+
     private void ChangeCamera()
     {
         if(first_Event.actionFlag)
@@ -127,10 +133,6 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
-    private void Init(ref float val)
-    {
-        val = 0;
-        normalBody.material = transmissionBodyMaterial;
-    }
+
 
 }

@@ -44,10 +44,10 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        floatPowerSC = GetComponent<FloatPowerSC>();
+        additionPlayerAction = GetComponent<AdditionPlayerAction>();
         childParts = GetComponentsInChildren<Child>();
         child_Trails = GetComponentsInChildren<TrailRenderer>();
-        floatPowerSC = FindObjectOfType<FloatPowerSC>();
-        additionPlayerAction = FindObjectOfType<AdditionPlayerAction>();
     }
 
     private void Start()

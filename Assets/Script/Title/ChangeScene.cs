@@ -19,7 +19,7 @@ public class ChangeScene : MonoBehaviour
     {
         gamemanager2 = FindObjectOfType<GameManager2>();
         videoPlayer.loopPointReached += LoopPointReached;
-        StartCoroutine("Skip");
+        StartCoroutine(Skip());
     }
     IEnumerator Skip()
     {
