@@ -33,12 +33,12 @@ public class EscapeEventFlagSC : MonoBehaviour
 
         if (collision.CompareTag("Player") && Check.wasPressedThisFrame && !GameManager2.ALF)
         {
-                actionPop.text = "";
-                GameManager.pauseflag = true;
-                fadeinout.fadeOutFlag = true;
-                boxCollider.enabled = false;
-                meshRenderer.enabled = false;
-                StartCoroutine(SetALF());
+            actionPop.text = "";
+            GameManager.pauseflag = true;
+            fadeinout.fadeOutFlag = true;
+            boxCollider.enabled = false;
+            meshRenderer.enabled = false;
+            StartCoroutine(SetALF());
         }
 
     }
