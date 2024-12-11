@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 //カメラ操作、Cinemachineによるカメラ切り替え
 public class PlayerCamera : MonoBehaviour
 {
-    [SerializeField] Transform target;
     [SerializeField] float distanceToPlayerM;    // カメラとプレイヤーとの距離[m]
     [SerializeField] float slideDistanceM;       // カメラを横にスライドさせる；プラスの時右へ，マイナスの時左へ[m]
     [SerializeField] float heightM;            // 注視点の高さ[m]
+    [SerializeField] CinemachineVirtualCamera mainCamera;
     [SerializeField] CinemachineVirtualCamera subcamera1;
     [SerializeField] CinemachineVirtualCamera subcamera2;
     [SerializeField] liberate_potential first_Event;
@@ -17,17 +17,22 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] SkinnedMeshRenderer normalBody;
     [SerializeField] Material defaultBodyMaterial;
     [SerializeField] Material transmissionBodyMaterial;
+    private Transform player;
+    private Transform cameraTarget;
     private PlayerController playerController;
     public static float rotationSensitivity = 75.0f;// 感度
     private void Awake()
     {
-        if (target == null)
+        player = GameObject.FindWithTag("Player").transform;
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        cameraTarget = GameObject.FindWithTag("CameraTarget").transform;
+        mainCamera.LookAt = cameraTarget;
+        if (player == null)
         {
             Debug.LogError("ターゲットが設定されていない");
             Application.Quit();
         }
-        transform.position = target.position;
-        playerController = FindObjectOfType<PlayerController>();
+        transform.position = player.position;
     }
     private void FixedUpdate()
     {
@@ -38,7 +43,7 @@ public class PlayerCamera : MonoBehaviour
     {
         var rotX = playerController.Duplicate_cameraInputVal.x * Time.deltaTime * rotationSensitivity;
         var rotY = playerController.Duplicate_cameraInputVal.y * Time.deltaTime * rotationSensitivity;
-        var lookAt = target.position + Vector3.up * heightM;
+        var lookAt = player.position + Vector3.up * heightM;
         float off_upper_limit = 0.5f;
         float off_lower_limit = -0.7f;
         float on_upper_limit = -0.7f;
@@ -101,7 +106,7 @@ public class PlayerCamera : MonoBehaviour
         if(PlayerController.Interval_InputButtondown(camera_Reset, 1) &&!GameManager.pauseflag)
         {
             normalBody.material = defaultBodyMaterial;
-            transform.rotation = Quaternion.Lerp(target.rotation, transform.rotation, 3.0f * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(player.rotation, transform.rotation, 3.0f * Time.deltaTime);
         }
     }
 

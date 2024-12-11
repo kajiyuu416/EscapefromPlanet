@@ -9,20 +9,20 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject gameOverobj;
     [SerializeField] GameObject pauseobj;
-    [SerializeField] GameObject idle;
     [SerializeField] GameObject maincamera;
     [SerializeField] GameObject settingButton;
     [SerializeField] GameObject warningimage;
     [SerializeField] GameObject gameClearTextobj;
     [SerializeField] GameObject restrictionImage1;
     [SerializeField] GameObject restrictionImage2;
-    [SerializeField] GameObject ui;
+    [SerializeField] GameObject playerUi;
     [SerializeField] public GameObject playerui;
     [SerializeField] public GameObject playeractionui1;
     [SerializeField] public GameObject playeractionui2;
-    [SerializeField] AdditionPlayerAction additionPlayerAction;
-    [SerializeField] FloatPowerSC floatPowerSC;
     [SerializeField] Text gameOverCount;
+    private GameObject idle;
+    private AdditionPlayerAction additionPlayerAction;
+    private FloatPowerSC floatPowerSC;
     public static GameManager instance;
     public static bool pauseflag;
     public static int count = 0;
@@ -54,6 +54,13 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
+    private void Start()
+    {
+        idle = GameObject.FindWithTag("Player");
+        additionPlayerAction = idle.GetComponent<AdditionPlayerAction>();
+        floatPowerSC = idle.GetComponent<FloatPowerSC>();
+    }
+
     //pause画面に以降時のオブジェクト表示・非表示、プレイヤー動き制御
     private void Pause()
     {
@@ -156,13 +163,13 @@ public class GameManager : MonoBehaviour
     //UI表示のON、OFFチェック
     private void UIcheck()
     {
-        if(GameManager2.uion_off_button && !ui.activeSelf)
+        if(GameManager2.uion_off_button && !playerUi.activeSelf)
         {
-            ui.SetActive(true);
+            playerUi.SetActive(true);
         }
-        else if(!GameManager2.uion_off_button && ui.activeSelf)
+        else if(!GameManager2.uion_off_button && playerUi.activeSelf)
         {
-            ui.SetActive(false);
+            playerUi.SetActive(false);
         }
     }
     private void GameFlagcheck()

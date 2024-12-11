@@ -6,7 +6,7 @@ using UnityEngine;
 //ÅŒã‚Ìƒtƒ‰ƒO‚ª•Ô‚Á‚½‚É‘¾—z‚ª‹ß‚Ã‚¢‚Ä‚¢‚Ä‚­‚éˆ—
 public class SunMove : MonoBehaviour
 {
-    [SerializeField] Transform target;
+    private Transform player;
     public float movespeed;
     public float rotx = 0;
     public float roty = 0;
@@ -19,6 +19,10 @@ public class SunMove : MonoBehaviour
     private bool secondPos;
     private bool thirdPos;
 
+    private void Start()
+    {
+        player = GameObject.FindWithTag("Player").transform;
+    }
     private void Update()
     {
         transform.Rotate(new Vector3(rotx, roty, rotz));
@@ -44,7 +48,7 @@ public class SunMove : MonoBehaviour
         }
         if (MPF)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, movespeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, player.position, movespeed * Time.deltaTime);
         }
 
     }

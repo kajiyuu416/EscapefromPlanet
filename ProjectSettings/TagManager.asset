@@ -12,6 +12,7 @@ TagManager:
   - spawnpoint
   - warningarea
   - ResetArea
+  - CameraTarget
   layers:
   - Default
   - TransparentFX
