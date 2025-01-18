@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 using System.Collections;
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject[] selecyPlayer;
+    [SerializeField] PlayerSelectData playerSelectData;
     [SerializeField] GameObject gameOverobj;
     [SerializeField] GameObject pauseobj;
     [SerializeField] GameObject maincamera;
@@ -47,8 +49,12 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         pauseflag = true;
+        if(playerSelectData.playerSelectNumber == 1)
+            selecyPlayer[playerSelectData.playerSelectNumber].SetActive(true);
+        else
+            selecyPlayer[playerSelectData.playerSelectNumber].SetActive(true);
         gameOverCount.text = count.ToString();
-        Invoke(nameof(Standby),3);
+        Invoke(nameof(Standby),4);
         if (instance == null)
         {
             instance = this;
@@ -199,4 +205,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public GameObject Duplicate_selectPlayer
+    {
+        get{
+            return selecyPlayer[playerSelectData.playerSelectNumber];
+        }
+        
+    }
 }

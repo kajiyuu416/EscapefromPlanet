@@ -18,6 +18,7 @@ public class GameManager2 : MonoBehaviour
     [SerializeField] Text camera_Up_down_text;
     [SerializeField] Text camera_Flip_left_and_right_text;
     [SerializeField] Slider sensitivitySlinder;
+    [SerializeField] PlayerSelectData playerSelectData;
 
     public static bool additionPlayerActionGetFlag;
     public static bool floatPowerGetFlag;

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 //カメラ操作、Cinemachineによるカメラ切り替え
 public class PlayerCamera : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
     [SerializeField] float distanceToPlayerM;    // カメラとプレイヤーとの距離[m]
     [SerializeField] float slideDistanceM;       // カメラを横にスライドさせる；プラスの時右へ，マイナスの時左へ[m]
     [SerializeField] float heightM;            // 注視点の高さ[m]
@@ -14,20 +15,27 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera subcamera2;
     [SerializeField] liberate_potential first_Event;
     [SerializeField] liberate_potential second_Event;
-    [SerializeField] SkinnedMeshRenderer normalBody;
-    [SerializeField] Material defaultBodyMaterial;
-    [SerializeField] Material transmissionBodyMaterial;
+    [SerializeField] SkinnedMeshRenderer defaultPlayer_body;
+    [SerializeField] SkinnedMeshRenderer katsube_body;
+    [SerializeField] Material defaultPlayer_bodyMaterial;
+    [SerializeField] Material transmission_defaultPlayer_bodyMaterial;
+    [SerializeField] Material katsube_bodyMaterial;
+    [SerializeField] Material transmission_katsube_bodyMaterial;
     private Transform player;
     private Transform cameraTarget;
     private PlayerController playerController;
     public static float rotationSensitivity = 75.0f;// 感度
-    private void Awake()
+
+    private void Start()
     {
-        player = GameObject.FindWithTag("Player").transform;
-        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        if(player == null)
+            player = gameManager.Duplicate_selectPlayer.transform;
+        if(cameraTarget == null)
         cameraTarget = GameObject.FindWithTag("CameraTarget").transform;
+        playerController = gameManager.Duplicate_selectPlayer.GetComponent<PlayerController>();
+
         mainCamera.LookAt = cameraTarget;
-        if (player == null)
+        if(player == null)
         {
             Debug.LogError("ターゲットが設定されていない");
             Application.Quit();
@@ -36,6 +44,7 @@ public class PlayerCamera : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
         ChangeCamera();
         CameraMove();
     }
@@ -92,7 +101,8 @@ public class PlayerCamera : MonoBehaviour
 
         if(rotY != 0)
         {
-            normalBody.material = defaultBodyMaterial;
+            katsube_body.material = katsube_bodyMaterial;
+            defaultPlayer_body.material = defaultPlayer_bodyMaterial;
         }
         // カメラとプレイヤーとの間の距離を調整
         transform.position = lookAt - transform.forward * distanceToPlayerM;
@@ -105,7 +115,8 @@ public class PlayerCamera : MonoBehaviour
 
         if(PlayerController.Interval_InputButtondown(camera_Reset, 1) &&!GameManager.pauseflag)
         {
-            normalBody.material = defaultBodyMaterial;
+            katsube_body.material = katsube_bodyMaterial;
+            defaultPlayer_body.material = defaultPlayer_bodyMaterial;
             transform.rotation = Quaternion.Lerp(player.rotation, transform.rotation, 3.0f * Time.deltaTime);
         }
     }
@@ -113,7 +124,8 @@ public class PlayerCamera : MonoBehaviour
     private void Init(ref float val)
     {
         val = 0;
-        normalBody.material = transmissionBodyMaterial;
+        katsube_body.material = transmission_katsube_bodyMaterial;
+        defaultPlayer_body.material = transmission_defaultPlayer_bodyMaterial;
     }
 
     private void ChangeCamera()

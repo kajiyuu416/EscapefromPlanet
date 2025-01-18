@@ -30,7 +30,7 @@ public class ReSpawnPoint : MonoBehaviour
 
     private void Update()
     {
-        if(playerController.Duplicate_isDead)
+        if(playerController.Duplicate_isDead && playerController != null)
         {
             boxcol.enabled = false;
         }
