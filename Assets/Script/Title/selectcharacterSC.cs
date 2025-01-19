@@ -6,9 +6,9 @@ public class selectcharacterSC : MonoBehaviour
 {
     public Button selectButton;
     [SerializeField] GameObject selectImage;
-    [SerializeField] GameObject settingImage;
     [SerializeField] GameObject selectModeButton;
     [SerializeField] GameObject startButton;
+    [SerializeField] GameObject[] SetGameObjects;
 
     private void Start()
     {
@@ -17,7 +17,14 @@ public class selectcharacterSC : MonoBehaviour
         selectButton.onClick.AddListener(() =>
         {
             selectImage.SetActive(true);
+            foreach( var setObjcts in SetGameObjects)
+            {
+                setObjcts.SetActive(true);
+
+            }
             EventSystem.current.SetSelectedGameObject(selectModeButton);
+            SoundManager SM = SoundManager.Instance;
+            SM.SettingPlaySE();
         });
 
         if(selectImage.activeSelf)
@@ -43,11 +50,12 @@ public class selectcharacterSC : MonoBehaviour
                 if(selectImage.activeSelf)
                 {
                     selectImage.SetActive(false);
-                    EventSystem.current.SetSelectedGameObject(startButton);
-                }
-                else if(settingImage.activeSelf)
-                {
-                    selectImage.SetActive(false);
+                    foreach(var setObjcts in SetGameObjects)
+                    {
+                        setObjcts.SetActive(false);
+                    }
+                    SoundManager SM = SoundManager.Instance;
+                    SM.SettingPlaySE();
                     EventSystem.current.SetSelectedGameObject(startButton);
                 }
             }
@@ -67,5 +75,12 @@ public class selectcharacterSC : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
+        GameObject selectedObject = EventSystem.current.currentSelectedGameObject;
+
+        if(selectedObject == null)
+        {
+            EventSystem.current.SetSelectedGameObject(startButton);
+        }
+
     }
 }

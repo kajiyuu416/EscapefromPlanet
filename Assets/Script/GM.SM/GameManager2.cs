@@ -35,7 +35,7 @@ public class GameManager2 : MonoBehaviour
     private string nowSceneName = "title";
     private Image blackScreen;
 
-    private const float timer = 20.0f;
+    private const float timer = 30.0f;
     private float countdown;
     private void Awake()
     {
@@ -97,7 +97,7 @@ public class GameManager2 : MonoBehaviour
         {
             countdown -= Time.deltaTime;
 
-            if(countdown <= 0 &&!loadDemoScene)
+            if(countdown <= 0 && !loadDemoScene)
             {
                 countdown = 0;
                 loadDemoScene = true;
@@ -159,6 +159,7 @@ public class GameManager2 : MonoBehaviour
         camera_Up_Down_FlipButton.SetActive(false);
         camera_left_and_right_FlipButton.SetActive(false);
         settingFlag = false;
+        EventSystem.current.SetSelectedGameObject(null);
     }
     //Ý’è‰æ–Ê‚ÌONEOFFØ‚è‘Ö‚¦
     public void Push_Button_UIChange()
@@ -255,6 +256,7 @@ public class GameManager2 : MonoBehaviour
             if(Cansel.wasPressedThisFrame && settingFlag)
             {
                 SettingCl();
+
             }
         }
     }

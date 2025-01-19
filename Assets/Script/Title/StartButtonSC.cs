@@ -11,7 +11,9 @@ public class StartButtonSC : MonoBehaviour
     public Button startButton;
     public int selectNum;
     [SerializeField] GameObject StartButton;
+    [SerializeField] GameObject player;
     [SerializeField] PlayerSelectData playerSelectData;
+    [SerializeField] PlanetMove planetMove;
 
     private void Start()
     {
@@ -20,8 +22,19 @@ public class StartButtonSC : MonoBehaviour
         {
             playerSelectData.playerSelectNumber = selectNum;
             GameManager2.GameStart();
-
+ 
             EventSystem.current.SetSelectedGameObject(null);
         });
+    }
+
+    public void OpenInformationButton(BaseEventData eventData)
+    {
+        player.transform.rotation = Quaternion.Euler(0, 180, 0);
+        planetMove.roty = 0.5f;
+    }
+    public void CloseInformationButton(BaseEventData eventData)
+    {
+        player.transform.rotation = Quaternion.Euler(0, 180, 0);
+        planetMove.roty = 0;
     }
 }
